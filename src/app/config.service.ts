@@ -39,7 +39,7 @@ export class ConfigService {
   userCustomUrl = 'ISteamUser/ResolveVanityURL/v0001/';
 
   getUserSteamId(customUrl: string, key: string){
-    return this.http.get(this.userCustomUrl2 + "?key=" + key +  "&vanityurl=" + customUrl, httpOptions);
+    return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl);
   }
 
   userSummaryUrl = 'ISteamUser/GetPlayerSummaries/v0002/';
