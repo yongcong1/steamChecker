@@ -1,0 +1,145 @@
+.profile{
+  text-decoration: none;
+  width: 190px;
+  margin-top: 10px;
+}
+
+.profile-picture{
+  text-decoration: none;
+  width: 190px;
+  height: 190px;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: block;
+}
+
+.profile-name{
+  font-size: 30px;
+  font-weight: bold;
+  text-align: left;
+  margin:0;
+}
+
+.profile-text{
+  text-align: left;
+  margin:0;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.column{
+    float: left;
+    width: 37%;
+    height: 210px;
+}
+
+.profile_link{
+  text-align: left;
+  margin:0;
+  margin-top: 10px;
+  float:left;
+}
+
+.userSummary-min-width{
+  min-width: 800px;
+}
+
+.two-column-profile{
+  float:left;
+  width:190px;
+  height:210px;
+  margin-left: 30px;
+  display:block;
+}
+
+.two-column-text{
+  float:left;
+  width: auto;
+  height:175px;
+  display:block;
+  margin-top: 20px;
+  margin-left: 10px;
+  padding: 5px;
+  background-color: #202328;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+  color: white;
+}
+
+.userStat-container{
+  width:40%;
+  margin: 0 auto;
+  background-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #888b91;
+  margin-top: 15px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.rounded{
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  vertical-align: top;
+  border-radius: 10px;
+  border-width: 2px;
+}
+
+.rounded-most-played-game-icon{
+  vertical-align: middle;
+}
+
+.button_gap{
+  margin-left: 15px;
+}
+
+.row2{
+    margin-top: 5px;
+}
+
+.user-summary-row{
+  margin-top: 20px;
+}
+
+a.profile_link:link
+{
+  color:   white;
+}
+a.profile_link:visited
+{
+   color:   white;
+   text-decoration: none;
+}
+a.profile_link:hover
+{
+  color: white;
+}
+a.profile_link:active
+{
+  color:   white;
+}
+
+a.game_icon_link:visited
+{
+   color:   #0000EE;
+   text-decoration: none;
+}
+a.game_icon_link:active
+{
+  color:   #0000EE;
+   text-decoration: none;
+}
+
+.center-text{
+  text-align: center;
+}

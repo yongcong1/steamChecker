@@ -1,0 +1,30 @@
+.gap{
+  margin-left: 20px;
+}
+.right{
+  float:right;
+}
+
+.navbar{
+  height:60px;
+  background-color: #1e2023;
+}
+
+.navbar-element{
+  padding: 15px;
+}
+
+.navbar-text{
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+}
+
+.center-text{
+  text-align: center;
+}
+
+.container{
+  wdith:50%;
+  margin: auto;
+}

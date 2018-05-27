@@ -1,0 +1,22 @@
+{
+  "/ISteamNews/*": {
+    "target": "http://api.steampowered.com/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/ISteamUser/*": {
+    "target": "http://api.steampowered.com/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/ISteamUserStats/*": {
+    "target": "http://api.steampowered.com/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/IPlayerService/*": {
+    "target": "http://api.steampowered.com/",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

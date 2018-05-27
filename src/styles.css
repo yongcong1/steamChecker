@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+.large-text{
+  font-size: 30px;
+}
+body {
+  background-color: #a2a8b2;
+  padding: 0;
+  margin: 0;
+}
