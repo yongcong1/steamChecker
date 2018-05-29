@@ -37,15 +37,12 @@ export class ConfigService {
   //steam64id = 76561198021742536
   userCustomUrl2 = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/';
   userCustomUrl = 'ISteamUser/ResolveVanityURL/v0001/';
-
   getUserSteamId(customUrl: string, key: string){
     return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl);
   }
 
   userSummaryUrl = 'ISteamUser/GetPlayerSummaries/v0002/';
-
   getUserInfo(steam64id: string, key: string) {
-
     return this.http.get(this.userSummaryUrl + "?key=" + key +  "&steamids=" + steam64id).pipe(
       retry(3),
       catchError(this.handleError)
@@ -53,9 +50,16 @@ export class ConfigService {
   }
 
   userStatUrl = 'IPlayerService/GetOwnedGames/v0001/';
-
   getUserStats(steam64id: string, key: string){
     return this.http.get(this.userStatUrl + "?key=" + key +  "&steamid=" + steam64id + "&include_appinfo=1").pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
+
+
+  getApi(){
+    return this.http.get('./assets/apiKey.json').pipe(
       retry(3),
       catchError(this.handleError)
     );

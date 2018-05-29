@@ -4,7 +4,7 @@ A simple project involving steam-api to generate information about the user and 
 
 ## Steam api key
 
-Go to `https://steamcommunity.com/dev/apikey` to get your steam api key, afterwards navigate to `src/app/config/config.component.ts` and replace the key value with your api key.
+Go to `https://steamcommunity.com/dev/apikey` to get your steam api key, afterwards navigate to `src/assets/apiKey.json` and replace the `apikey` value with your api key.
 
 
 ## required packages

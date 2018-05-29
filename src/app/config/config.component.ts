@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserSummary,  UserStats, ConfigService } from '../config.service';
 
+
 @Component({
   selector: 'app-config',
   templateUrl: './config.component.html',
@@ -23,22 +24,22 @@ export class ConfigComponent implements OnInit {
   response:boolean;
   searchCustom_error: string;
   searchCustom_response: boolean;
+  key:string;
 
   constructor(private configService: ConfigService) {
   }
 
   ngOnInit() {
-    console.log("testing update v3");
+    this.getApiKey();
   }
 
-  key = 'XXXXXXXXXXXXXXXX';
-
-  test(){
-    console.log("test");
+  getApiKey(){
+    this.configService.getApi().subscribe(data=> {
+      this.key=data['apiKey'];
+    })
   }
 
   searchCustom(customUrl: string){
-    console.log('worked');
     this.searchCustom_error="";
     this.searchCustom_response = false;
     this.response=false;

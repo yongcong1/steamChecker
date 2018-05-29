@@ -81,7 +81,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "apiKey.json", "input": "./", "output": "src/assets/" }
             ]
           }
         },
