@@ -31,7 +31,7 @@ export class ConfigComponent implements OnInit {
     console.log("testing update v3");
   }
 
-  key = 'A736FCCD373C01491715163D7FB4DFB1';
+  key = 'XXXXXXXXXXXXXXXX';
 
   test(){
     console.log("test");
