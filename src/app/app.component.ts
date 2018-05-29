@@ -8,7 +8,8 @@ import { ConfigService} from './config.service';
 })
 export class AppComponent {
   title = 'Check Your Steam Stats';
-  isCollapsed = true;
-  constructor() {}
 
+  constructor() {
+    console.log(window.location.origin);
+  }
 }

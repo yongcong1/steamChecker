@@ -31,10 +31,14 @@ export class ConfigComponent implements OnInit {
     console.log("testing update v3");
   }
 
-  key = 'XXXXXXXXXXXXXXXXXXXXXXXXXXX';
+  key = 'A736FCCD373C01491715163D7FB4DFB1';
 
+  test(){
+    console.log("test");
+  }
 
   searchCustom(customUrl: string){
+    console.log('worked');
     this.searchCustom_error="";
     this.searchCustom_response = false;
     this.response=false;

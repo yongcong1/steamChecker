@@ -4,26 +4,24 @@
   margin-top: 10px;
 }
 
+.searchRow{
+  margin-top: 20px;
+}
+
 .profile-picture{
   text-decoration: none;
-  width: 190px;
-  height: 190px;
-  margin: 0 auto;
-  margin-top: 10px;
-  display: block;
+  min-width: 190px;
+  min-height: 190px;
 }
 
 .profile-name{
   font-size: 30px;
   font-weight: bold;
   text-align: left;
-  margin:0;
 }
 
 .profile-text{
   text-align: left;
-  margin:0;
-  margin-top: 10px;
   font-size: 15px;
 }
 
@@ -35,31 +33,16 @@
 
 .profile_link{
   text-align: left;
-  margin:0;
-  margin-top: 10px;
-  float:left;
 }
 
 .userSummary-min-width{
   min-width: 800px;
 }
 
-.two-column-profile{
-  float:left;
-  width:190px;
-  height:210px;
-  margin-left: 30px;
-  display:block;
-}
-
 .two-column-text{
-  float:left;
-  width: auto;
-  height:175px;
-  display:block;
-  margin-top: 20px;
-  margin-left: 10px;
-  padding: 5px;
+  min-height:180px;
+  min-width: 250px;
+  padding: 6px;
   background-color: #202328;
   border-radius: 10px;
   border-style: solid;
@@ -69,21 +52,14 @@
 }
 
 .userStat-container{
-  width:40%;
-  margin: 0 auto;
   background-color: white;
   border-style: solid;
   border-width: 2px;
   border-color: #888b91;
-  margin-top: 15px;
+  margin-top: 20px;
   padding: 5px;
   border-radius: 10px;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+  text-align: center;
 }
 
 .rounded{

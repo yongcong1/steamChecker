@@ -1,71 +1,71 @@
-<div class="container">
-  <div class="center-text">
-    <input type="text" placeholder = "Steam64 ID"#steam64id />
-    <button (click)="search(steam64id.value); steam64id.value=''">
-        check
-    </button>
-    <input type="text" placeholder="custom url" #customUrl class="button_gap"/>
-    <button (click)="searchCustom(customUrl.value); customUrl.value=''" >
-        check
-    </button>
+<div class="row searchRow">
+  <div class="col-md-6 offset-md-4">
+    <form class="form-inline">
+      <div class="form-group mx-sm-1 mb-2">
+          <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
+      </div>
+      <input type="button" class="btn btn-primary mb-2" (click)="search(steam64id.value); steam64id.value='';" value="check"/>
+      <div class="form-group mx-sm-2 mb-2">
+      </div>
+      <div class="form-group mx-sm-1 mb-2">
+        <input type="text" class="form-control" #customUrl placeholder="Custom Url">
+      </div>
+      <input type="button" class="btn btn-primary mb-2" (click)="searchCustom(customUrl.value); customUrl.value='';" value="check" customUrl.value=""/>
+    </form>
+  </div>
+</div>
 
-    <div *ngIf="searchCustom_error" class="user-summary-row">
-      {{searchCustom_error}}
+<div *ngIf="searchCustom_error" class="user-summary-row">
+  {{searchCustom_error}}
+</div>
+
+<div class="row">
+  <div class="col-md-4 offset-md-4" *ngIf="userSummary && searchCustom_response">
+    <div class="row user-summary-row">
+      <div class="profile-picture col-md-4 offset-md-1">
+            <a href="{{userSummary.profile_url}}" target="_blank">
+                <img class="rounded" src="{{userSummary.avatar}}">
+            </a>
+        </div>
+        <div class="col-md-5 two-column-text">
+          <div>
+            <p class="profile-name"> {{userSummary.display_name}}
+            </p>
+          </div>
+          <div>
+            <p class="profile-text"> Steam64ID : {{userSummary.steam64_id}}
+            </p>
+          </div>
+          <div>
+            <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">{{userSummary.profile_url}}
+            </a>
+          </div>
+        </div>
     </div>
+  </div>
+</div>
 
-    <div class="row">
-      <div class="column">
-      </div>
-      <div class="column" *ngIf="userSummary && searchCustom_response">
-        <div class="row userSummary-min-width">
-          <div class="two-column-profile">
-            <div class="user-summary-row">
-                <a class="profile-picture" href="{{userSummary.profile_url}}" target="_blank">
-                    <img class="rounded" src="{{userSummary.avatar}}">
-                </a>
-              </div>
-            </div>
-            <div class="two-column-text">
-              <div>
-                <p class="profile-name"> {{userSummary.display_name}}
-                </p>
-              </div>
-              <div>
-                <p class="profile-text"> Steam64ID : {{userSummary.steam64_id}}
-                </p>
-              </div>
-              <div>
-                <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">{{userSummary.profile_url}}
-                </a>
-              </div>
-            </div>
-        </div>
-      </div>
+<div *ngIf="userStats" class="col-md-6 offset-md-3 userStat-container">
+  <div *ngIf="response" class="userStat-row">
+    <div>
+      Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
     </div>
-
-    <div *ngIf="userStats" class = "userStat-container">
-      <div *ngIf="response" class="userStat-row">
-        <div>
-          Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
-        </div>
-        <div class="row2">
-          Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
-        </div>
-        <div class="row2">
-          You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
-        </div>
-        <div *ngIf="userStats.most_played_game_name" class = "row2">
-          Your most played game is
-          <a href="https://store.steampowered.com/app/{{userStats.most_played_game_appid}}" target="_blank" class="game_icon_link">
-            <img class="rounded-most-played-game-icon" src="{{userStats.most_played_game_icon}}">{{userStats.most_played_game_name}}
-          </a>
-          at {{userStats.most_played_game_time_hr}} hours and {{userStats.most_played_game_time_minute}} minutes
-        </div>
-      </div>
-
-      <div *ngIf="userSummary && !response && searchCustom_response" class="row1">
-        Unable to get game stats
-      </div>
+    <div class="row2">
+      Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
     </div>
+    <div class="row2">
+      You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
+    </div>
+    <div *ngIf="userStats.most_played_game_name" class = "row2">
+      Your most played game is
+      <a href="https://store.steampowered.com/app/{{userStats.most_played_game_appid}}" target="_blank" class="game_icon_link">
+        <img class="rounded-most-played-game-icon" src="{{userStats.most_played_game_icon}}">{{userStats.most_played_game_name}}
+      </a>
+      at {{userStats.most_played_game_time_hr}} hours and {{userStats.most_played_game_time_minute}} minutes
+    </div>
+  </div>
+
+  <div *ngIf="userSummary && !response && searchCustom_response" class="row1">
+    Unable to get game stats
   </div>
 </div>
