@@ -25,22 +25,20 @@ export interface UserStats{
   most_played_game_time_minute: number;
 }
 
-
 @Injectable({
   providedIn: 'root',
 })
 
-
 export class ConfigService {
   constructor(private http: HttpClient) { }
 
-  //steam64id = 76561198021742536
-  userCustomUrl2 = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/';
+  //get the ISteamUser api to retrieve steamid from custom url
   userCustomUrl = 'ISteamUser/ResolveVanityURL/v0001/';
   getUserSteamId(customUrl: string, key: string){
     return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl);
   }
 
+  //get the ISteamUser api to retrieve information about the user based on their steam64 id
   userSummaryUrl = 'ISteamUser/GetPlayerSummaries/v0002/';
   getUserInfo(steam64id: string, key: string) {
     return this.http.get(this.userSummaryUrl + "?key=" + key +  "&steamids=" + steam64id).pipe(
@@ -58,13 +56,16 @@ export class ConfigService {
   }
 
 
+  //get the steam api key stored in assets/apiKey.json
   getApi(){
-    return this.http.get('./assets/apiKey.json').pipe(
+    return this.http.get('/assets/apiKey.json').pipe(
       retry(3),
       catchError(this.handleError)
     );
   }
 
+
+  //error handling
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

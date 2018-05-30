@@ -13,18 +13,18 @@ export class ConfigComponent implements OnInit {
 
   userSummary: UserSummary;
   userStats: UserStats;
-  total_playtime:number;
-  two_week_playtime:number;
-  total_unplayed_games:number;
-  total_games:number;
-  most_played_game_time:number;
-  most_played_game_icon:string;
-  most_played_game_appid:number;
-  most_played_game_name:string;
-  response:boolean;
+  total_playtime: number;
+  two_week_playtime: number;
+  total_unplayed_games: number;
+  total_games: number;
+  most_played_game_time: number;
+  most_played_game_icon: string;
+  most_played_game_appid: number;
+  most_played_game_name: string;
+  response: boolean;
   searchCustom_error: string;
   searchCustom_response: boolean;
-  key:string;
+  key: string;
 
   constructor(private configService: ConfigService) {
   }
@@ -33,12 +33,14 @@ export class ConfigComponent implements OnInit {
     this.getApiKey();
   }
 
+  //parse the steam api key from the json file
   getApiKey(){
     this.configService.getApi().subscribe(data=> {
       this.key=data['apiKey'];
-    })
+    });
   }
 
+  //the api returns the steamid that belongs to the custom name/url
   searchCustom(customUrl: string){
     this.searchCustom_error="";
     this.searchCustom_response = false;
@@ -68,9 +70,7 @@ export class ConfigComponent implements OnInit {
     }
     );}
 
-
-
-  //search by steam64id
+  //the api returns the json and is parsed for information about the user
   search(steam64id: string){
     this.userStats= null;
     this.userSummary=null;

@@ -1,17 +1,21 @@
 <div class="row searchRow">
   <div class="col-md-6 offset-md-4">
-    <form class="form-inline">
-      <div class="form-group mx-sm-1 mb-2">
-          <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
-      </div>
-      <input type="button" class="btn btn-primary mb-2" (click)="search(steam64id.value); steam64id.value='';" value="check"/>
+    <div class="row">
+      <form class="form-inline" (ngSubmit)="search(steam64id.value); steam64id.value='';" #steam64idForm="ngForm">
+        <div class="form-group mx-sm-1 mb-2">
+            <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
+        </div>
+        <input type="button" class="btn btn-primary mb-2" (click)="search(steam64id.value); steam64id.value='';" value="check"/>
+      </form>
       <div class="form-group mx-sm-2 mb-2">
       </div>
-      <div class="form-group mx-sm-1 mb-2">
-        <input type="text" class="form-control" #customUrl placeholder="Custom Url">
-      </div>
-      <input type="button" class="btn btn-primary mb-2" (click)="searchCustom(customUrl.value); customUrl.value='';" value="check" customUrl.value=""/>
-    </form>
+      <form class="form-inline" (ngSubmit)="searchCustom(customUrl.value); searchCustom.value='';" #customUrlForm="ngForm">
+        <div class="form-group mx-sm-1 mb-2">
+          <input type="text" class="form-control" #customUrl placeholder="Custom Url">
+        </div>
+        <input type="button" class="btn btn-primary mb-2" (click)="searchCustom(customUrl.value); customUrl.value='';" value="check"/>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -22,12 +26,12 @@
 <div class="row">
   <div class="col-md-4 offset-md-4" *ngIf="userSummary && searchCustom_response">
     <div class="row user-summary-row">
-      <div class="profile-picture col-md-4 offset-md-1">
+      <div class="profile-picture col-md-auto offset-1">
             <a href="{{userSummary.profile_url}}" target="_blank">
-                <img class="rounded" src="{{userSummary.avatar}}">
+                <img class="userSummary-image" src="{{userSummary.avatar}}">
             </a>
         </div>
-        <div class="col-md-5 two-column-text">
+        <div class="col-md-5 userSummary-text">
           <div>
             <p class="profile-name"> {{userSummary.display_name}}
             </p>

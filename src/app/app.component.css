@@ -1,13 +1,16 @@
 .gap{
   margin-left: 20px;
 }
-.right{
-  float:right;
+
+.navbar-image{
+  max-height: 100%;
+  width: auto;
 }
 
 .navbar{
   height:60px;
   background-color: #1e2023;
+  min-width: 400px;
 }
 
 .navbar-element{

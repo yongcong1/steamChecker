@@ -10,6 +10,5 @@ export class AppComponent {
   title = 'Check Your Steam Stats';
 
   constructor() {
-    console.log(window.location.origin);
   }
 }
