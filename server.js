@@ -1,11 +1,26 @@
 var express = require('express');
 var app = express();
+var session = require('express-session')
 var request = require('request');
 var openid = require('openid');
 
+app.use(session(
+	{
+		secret: 'sample',
+		resave: true,
+		saveUninitialized: true,
+		cookie: { secure:false },
+		steam64id: ''
+	}
+));
+
 app.set('port', 4200);
 
-var addr = "https://desolate-gorge-63477.herokuapp.com/";
+var prod_addr = "https://desolate-gorge-63477.herokuapp.com/";
+
+var dev_addr = "Http://localhost:4200";
+
+addr = dev_addr;
 
 
 steamID = "";
@@ -41,19 +56,18 @@ app.use('/Verify', function(req, res) {
           res.end('Failed to authenticate user.');
         }else{
           console.log(JSON.stringify(result));
-          steamID = result.claimedIdentifier.replace('http://steamcommunity.com/openid/id/', '').replace('https://steamcommunity.com/openid/id/', '');
-          console.log("your steamid is " + steamID);
+          req.session.steamID = result.claimedIdentifier.replace('http://steamcommunity.com/openid/id/', '').replace('https://steamcommunity.com/openid/id/', '');
 					res.redirect("/");
         }
       });
 });
 
 app.use('/account', function(req, res){
-	return res.json({"steamID": steamID});
+	return res.json({"steamID": req.session.steamID});
 });
 
 app.use('/signout', function(req, res){
-	steamID = '';
+	req.session.steamID = '';
 	res.redirect("/");
 });
 
