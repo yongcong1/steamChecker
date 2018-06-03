@@ -22,6 +22,5 @@ app.use('/API', function(req, res) {
 app.use(express.static(__dirname + '/docs'));
 
 
-app.listen(app.get('port'), function(){
-  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+app.listen(process.env.PORT || app.get('port'), function(){
 });
