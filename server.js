@@ -7,7 +7,7 @@ var os = require('os');
 
 app.set('port', 4200);
 
-var addr = "HTTP://LOCALHOST:4200";
+var addr = process.env.HOST;
 
 
 steamID = "";
