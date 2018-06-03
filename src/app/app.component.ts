@@ -47,7 +47,10 @@ export class AppComponent {
 
   setAccount(){
     this.configService.getAccount().subscribe(data => {
-      if(data['steamID']==""){
+      if(!data['steamID']){
+        this.loggedIn = false;
+      }
+      else if(data['steamID']==""){
         this.accountError = "You are not logged in";
       }
       else{
