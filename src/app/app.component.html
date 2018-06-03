@@ -7,12 +7,14 @@
    </ul>
    <ul class="nav navbar-nav navbar-right">
      <li>
-       <!--
-       <a (click)="login()">
+       <a href="/auth" *ngIf="!loggedIn">
          <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt="HTML5" class="navbar-image"/>
-
        </a>
-     -->
+       <a *ngIf="loggedIn" href="{{userSummary.profile_url}}" target="_blank">
+         <a href="{{userSummary.profile_url}}" target="_blank">
+             <img src="{{userSummary.avatar}}"> {{userSummary.display_name}}
+         </a>
+       </a>
      </li>
    </ul>
  </div>
@@ -21,4 +23,5 @@
 <h1 class="center-text">
   {{ title }}!
 </h1>
+
 <app-config></app-config>

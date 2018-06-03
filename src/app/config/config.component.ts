@@ -30,7 +30,7 @@ export class ConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getApiKey();
+    console.log(this.getApiKey());
   }
 
   //parse the steam api key from the json file

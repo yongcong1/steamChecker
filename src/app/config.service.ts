@@ -58,11 +58,17 @@ export class ConfigService {
     );
   }
 
+  getAccount(){
+    return this.http.get('/account').pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
+
 
   //get the steam api key stored in assets/apiKey.json
   getApi(){
     return this.http.get('/assets/apiKey.json').pipe(
-      retry(3),
       catchError(this.handleError)
     );
   }

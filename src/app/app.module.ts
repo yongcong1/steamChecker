@@ -10,7 +10,7 @@ import { FormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    ConfigComponent
+    ConfigComponent,
   ],
   imports: [
     JsonpModule,
@@ -23,5 +23,5 @@ import { FormsModule} from '@angular/forms';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
 }
