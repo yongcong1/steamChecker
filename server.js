@@ -18,7 +18,7 @@ app.set('port', 4200);
 
 var prod_addr = "https://desolate-gorge-63477.herokuapp.com/";
 
-var dev_addr = "Http://localhost:4200";
+var dev_addr = "http://localhost:4200";
 
 addr = prod_addr;
 

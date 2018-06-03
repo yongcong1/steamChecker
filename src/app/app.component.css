@@ -7,22 +7,6 @@
   width: auto;
 }
 
-.navbar{
-  height:60px;
-  background-color: #1e2023;
-  min-width: 400px;
-}
-
-.navbar-element{
-  padding: 15px;
-}
-
-.navbar-text{
-  text-decoration: none;
-  color: white;
-  font-size: 25px;
-}
-
 .center-text{
   text-align: center;
 }
@@ -30,4 +14,11 @@
 .container{
   wdith:50%;
   margin: auto;
+}
+
+.avatar-small{
+  border-radius: 10px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
 }
