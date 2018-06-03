@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { map,catchError, retry } from 'rxjs/operators';
 import {JsonpModule, Jsonp, Response, Headers} from '@angular/http';
 
 export interface UserSummary {
@@ -33,13 +33,16 @@ export class ConfigService {
   constructor(private http: HttpClient) { }
 
   //get the ISteamUser api to retrieve steamid from custom url
-  userCustomUrl = 'ISteamUser/ResolveVanityURL/v0001/';
+  userCustomUrl = '/API/ISteamUser/ResolveVanityURL/v0001/';
   getUserSteamId(customUrl: string, key: string){
-    return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl);
+    return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl).pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
   }
 
   //get the ISteamUser api to retrieve information about the user based on their steam64 id
-  userSummaryUrl = 'ISteamUser/GetPlayerSummaries/v0002/';
+  userSummaryUrl = '/API/ISteamUser/GetPlayerSummaries/v0002/';
   getUserInfo(steam64id: string, key: string) {
     return this.http.get(this.userSummaryUrl + "?key=" + key +  "&steamids=" + steam64id).pipe(
       retry(3),
@@ -47,7 +50,7 @@ export class ConfigService {
     );
   }
 
-  userStatUrl = 'IPlayerService/GetOwnedGames/v0001/';
+  userStatUrl = '/API/IPlayerService/GetOwnedGames/v0001/';
   getUserStats(steam64id: string, key: string){
     return this.http.get(this.userStatUrl + "?key=" + key +  "&steamid=" + steam64id + "&include_appinfo=1").pipe(
       retry(3),

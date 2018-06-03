@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var request = require('request');
 
-app.set('port', 3000);
+app.set('port', 4200);
 
 app.get('/getnews', function(req, res) {
 	var url = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=A736FCCD373C01491715163D7FB4DFB1&steamid=76561198021742536';
@@ -14,11 +14,13 @@ app.get('/getnews', function(req, res) {
 	});
 });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+app.use('/API', function(req, res) {
+	var url = 'https://api.steampowered.com/'+req.url;
+	request(url).pipe(res);
 });
+
+app.use(express.static(__dirname + '/docs'));
+
 
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
