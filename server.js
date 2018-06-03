@@ -1,13 +1,11 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-var urlLib = require('url');
 var openid = require('openid');
-var os = require('os');
 
 app.set('port', 4200);
 
-var addr = process.env.HOST;
+var addr = "https://desolate-gorge-63477.herokuapp.com/";
 
 
 steamID = "";
