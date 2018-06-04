@@ -122,3 +122,5 @@ a.game_icon_link:active
   color:   #0000EE;
    text-decoration: none;
 }
+.pie,.bar{width:50%;height:100%;margin:10px;}
+#inline{width:100%;height:auto;display:flex;}

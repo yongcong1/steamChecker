@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserSummary,  UserStats, ConfigService } from '../config.service';
-
+import {ChartModule} from 'primeng/chart';
 
 @Component({
   selector: 'app-config',
@@ -25,11 +25,13 @@ export class ConfigComponent implements OnInit {
   searchCustom_error: string;
   searchCustom_response: boolean;
   key: string;
+  gameStats: any;
 
   constructor(private configService: ConfigService) {
   }
 
   ngOnInit() {
+    console.log(this.gameStats);
     console.log(this.getApiKey());
   }
 
@@ -70,6 +72,23 @@ export class ConfigComponent implements OnInit {
     }
     );}
 
+  makeGameGraphs(data){
+      let gameInfo = data.response.games
+      console.log(gameInfo.map(a => a.playtime_forever));
+      this.gameStats = {
+        labels: gameInfo.map(a => a.name),
+        datasets: [
+          {
+            data: gameInfo.map(a => a.playtime_forever),
+            backgroundColor: ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC',
+            '#E67300','#8B0707','#329262','#5574A6','#3B3EAC','#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499',
+            '#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC','#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00',
+            '#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
+          }
+        ]
+      }
+  }
+  
   //the api returns the json and is parsed for information about the user
   search(steam64id: string){
     this.userStats= null;
@@ -105,7 +124,10 @@ export class ConfigComponent implements OnInit {
     //user stats
     this.configService.getUserStats(steam64id, this.key).subscribe((data:UserStats) =>
     {
+      this.gameStats = data;
+      this.makeGameGraphs(this.gameStats);
       if(data['response']['games']){
+        
         this.response=true;
         for( let time of data['response']['games'] ){
           this.total_games++;
@@ -145,3 +167,4 @@ export class ConfigComponent implements OnInit {
     }
   );}
 }
+

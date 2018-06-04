@@ -6,11 +6,12 @@ import { ConfigComponent } from './config/config.component';
 import {JsonpModule, Jsonp, Response} from '@angular/http';
 import { environment } from './../environments/environment';
 import { FormsModule} from '@angular/forms';
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConfigComponent,
+    ConfigComponent
   ],
   imports: [
     JsonpModule,
@@ -18,6 +19,7 @@ import { FormsModule} from '@angular/forms';
     HttpClientModule,
     HttpClientModule,
     FormsModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

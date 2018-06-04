@@ -73,3 +73,7 @@
     Unable to get game stats
   </div>
 </div>
+<div id="inline" [hidden]="!gameStats">
+  <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
+  <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
+</div>
