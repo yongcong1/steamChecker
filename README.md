@@ -9,10 +9,12 @@ Go to `https://steamcommunity.com/dev/apikey` to obtain your steam API key, afte
 
 ## Required packages
 
+This project uses npm package manager, so you will need the it to install packages to run the project.
+
 Open a terminal window and change the current directory to the project, you will need to type the following command: `npm install` to get all the required packages to run the development server
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+first build the project by running the command `ng build`, then Run `npm start` for a dev server. Navigate to `http://localhost:4200/` or the url set in server.js.
 
 *Note: avoid name folders with [] or (), it could cause issue with the development server*
