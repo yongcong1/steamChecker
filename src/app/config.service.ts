@@ -87,7 +87,11 @@ export class ConfigService {
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
+    if(error.status===500)
     return throwError(
-      'Something bad happened; please try again later.');
+      'invalid steam64 ID or custom URL, please enter a valid steam64 ID or custom URL'
+    );
+    else
+      return throwError('network error, please try again later');
   };
 }

@@ -27,13 +27,13 @@ export class ConfigComponent implements OnInit {
   key: string;
   gameStats: any;
   currentTab = 0;
+  error: string;
 
   constructor(private configService: ConfigService) {
   }
 
   ngOnInit() {
-    console.log(this.gameStats);
-    console.log(this.getApiKey());
+    this.getApiKey();
   }
 
   //parse the steam api key from the json file
@@ -47,13 +47,20 @@ export class ConfigComponent implements OnInit {
     this.currentTab = tab;
   }
 
+  newSearch(){
+    this.userStats= null;
+    this.userSummary=null;
+    this.gameStats=null;
+    this.error=null;
+    this.searchCustom_error = null;
+  }
+
   //the api returns the steamid that belongs to the custom name/url
   searchCustom(customUrl: string){
+    this.newSearch();
     this.searchCustom_error="";
     this.searchCustom_response = false;
     this.response=false;
-    this.userStats= null;
-    this.userSummary=null;
 
     if(customUrl.length==0){
       this.searchCustom_error = "please enter a custom url";
@@ -74,6 +81,9 @@ export class ConfigComponent implements OnInit {
       }else{
         this.searchCustom_error = "invalid custom url";
       }
+    }, error=>{
+      console.log("there is an error: " + error);
+      this.error = error;
     }
     );}
 
@@ -96,8 +106,7 @@ export class ConfigComponent implements OnInit {
 
   //the api returns the json and is parsed for information about the user
   search(steam64id: string){
-    this.userStats= null;
-    this.userSummary=null;
+    this.newSearch();
     this.total_playtime=0;
     this.two_week_playtime=0;
     this.total_unplayed_games=0;
@@ -115,7 +124,7 @@ export class ConfigComponent implements OnInit {
 
   //user info
     this.configService.getUserInfo(steam64id, this.key).subscribe((data: UserSummary) =>
-    { if(data['response']['players']){
+    { if(data['response']['players'][0]){
         data = data['response']['players'][0];
         this.userSummary = {
           avatar: data['avatarfull'],
@@ -169,6 +178,9 @@ export class ConfigComponent implements OnInit {
       else{
         this.response=false;
       }
+    }, error=>{
+      console.log("there is an error: " + error);
+      this.error = error;
     }
   );}
 }

@@ -20,7 +20,7 @@ var prod_addr = "https://steamcheck.herokuapp.com/";
 
 var dev_addr = "http://localhost:4200";
 
-addr = prod_addr;
+addr = dev_addr;
 
 
 steamID = "";

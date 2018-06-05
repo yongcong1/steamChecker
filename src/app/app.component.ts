@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UserSummary, ConfigService } from './config.service';
+import { ConfigComponent } from './config/config.component'
 
 @Component({
   selector: 'app-root',
@@ -8,19 +9,21 @@ import { UserSummary, ConfigService } from './config.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  @ViewChild(ConfigComponent) child;
+
   userSummary: UserSummary;
   title = 'Check Your Steam Stats';
   loggedIn: boolean;
   key: string;
   accountError: string;
+  currentAccountID: string;
 
   constructor(private configService: ConfigService) {
   }
 
   ngOnInit() {
     this.key = 'A736FCCD373C01491715163D7FB4DFB1';
-    this.getApiKey();
-    console.log(this.key);
     this.setAccount();
   }
 
@@ -55,6 +58,7 @@ export class AppComponent {
       }
       else{
         this.loggedIn = true;
+        this.currentAccountID = data['steamID'];
         this.searchUser(data['steamID']);
       }
     })

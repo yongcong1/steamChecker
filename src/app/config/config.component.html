@@ -19,77 +19,79 @@
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="searchCustom_error" class="user-summary-row">
-  {{searchCustom_error}}
-</div>
+  <div class="row justify-content-center">
+    <div *ngIf="searchCustom_error" class="user-summary-row col-md-6 userStat-container">
+      {{searchCustom_error}}
+    </div>
+    <div *ngIf="error" class="user-summary-row col-md-6 userStat-container">
+      {{error}}
+    </div>
+    <div class="col-md-4" *ngIf="userSummary && searchCustom_response">
+      <div class="row user-summary-row justify-content-center">
+        <div class="profile-picture col-md-auto">
+              <a href="{{userSummary.profile_url}}" target="_blank">
+                  <img class="userSummary-image" src="{{userSummary.avatar}}">
+              </a>
+          </div>
+          <div class="col-md-5 userSummary-text">
+            <div>
+              <p class="profile-name"> {{userSummary.display_name}}
+              </p>
+            </div>
+            <div>
+              <p class="profile-text"> Steam64ID : {{userSummary.steam64_id}}
+              </p>
+            </div>
+            <div>
+              <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">{{userSummary.profile_url}}
+              </a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 
-<div class="row justify-content-center">
-  <div class="col-md-4" *ngIf="userSummary && searchCustom_response">
-    <div class="row user-summary-row justify-content-center">
-      <div class="profile-picture col-md-auto">
-            <a href="{{userSummary.profile_url}}" target="_blank">
-                <img class="userSummary-image" src="{{userSummary.avatar}}">
-            </a>
+  <div class="row justify-content-center" *ngIf="userStats">
+      <nav class="col-md-6">
+        <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
+        <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
+        <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Etc.</a>
+      </nav>
+  </div>
+
+  <div class="row justify-content-center" *ngIf="userStats">
+    <div class="col-md-6 userStat-container">
+      <div *ngIf="response && currentTab==0" class="userStat-row">
+        <div>
+          Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
         </div>
-        <div class="col-md-5 userSummary-text">
-          <div>
-            <p class="profile-name"> {{userSummary.display_name}}
-            </p>
-          </div>
-          <div>
-            <p class="profile-text"> Steam64ID : {{userSummary.steam64_id}}
-            </p>
-          </div>
-          <div>
-            <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">{{userSummary.profile_url}}
-            </a>
-          </div>
+        <div class="row2">
+          Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
         </div>
+        <div class="row2">
+          You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
+        </div>
+      </div>
+
+      <div *ngIf="userSummary && !response && searchCustom_response" class="row1">
+        Unable to get game stats
+      </div>
+      <div *ngIf="currentTab==1">
+        <div *ngIf="userStats.most_played_game_name" class="userStat-row">
+          Your most played game is
+          <a href="https://store.steampowered.com/app/{{userStats.most_played_game_appid}}" target="_blank" class="profile_link">
+            <img class="rounded-most-played-game-icon" src="{{userStats.most_played_game_icon}}">
+            {{userStats.most_played_game_name}}
+          </a>
+          at {{userStats.most_played_game_time_hr}} hours and {{userStats.most_played_game_time_minute}} minutes
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="row justify-content-center" *ngIf="userStats">
-    <nav class="col-md-6">
-      <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
-      <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
-      <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Etc.</a>
-    </nav>
-</div>
-
-<div class="row justify-content-center" *ngIf="userStats">
-  <div class="col-md-6 userStat-container">
-    <div *ngIf="response && currentTab==0" class="userStat-row">
-      <div>
-        Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
-      </div>
-      <div class="row2">
-        Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
-      </div>
-      <div class="row2">
-        You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
-      </div>
-    </div>
-
-    <div *ngIf="userSummary && !response && searchCustom_response" class="row1">
-      Unable to get game stats
-    </div>
-    <div *ngIf="currentTab==1">
-      <div *ngIf="userStats.most_played_game_name" class="userStat-row">
-        Your most played game is
-        <a href="https://store.steampowered.com/app/{{userStats.most_played_game_appid}}" target="_blank" class="profile_link">
-          <img class="rounded-most-played-game-icon" src="{{userStats.most_played_game_icon}}">
-          {{userStats.most_played_game_name}}
-        </a>
-        at {{userStats.most_played_game_time_hr}} hours and {{userStats.most_played_game_time_minute}} minutes
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="inline" [hidden]="!gameStats">
+<div id="inline" *ngIf="gameStats">
   <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
   <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
 </div>

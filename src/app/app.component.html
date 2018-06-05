@@ -7,17 +7,17 @@
       <a class="nav-item" href="/auth" *ngIf="loggedIn==false">
          <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt="HTML5" class="navbar-image"/>
        </a>
-       <div *ngIf="loggedIn==true" class="nav-item dropdown">
+       <div *ngIf="userSummary" class="nav-item dropdown">
            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{userSummary.display_name}}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{userSummary.profile_url}}" target="_blank">Steam profile</a>
-              <a class="dropdown-item" href="#">My stats</a>
+              <a class="dropdown-item" href="{{userSummary.profile_url}}" target="_blank">Steam Profile</a>
+              <a class="dropdown-item dropdown-cursor" (click)="configComponent.search(currentAccountID)">My Stats</a>
               <a class="dropdown-item" href="/signout">Logout</a>
             </div>
          </div>
-         <a *ngIf="loggedIn==true" class="nav-item" href="{{userSummary.profile_url}}" target="_blank">
+         <a *ngIf="userSummary" class="nav-item" href="{{userSummary.profile_url}}" target="_blank">
                <img class="avatar-small" src="{{userSummary.avatar}}">
          </a>
        </a>
@@ -27,4 +27,4 @@
   {{ title }}!
 </h1>
 
-<app-config></app-config>
+<app-config #configComponent></app-config>
