@@ -16,7 +16,7 @@ app.use(session(
 
 app.set('port', 4200);
 
-var prod_addr = "https://desolate-gorge-63477.herokuapp.com/";
+var prod_addr = "https://steamcheck.herokuapp.com/";
 
 var dev_addr = "http://localhost:4200";
 
