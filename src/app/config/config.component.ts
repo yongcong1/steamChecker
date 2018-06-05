@@ -26,6 +26,7 @@ export class ConfigComponent implements OnInit {
   searchCustom_response: boolean;
   key: string;
   gameStats: any;
+  currentTab = 0;
 
   constructor(private configService: ConfigService) {
   }
@@ -40,6 +41,10 @@ export class ConfigComponent implements OnInit {
     this.configService.getApi().subscribe(data=> {
       this.key=data['apiKey'];
     });
+  }
+
+  showTab(tab: number){
+    this.currentTab = tab;
   }
 
   //the api returns the steamid that belongs to the custom name/url
@@ -88,7 +93,7 @@ export class ConfigComponent implements OnInit {
         ]
       }
   }
-  
+
   //the api returns the json and is parsed for information about the user
   search(steam64id: string){
     this.userStats= null;
@@ -127,7 +132,7 @@ export class ConfigComponent implements OnInit {
       this.gameStats = data;
       this.makeGameGraphs(this.gameStats);
       if(data['response']['games']){
-        
+
         this.response=true;
         for( let time of data['response']['games'] ){
           this.total_games++;
@@ -167,4 +172,3 @@ export class ConfigComponent implements OnInit {
     }
   );}
 }
-

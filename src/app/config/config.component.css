@@ -47,20 +47,16 @@
   overflow-wrap: break-word;
 }
 
-.form-input{
-  min-width: 500px;
-  height: auto;
-}
-
 .userStat-container{
-  background-color: white;
+  background-color: #202328;
   border-style: solid;
   border-width: 2px;
   border-color: #888b91;
-  margin-top: 20px;
   padding: 5px;
   border-radius: 10px;
   text-align: center;
+  min-height: 150px;
+  color: white;
 }
 
 .userSummary-image{
@@ -76,8 +72,8 @@
   width:32px;
   height:32px;
   border-style: solid;
-  border-width: 3px;
-  border-color: black;
+  border-width: 2px;
+  border-color: white;
   border-radius: 10px;
   border-width: 2px;
 }
@@ -112,15 +108,67 @@ a.profile_link:active
   color:   white;
 }
 
-a.game_icon_link:visited
-{
-   color:   #0000EE;
-   text-decoration: none;
+a.selected-tab {
+  padding: 5px 10px;
+  text-decoration: none;
+  margin-top: 20px;
+  display: inline-block;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #888b91;
+  cursor: pointer;
 }
-a.game_icon_link:active
-{
-  color:   #0000EE;
-   text-decoration: none;
+
+a.selected-tab:visited{
+  color: black;
 }
+
+a.selected-tab:link {
+  color: black;
+}
+a.selected-tab:hover {
+  background-color: #c8ccd1;
+  color: black;
+}
+a.selected-tab.active {
+  color: black;
+}
+
+a.not-selected-tab {
+  padding: 5px 10px;
+  text-decoration: none;
+  margin-top: 20px;
+  display: inline-block;
+  background-color: #202328;
+  color: white;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #888b91;
+  cursor: pointer;
+}
+
+a.not-selected-tab:visited{
+  color: white;
+}
+
+a.not-selected-tab:link {
+  color: white;
+}
+a.not-selected-tab:hover {
+  background-color: black;
+  color: white;
+}
+a.not-selected-tab.active {
+  color: white;
+}
+
+.tab-gap{
+  margin-left: 2px;
+}
+
 .pie,.bar{width:50%;height:100%;margin:10px;}
 #inline{width:100%;height:auto;display:flex;}
