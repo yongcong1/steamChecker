@@ -18,8 +18,9 @@ export class ConfigComponent implements OnInit {
   two_week_playtime: number;
   total_unplayed_games: number;
   total_games: number;
-  response: boolean;
-  searchCustom_error: string;
+  empty_search: boolean;
+  userStats_response: boolean;
+  userSummary_response: boolean;
   searchCustom_response: boolean;
   key: string;
   gameStats: any;
@@ -49,20 +50,17 @@ export class ConfigComponent implements OnInit {
     this.userSummary=null;
     this.gameStats=null;
     this.error=null;
-    this.searchCustom_error = null;
     this.topGames=[];
+    this.empty_search = false;
   }
 
   //the api returns the steamid that belongs to the custom name/url
   searchCustom(customUrl: string){
     this.newSearch();
-    this.searchCustom_error="";
-    this.searchCustom_response = false;
-    this.response=false;
+    this.searchCustom_response = null;
 
     if(customUrl.length==0){
-      this.searchCustom_error = "please enter a custom url";
-      this.response=false;
+      this.empty_search = true;
       return;
     }
     if(customUrl.includes("https://steamcommunity.com/id/"))
@@ -73,11 +71,11 @@ export class ConfigComponent implements OnInit {
     this.configService.getUserSteamId(customUrl, this.key).subscribe(data => {
       data=data['response'];
       if(data['success']==1){
-        this.search(data['steamid']);
         this.searchCustom_response = true;
-        this.response = true;
-      }else{
-        this.searchCustom_error = "invalid custom url";
+        this.search(data['steamid']);
+      }
+      else{
+        this.searchCustom_response = false;
       }
     }, error=>{
       console.log("there is an error: " + error);
@@ -111,12 +109,9 @@ export class ConfigComponent implements OnInit {
     this.two_week_playtime=0;
     this.total_unplayed_games=0;
     this.total_games=0;
-    this.searchCustom_response=true;
 
     if(steam64id.length==0){
-      this.searchCustom_response=false;
-      this.response=false;
-      this.searchCustom_error = "please enter a steam64 id";
+      this.empty_search = true;
       return;
     }
 
@@ -124,6 +119,7 @@ export class ConfigComponent implements OnInit {
     this.configService.getUserInfo(steam64id, this.key).subscribe(data =>
     { if(data['response']['players'][0]){
         data = data['response']['players'][0];
+        this.userSummary_response = true;
         this.userSummary = {
           avatar: data['avatarfull'],
           display_name: data['personaname'],
@@ -137,10 +133,10 @@ export class ConfigComponent implements OnInit {
     this.configService.getUserStats(steam64id, this.key).subscribe(data =>
     {
       this.gameStats = data;
-      this.makeGameGraphs(this.gameStats);
       if(data['response']['games']){
+        this.userStats_response = true;
+        this.makeGameGraphs(this.gameStats);
         var top_x_games = 3;
-        this.response=true;
         for( let time of data['response']['games'] ){
           this.total_games++;
           if(time['playtime_2weeks']){
@@ -190,7 +186,7 @@ export class ConfigComponent implements OnInit {
         console.log(games.most_played_game_name);
       }
       else{
-        this.response=false;
+        this.userStats_response = false;
       }
     }, error=>{
       console.log("there is an error: " + error);

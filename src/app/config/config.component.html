@@ -1,7 +1,7 @@
 <div class="container-fluid">
-  <div class="row searchRow">
-    <div class="col-md-5 offset-md-4">
-      <div class="row">
+  <div class="row searchRow justify-content-center">
+    <div class="col-md-5">
+      <div class="row justify-content-center">
         <form class="form-inline" (ngSubmit)="search(steam64id.value); steam64id.value='';" #steam64idForm="ngForm">
           <div class="form-group mx-sm-1 mb-2">
               <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
@@ -21,20 +21,24 @@
   </div>
 
   <div class="row justify-content-center">
-    <div *ngIf="searchCustom_error" class="user-summary-row col-md-6 userStat-container">
-      {{searchCustom_error}}
+    <div *ngIf="empty_search" class="user-summary-row col-md-6 userStat-container">
+      please enter something
+    </div>
+    <div *ngIf="searchCustom_response==false" class="user-summary-row col-md-6 userStat-container">
+      please enter a valid custom URL
     </div>
     <div *ngIf="error" class="user-summary-row col-md-6 userStat-container">
       {{error}}
     </div>
-    <div class="col-md-4" *ngIf="userSummary && searchCustom_response">
+
+    <div class="col-md-4" *ngIf="userSummary && userSummary_response">
       <div class="row user-summary-row justify-content-center">
-        <div class="profile-picture col-md-auto">
+        <div class="profile-picture col-8 col-md-auto">
               <a href="{{userSummary.profile_url}}" target="_blank">
                   <img class="userSummary-image" src="{{userSummary.avatar}}">
               </a>
           </div>
-          <div class="col-md-5 userSummary-text">
+          <div class="col-md-5 col-12 userSummary-text">
             <div>
               <p class="profile-name"> {{userSummary.display_name}}
               </p>
@@ -52,7 +56,8 @@
     </div>
   </div>
 
-  <div class="row justify-content-center" *ngIf="userStats">
+
+  <div class="row justify-content-center" *ngIf="userStats || userStats_response==false">
       <nav class="col-md-6">
         <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
         <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
@@ -60,9 +65,17 @@
       </nav>
   </div>
 
+  <div class="row justify-content-center" *ngIf="userStats_response==false">
+    <div class="userStat-row col-md-6 userStat-container">
+      cant get game stats, make sure your profile is public
+    </div>
+  </div>
+
+
   <div class="row justify-content-center" *ngIf="userStats">
     <div class="col-md-6 userStat-container">
-      <div *ngIf="response && currentTab==0" class="userStat-row">
+
+      <div *ngIf="currentTab==0" class="userStat-row">
         <div>
           Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
         </div>
@@ -74,9 +87,6 @@
         </div>
       </div>
 
-      <div *ngIf="userSummary && !response && searchCustom_response" class="row1">
-        Unable to get game stats
-      </div>
       <div *ngIf="currentTab==1">
         <div *ngFor="let topGame of topGames; let i=index" class="userStat-row">
           {{i+1}}. Your
@@ -94,7 +104,7 @@
   </div>
 </div>
 
-<div id="inline" *ngIf="gameStats && currentTab==1">
+<div id="inline" *ngIf="gameStats && currentTab==1 && userStats">
   <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
   <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
 </div>
