@@ -78,20 +78,23 @@
         Unable to get game stats
       </div>
       <div *ngIf="currentTab==1">
-        <div *ngIf="userStats.most_played_game_name" class="userStat-row">
-          Your most played game is
-          <a href="https://store.steampowered.com/app/{{userStats.most_played_game_appid}}" target="_blank" class="profile_link">
-            <img class="rounded-most-played-game-icon" src="{{userStats.most_played_game_icon}}">
-            {{userStats.most_played_game_name}}
+        <div *ngFor="let topGame of topGames; let i=index" class="userStat-row">
+          {{i+1}}. Your
+          <span *ngIf="i==1">second</span>
+          <span *ngIf="i==2">third</span>
+          most played game is
+          <a href="https://store.steampowered.com/app/{{topGame.most_played_game_appid}}" target="_blank" class="profile_link">
+            <img class="rounded-most-played-game-icon" src="{{topGame.most_played_game_icon}}">
+            {{topGame.most_played_game_name}}
           </a>
-          at {{userStats.most_played_game_time_hr}} hours and {{userStats.most_played_game_time_minute}} minutes
+          at {{topGame.most_played_game_time_hr}} hours and {{topGame.most_played_game_time_minute}} minutes
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="inline" *ngIf="gameStats">
+<div id="inline" *ngIf="gameStats && currentTab==1">
   <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
   <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
 </div>

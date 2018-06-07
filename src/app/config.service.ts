@@ -18,11 +18,15 @@ export interface UserStats{
   playtime_2week_minute: number;
   unplayed_games: number;
   total_games: number;
+}
+
+export interface TopGames{
   most_played_game_appid: number;
   most_played_game_icon: string;
   most_played_game_name: string;
   most_played_game_time_hr: number;
   most_played_game_time_minute: number;
+  most_played_game_time: number;
 }
 
 @Injectable({

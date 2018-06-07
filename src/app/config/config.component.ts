@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSummary,  UserStats, ConfigService } from '../config.service';
+import { UserSummary,  UserStats, ConfigService, TopGames } from '../config.service';
 import {ChartModule} from 'primeng/chart';
 
 @Component({
@@ -11,16 +11,13 @@ import {ChartModule} from 'primeng/chart';
 
 export class ConfigComponent implements OnInit {
 
+  topGames:TopGames[]=[];
   userSummary: UserSummary;
   userStats: UserStats;
   total_playtime: number;
   two_week_playtime: number;
   total_unplayed_games: number;
   total_games: number;
-  most_played_game_time: number;
-  most_played_game_icon: string;
-  most_played_game_appid: number;
-  most_played_game_name: string;
   response: boolean;
   searchCustom_error: string;
   searchCustom_response: boolean;
@@ -53,6 +50,7 @@ export class ConfigComponent implements OnInit {
     this.gameStats=null;
     this.error=null;
     this.searchCustom_error = null;
+    this.topGames=[];
   }
 
   //the api returns the steamid that belongs to the custom name/url
@@ -113,8 +111,6 @@ export class ConfigComponent implements OnInit {
     this.two_week_playtime=0;
     this.total_unplayed_games=0;
     this.total_games=0;
-    this.most_played_game_time=0;
-    this.most_played_game_name=null;
     this.searchCustom_response=true;
 
     if(steam64id.length==0){
@@ -125,7 +121,7 @@ export class ConfigComponent implements OnInit {
     }
 
   //user info
-    this.configService.getUserInfo(steam64id, this.key).subscribe((data: UserSummary) =>
+    this.configService.getUserInfo(steam64id, this.key).subscribe(data =>
     { if(data['response']['players'][0]){
         data = data['response']['players'][0];
         this.userSummary = {
@@ -138,12 +134,12 @@ export class ConfigComponent implements OnInit {
   );
 
     //user stats
-    this.configService.getUserStats(steam64id, this.key).subscribe((data:UserStats) =>
+    this.configService.getUserStats(steam64id, this.key).subscribe(data =>
     {
       this.gameStats = data;
       this.makeGameGraphs(this.gameStats);
       if(data['response']['games']){
-
+        var top_x_games = 3;
         this.response=true;
         for( let time of data['response']['games'] ){
           this.total_games++;
@@ -153,12 +149,31 @@ export class ConfigComponent implements OnInit {
           if(time['playtime_forever']==0){
             this.total_unplayed_games++;
           }
-          if(this.most_played_game_time < time['playtime_forever']){
-            this.most_played_game_time = time['playtime_forever'];
-            this.most_played_game_icon = time['img_icon_url'];
-            this.most_played_game_appid = time['appid'];
-            this.most_played_game_name = time['name'];
+          var topgame:TopGames = {
+              most_played_game_appid: time['appid'],
+              most_played_game_icon: "http://media.steampowered.com/steamcommunity/public/images/apps/" +
+              time['appid']+ "/" + time['img_icon_url']+".jpg",
+              most_played_game_name: time['name'],
+              most_played_game_time_hr: Math.floor(time['playtime_forever']/60),
+              most_played_game_time_minute: time['playtime_forever']%60,
+              most_played_game_time: time['playtime_forever'],
           }
+
+          if(this.topGames.length==0){
+            this.topGames.push(topgame);
+          }
+          else{
+            for( let i in this.topGames ){
+              if(this.topGames[i].most_played_game_time<time['playtime_forever']){
+                this.topGames.splice(Number(i), 0, topgame);
+                break
+              }
+            }
+            if(this.topGames.length>top_x_games){
+              this.topGames.pop();
+            }
+        }
+
           this.total_playtime+= time['playtime_forever'];
         }
 
@@ -169,13 +184,10 @@ export class ConfigComponent implements OnInit {
           playtime_2week_minute: this.two_week_playtime % 60,
           unplayed_games: this.total_unplayed_games,
           total_games: this.total_games,
-          most_played_game_appid: this.most_played_game_appid,
-          most_played_game_icon: "http://media.steampowered.com/steamcommunity/public/images/apps/" +
-          this.most_played_game_appid+ "/" + this.most_played_game_icon+".jpg",
-          most_played_game_name: this.most_played_game_name,
-          most_played_game_time_hr: Math.floor(this.most_played_game_time/60),
-          most_played_game_time_minute: this.most_played_game_time%60,
         }
+
+        for( let games of this.topGames )
+        console.log(games.most_played_game_name);
       }
       else{
         this.response=false;
