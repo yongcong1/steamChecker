@@ -48,7 +48,7 @@
               </p>
             </div>
             <div>
-              <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">{{userSummary.profile_url}}
+              <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">View Steam Profile
               </a>
             </div>
           </div>
@@ -61,7 +61,7 @@
       <nav class="col-md-6">
         <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
         <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
-        <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Etc.</a>
+        <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Friends</a>
       </nav>
   </div>
 
@@ -79,20 +79,20 @@
         <div>
           Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
         </div>
-        <div class="row2">
+        <div class="userStat-row">
           Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
         </div>
-        <div class="row2">
+        <div class="userStat-row">
           You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
         </div>
       </div>
 
       <div *ngIf="currentTab==1">
+        <div class="tab-title">
+          Your top  3 most played game
+        </div>
         <div *ngFor="let topGame of topGames; let i=index" class="userStat-row">
-          {{i+1}}. Your
-          <span *ngIf="i==1">second</span>
-          <span *ngIf="i==2">third</span>
-          most played game is
+          {{i+1}}.
           <a href="https://store.steampowered.com/app/{{topGame.most_played_game_appid}}" target="_blank" class="profile_link">
             <img class="rounded-most-played-game-icon" src="{{topGame.most_played_game_icon}}">
             {{topGame.most_played_game_name}}
@@ -100,8 +100,21 @@
           at {{topGame.most_played_game_time_hr}} hours and {{topGame.most_played_game_time_minute}} minutes
         </div>
       </div>
+
+      <div *ngIf="currentTab==2 && friends_info.length!=0">
+        <div class="tab-title">
+          Your top 3 Oldest Friends that have public profile
+        </div>
+        <div *ngFor="let friend of friends_info; let i=index" class="userStat-row">
+          {{i+1}}. <a class="friend-link" (click)="search(friend.steam64_id)"><img class="" src="{{friend.avatar}}">{{friend.display_name}}</a> since {{convertUnixTime(friends[i].friend_since)}}
+        </div>
+      </div>
+      <div *ngIf="currentTab==2 && friend_error">
+        {{friend_error}}
+      </div>
     </div>
   </div>
+
 </div>
 
 <div id="inline" *ngIf="gameStats && currentTab==1 && userStats">

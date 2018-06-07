@@ -15,7 +15,6 @@ export class AppComponent {
   userSummary: UserSummary;
   title = 'Check Your Steam Stats';
   loggedIn: boolean;
-  key: string;
   accountError: string;
   currentAccountID: string;
 
@@ -23,19 +22,11 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.key = 'A736FCCD373C01491715163D7FB4DFB1';
     this.setAccount();
   }
 
-  getApiKey(){
-    this.configService.getApi().subscribe(data=>{
-        this.key=data['apiKey'];
-      }
-    );
-  }
-
   searchUser(steam64id: string){
-      this.configService.getUserInfo(steam64id, this.key).subscribe((data: UserSummary) =>
+      this.configService.getUserInfo(steam64id).subscribe((data: UserSummary) =>
       { if(data['response']['players']){
           data = data['response']['players'][0];
           this.userSummary = {

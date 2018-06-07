@@ -22,8 +22,7 @@ var dev_addr = "http://localhost:4200";
 
 addr = prod_addr;
 
-
-steamID = "";
+apiKey = "A736FCCD373C01491715163D7FB4DFB1";
 
 relyingParty = new openid.RelyingParty(
 	addr + "verify",
@@ -71,8 +70,23 @@ app.use('/signout', function(req, res){
 	res.redirect("/");
 });
 
-app.use('/API', function(req, res) {
-	var url = 'https://api.steampowered.com/'+req.url;
+app.use('/customURL/', function(req, res) {
+	var url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/'+ '?key=' + apiKey  + req.url.substring(1);
+	request(url).pipe(res);
+});
+
+app.use('/userSummary/', function(req, res) {
+	var url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'+ '?key=' + apiKey + req.url.substring(1);
+	request(url).pipe(res);
+});
+
+app.use('/userStats/', function(req, res) {
+	var url = 'https://api.steampowered.com//IPlayerService/GetOwnedGames/v0001/'+ '?key=' + apiKey  + req.url.substring(1);
+	request(url).pipe(res);
+});
+
+app.use('/friendList/', function(req, res) {
+	var url = ' http://api.steampowered.com/ISteamUser/GetFriendList/v0001/'+ '?key=' + apiKey + req.url.substring(1);
 	request(url).pipe(res);
 });
 

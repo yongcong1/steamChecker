@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSummary,  UserStats, ConfigService, TopGames } from '../config.service';
+import { UserSummary,  UserStats, ConfigService, TopGames, Friends } from '../config.service';
 import {ChartModule} from 'primeng/chart';
 
 @Component({
@@ -22,24 +22,19 @@ export class ConfigComponent implements OnInit {
   userStats_response: boolean;
   userSummary_response: boolean;
   searchCustom_response: boolean;
-  key: string;
   gameStats: any;
   currentTab = 0;
   error: string;
+  friends:Friends[]=[];
+  friends_info: UserSummary[] = [];
+  friend_error: string;
 
   constructor(private configService: ConfigService) {
   }
 
   ngOnInit() {
-    this.getApiKey();
   }
 
-  //parse the steam api key from the json file
-  getApiKey(){
-    this.configService.getApi().subscribe(data=> {
-      this.key=data['apiKey'];
-    });
-  }
 
   showTab(tab: number){
     this.currentTab = tab;
@@ -52,6 +47,10 @@ export class ConfigComponent implements OnInit {
     this.error=null;
     this.topGames=[];
     this.empty_search = false;
+    this.currentTab = 0;
+    this.friends=[];
+    this.friends_info=[];
+    this.friend_error=null;
   }
 
   //the api returns the steamid that belongs to the custom name/url
@@ -68,7 +67,7 @@ export class ConfigComponent implements OnInit {
     if(customUrl.slice(-1)=="/"){
       customUrl = customUrl.substring(0, customUrl.length-1);
     }
-    this.configService.getUserSteamId(customUrl, this.key).subscribe(data => {
+    this.configService.getUserSteamId(customUrl).subscribe(data => {
       data=data['response'];
       if(data['success']==1){
         this.searchCustom_response = true;
@@ -102,6 +101,20 @@ export class ConfigComponent implements OnInit {
       }
   }
 
+  convertUnixTime(unixTime){
+    var d = new Date(unixTime*1000);
+    var year = d.getFullYear()+"";
+    var month = d.getMonth()+"";
+    var date = d.getDate()+"";
+    if(month.length == 1){
+      month="0"+month;
+    }
+    if(date.length ==1){
+      date = "0" + date;
+    }
+    return year + '-' + month + '-' + date;
+  }
+
   //the api returns the json and is parsed for information about the user
   search(steam64id: string){
     this.newSearch();
@@ -116,7 +129,7 @@ export class ConfigComponent implements OnInit {
     }
 
   //user info
-    this.configService.getUserInfo(steam64id, this.key).subscribe(data =>
+    this.configService.getUserInfo(steam64id).subscribe(data =>
     { if(data['response']['players'][0]){
         data = data['response']['players'][0];
         this.userSummary_response = true;
@@ -126,11 +139,14 @@ export class ConfigComponent implements OnInit {
           profile_url: data['profileurl'],
           steam64_id: data['steamid'],
         }
-    }}
+    }}, error=>{
+      console.log("there is an error: " + error);
+      this.error = error;
+    }
   );
 
     //user stats
-    this.configService.getUserStats(steam64id, this.key).subscribe(data =>
+    this.configService.getUserStats(steam64id).subscribe(data =>
     {
       this.gameStats = data;
       if(data['response']['games']){
@@ -192,5 +208,58 @@ export class ConfigComponent implements OnInit {
       console.log("there is an error: " + error);
       this.error = error;
     }
-  );}
+  );
+
+  this.configService.getFriendList(steam64id).subscribe(data =>{
+    if(data['friendslist']['friends']){
+      var top_x_friends = 3;
+      for( let friend_info of data['friendslist']['friends']){
+        var friend:Friends = {
+          steam64_id: friend_info['steamid'],
+          friend_since: friend_info['friend_since']
+        }
+        if(friend_info['friend_since']!=0){
+          if(this.friends.length==0){
+            this.friends.push(friend);
+          }
+          else{
+            for( let i in this.friends ){
+              if(this.friends[i].friend_since>friend_info['friend_since']){
+                this.friends.splice(Number(i), 0, friend);
+                break
+              }
+            }
+            if(this.friends.length>top_x_friends){
+              this.friends.pop();
+            }
+          }
+        }
+      }
+
+      if(this.friends.length>0){
+      for( let i in this.friends){
+        this.configService.getUserInfo(this.friends[i].steam64_id).subscribe(data =>
+        { if(data['response']['players'][0]){
+            data = data['response']['players'][0];
+            var friend_userSummary:UserSummary = {
+              avatar: data['avatar'],
+              display_name: data['personaname'],
+              profile_url: data['profileurl'],
+              steam64_id: data['steamid'],
+            }
+            console.log(friend_userSummary.steam64_id + " pushed to " + i);
+            this.friends_info.splice(Number(i), 0, friend_userSummary);
+
+        }}
+      );
+      }
+    }
+    }
+  },error=>{
+    console.log("there is an error: " + error);
+    this.friend_error = error;
+  }
+);
+
+  }
 }

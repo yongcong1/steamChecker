@@ -29,6 +29,11 @@ export interface TopGames{
   most_played_game_time: number;
 }
 
+export interface Friends{
+  steam64_id: string;
+  friend_since: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,42 +42,42 @@ export class ConfigService {
   constructor(private http: HttpClient) { }
 
   //get the ISteamUser api to retrieve steamid from custom url
-  userCustomUrl = '/API/ISteamUser/ResolveVanityURL/v0001/';
-  getUserSteamId(customUrl: string, key: string){
-    return this.http.get(this.userCustomUrl + "?key=" + key +  "&vanityurl=" + customUrl).pipe(
-      retry(3),
+  userCustomUrl = '/customURL/';
+  getUserSteamId(customUrl: string){
+    return this.http.get(this.userCustomUrl+"&vanityurl="+customUrl).pipe(
+      retry(1),
       catchError(this.handleError)
     );
   }
 
   //get the ISteamUser api to retrieve information about the user based on their steam64 id
-  userSummaryUrl = '/API/ISteamUser/GetPlayerSummaries/v0002/';
-  getUserInfo(steam64id: string, key: string) {
-    return this.http.get(this.userSummaryUrl + "?key=" + key +  "&steamids=" + steam64id).pipe(
-      retry(3),
+  userSummaryUrl = '/userSummary/';
+  getUserInfo(steam64id: string) {
+    return this.http.get(this.userSummaryUrl +  "&steamids=" + steam64id).pipe(
+      retry(1),
       catchError(this.handleError)
     );
   }
 
-  userStatUrl = '/API/IPlayerService/GetOwnedGames/v0001/';
-  getUserStats(steam64id: string, key: string){
-    return this.http.get(this.userStatUrl + "?key=" + key +  "&steamid=" + steam64id + "&include_appinfo=1").pipe(
-      retry(3),
+  userStatUrl = '/userStats/';
+  getUserStats(steam64id: string){
+    return this.http.get(this.userStatUrl + "&steamid=" + steam64id + "&include_appinfo=1").pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
+  friendListUrl = '/friendList/';
+  getFriendList(steam64id: string){
+    return this.http.get(this.friendListUrl + "&steamid=" + steam64id + "&relationship=friend").pipe(
+      retry(1),
       catchError(this.handleError)
     );
   }
 
   getAccount(){
     return this.http.get('/account').pipe(
-      retry(3),
-      catchError(this.handleError)
-    );
-  }
-
-
-  //get the steam api key stored in assets/apiKey.json
-  getApi(){
-    return this.http.get('/assets/apiKey.json').pipe(
+      retry(1),
       catchError(this.handleError)
     );
   }
@@ -93,7 +98,11 @@ export class ConfigService {
     // return an observable with a user-facing error message
     if(error.status===500)
     return throwError(
-      'invalid steam64 ID or custom URL, please enter a valid steam64 ID or custom URL'
+      'invalid steam64 ID, please enter a valid steam64 ID'
+    );
+    else if(error.status==401)
+    return throwError(
+      'Your profile is private'
     );
     else
       return throwError('network error, please try again later');
