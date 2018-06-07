@@ -89,12 +89,14 @@ export class ConfigComponent implements OnInit {
 
   makeGameGraphs(data){
       let gameInfo = data.response.games
-      console.log(gameInfo.map(a => a.playtime_forever));
+     // console.log(gameInfo.map(a => a.playtime_forever));
+     var filteredAry = gameInfo.filter(e => e.playtime_forever > 300)
+     console.log(filteredAry)
       this.gameStats = {
-        labels: gameInfo.map(a => a.name),
+        labels: filteredAry.map(a => a.name),
         datasets: [
           {
-            data: gameInfo.map(a => a.playtime_forever),
+            data: filteredAry.map(a => a.playtime_forever),
             backgroundColor: ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC',
             '#E67300','#8B0707','#329262','#5574A6','#3B3EAC','#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499',
             '#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC','#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00',
