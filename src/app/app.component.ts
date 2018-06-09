@@ -34,6 +34,7 @@ export class AppComponent {
             display_name: data['personaname'],
             profile_url: data['profileurl'],
             steam64_id: data['steamid'],
+            status: data['personastate'],
           }
       }}
     );

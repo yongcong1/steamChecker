@@ -15,14 +15,18 @@
 }
 
 .profile-name{
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bold;
-  text-align: left;
 }
 
-.profile-text{
-  text-align: left;
-  font-size: 15px;
+.profile-title{
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: #8e9196;
+}
+
+.profile-text-item{
+  margin-top: 5px;
 }
 
 .profile_link{
@@ -89,6 +93,12 @@
   margin-top:10px;
 }
 
+.userStat-item{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
 .user-summary-row{
   margin-top: 20px;
 }
@@ -114,6 +124,7 @@ a.friend-link:visited
 a.friend-link:hover
 {
   color: white;
+  font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
 }
@@ -133,17 +144,17 @@ a.profile_link:visited
 }
 a.profile_link:hover
 {
+  font-weight: bold;
   color: white;
 }
 a.profile_link:active
 {
-  color:   white;
+  color: white;
 }
 
 a.selected-tab {
   padding: 5px 10px;
   text-decoration: none;
-  margin-top: 20px;
   display: inline-block;
   background-color: white;
   color: black;
@@ -171,7 +182,6 @@ a.selected-tab.active {
 a.not-selected-tab {
   padding: 5px 10px;
   text-decoration: none;
-  margin-top: 20px;
   display: inline-block;
   background-color: #202328;
   color: white;
@@ -200,6 +210,27 @@ a.not-selected-tab.active {
 .tab-gap{
   margin-left: 2px;
 }
+
+.status-text{
+  font-size: 10px;
+}
+
+.status-circle{
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  background-color: green;
+  display: inline-block;
+}
+
+.Online{background-color:green}
+.Offline{background-color:gray}
+.Busy{background-color:red}
+.Away{background-color:yellow}
+.Snooze{background-color:orange}
 
 .pie,.bar{width:50%;height:100%;margin:10px;}
 #inline{width:100%;height:auto;display:flex;}

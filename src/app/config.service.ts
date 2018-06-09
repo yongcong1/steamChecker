@@ -9,6 +9,12 @@ export interface UserSummary {
   display_name: string;
   profile_url: string;
   steam64_id: string;
+  status: string;
+}
+
+export interface PrivateUserSummary{
+  time_created: number;
+  game_extra_info: string;
 }
 
 export interface UserStats{

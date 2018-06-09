@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSummary,  UserStats, ConfigService, TopGames, Friends } from '../config.service';
+import { UserSummary,  UserStats, ConfigService, TopGames, Friends, PrivateUserSummary } from '../config.service';
 import {ChartModule} from 'primeng/chart';
 
 @Component({
@@ -13,6 +13,7 @@ export class ConfigComponent implements OnInit {
 
   topGames:TopGames[]=[];
   userSummary: UserSummary;
+  privateUserSummary: PrivateUserSummary;
   userStats: UserStats;
   total_playtime: number;
   two_week_playtime: number;
@@ -38,6 +39,34 @@ export class ConfigComponent implements OnInit {
 
   showTab(tab: number){
     this.currentTab = tab;
+  }
+
+  convertUnixTime(unixTime){
+    var d = new Date(unixTime*1000);
+    var year = d.getFullYear()+"";
+    var month = d.getMonth()+"";
+    var date = d.getDate()+"";
+    if(month.length == 1){
+      month="0"+month;
+    }
+    if(date.length ==1){
+      date = "0" + date;
+    }
+    return year + '-' + month + '-' + date;
+  }
+
+  convertStatus(status){
+    var output = "";
+    switch(status){
+      case 1: output="Online"; break;
+      case 2: output="Busy"; break;
+      case 3: output="Away"; break;
+      case 4: output="Snooze"; break;
+      case 5: output="Looking to trade"; break;
+      case 6: output="Looking to play"; break;
+      default: output="Offline";
+    }
+    return output;
   }
 
   newSearch(){
@@ -76,17 +105,15 @@ export class ConfigComponent implements OnInit {
       else{
         this.searchCustom_response = false;
       }
-    }, error=>{
+    },
+    error=>{
       console.log("there is an error: " + error);
       this.error = error;
-    }
-    );}
+    });}
 
-  makeGameGraphs(data){
+    makeGameGraphs(data){
       let gameInfo = data.response.games
-     // console.log(gameInfo.map(a => a.playtime_forever));
-     var filteredAry = gameInfo.filter(e => e.playtime_forever > 300)
-     console.log(filteredAry)
+      var filteredAry = gameInfo.filter(e => e.playtime_forever > 300)
       this.gameStats = {
         labels: filteredAry.map(a => a.name),
         datasets: [
@@ -99,21 +126,7 @@ export class ConfigComponent implements OnInit {
           }
         ]
       }
-  }
-
-  convertUnixTime(unixTime){
-    var d = new Date(unixTime*1000);
-    var year = d.getFullYear()+"";
-    var month = d.getMonth()+"";
-    var date = d.getDate()+"";
-    if(month.length == 1){
-      month="0"+month;
     }
-    if(date.length ==1){
-      date = "0" + date;
-    }
-    return year + '-' + month + '-' + date;
-  }
 
   //the api returns the json and is parsed for information about the user
   search(steam64id: string){
@@ -128,24 +141,33 @@ export class ConfigComponent implements OnInit {
       return;
     }
 
-  //user info
+    //getting User Info
     this.configService.getUserInfo(steam64id).subscribe(data =>
-    { if(data['response']['players'][0]){
+    {
+      if(data['response']['players'][0]){
         data = data['response']['players'][0];
         this.userSummary_response = true;
         this.userSummary = {
           avatar: data['avatarfull'],
           display_name: data['personaname'],
           profile_url: data['profileurl'],
-          steam64_id: data['steamid'],
+          status: this.convertStatus(data['personastate']),
+          steam64_id: data['steamid']
         }
-    }}, error=>{
+        if(data['timecreated']){
+          this.privateUserSummary = {
+            time_created: data['timecreated'],
+            game_extra_info: data['gameextrainfo'],
+          }
+        }
+      }
+    },
+    error=>{
       console.log("there is an error: " + error);
       this.error = error;
-    }
-  );
+    });
 
-    //user stats
+    //getting User Stats
     this.configService.getUserStats(steam64id).subscribe(data =>
     {
       this.gameStats = data;
@@ -170,7 +192,6 @@ export class ConfigComponent implements OnInit {
               most_played_game_time_minute: time['playtime_forever']%60,
               most_played_game_time: time['playtime_forever'],
           }
-
           if(this.topGames.length==0){
             this.topGames.push(topgame);
           }
@@ -184,11 +205,10 @@ export class ConfigComponent implements OnInit {
             if(this.topGames.length>top_x_games){
               this.topGames.pop();
             }
-        }
+          }
 
           this.total_playtime+= time['playtime_forever'];
         }
-
         this.userStats = {
           playtime_hr: Math.floor(this.total_playtime/60),
           playtime_minute: this.total_playtime % 60,
@@ -197,19 +217,17 @@ export class ConfigComponent implements OnInit {
           unplayed_games: this.total_unplayed_games,
           total_games: this.total_games,
         }
-
-        for( let games of this.topGames )
-        console.log(games.most_played_game_name);
       }
       else{
         this.userStats_response = false;
       }
-    }, error=>{
+    },
+    error=>{
       console.log("there is an error: " + error);
       this.error = error;
-    }
-  );
+    });
 
+  //getting friends list
   this.configService.getFriendList(steam64id).subscribe(data =>{
     if(data['friendslist']['friends']){
       var top_x_friends = 3;
@@ -235,7 +253,6 @@ export class ConfigComponent implements OnInit {
           }
         }
       }
-
       if(this.friends.length>0){
       for( let i in this.friends){
         this.configService.getUserInfo(this.friends[i].steam64_id).subscribe(data =>
@@ -245,21 +262,17 @@ export class ConfigComponent implements OnInit {
               avatar: data['avatar'],
               display_name: data['personaname'],
               profile_url: data['profileurl'],
-              steam64_id: data['steamid'],
+              status: this.convertStatus(data['personastate']),
+              steam64_id: data['steamid']
             }
-            console.log(friend_userSummary.steam64_id + " pushed to " + i);
             this.friends_info.splice(Number(i), 0, friend_userSummary);
-
-        }}
-      );
+          }
+        });
       }
     }
-    }
-  },error=>{
+  }},
+  error=>{
     console.log("there is an error: " + error);
     this.friend_error = error;
-  }
-);
-
-  }
+  });}
 }

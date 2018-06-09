@@ -39,15 +39,21 @@
               </a>
           </div>
           <div class="col-md-5 col-12 userSummary-text">
-            <div>
-              <p class="profile-name"> {{userSummary.display_name}}
-              </p>
+            <div class="profile-title">
+              <span class="profile-name">{{userSummary.display_name}}</span>
+              <div>
+                <span class="status-circle" [ngClass]="userSummary.status">
+                </span>
+                <span class=""> currently {{userSummary.status}} </span>
+              </div>
             </div>
-            <div>
-              <p class="profile-text"> Steam64ID : {{userSummary.steam64_id}}
-              </p>
+            <div *ngIf="privateUserSummary" class="profile-text-item">
+              Account created in {{convertUnixTime(privateUserSummary.time_created)}}
             </div>
-            <div>
+            <div class="profile-text-item">
+              Steam64ID : {{userSummary.steam64_id}}
+            </div>
+            <div class= "profile-text-item">
               <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">View Steam Profile
               </a>
             </div>
@@ -57,11 +63,13 @@
   </div>
 
 
-  <div class="row justify-content-center" *ngIf="userStats || userStats_response==false">
+  <div class="row justify-content-center user-summary-row" *ngIf="userStats || userStats_response==false">
       <nav class="col-md-6">
         <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
         <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
         <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Friends</a>
+        <a [ngClass]="{'selected-tab': currentTab==3, 'not-selected-tab': currentTab!=3}" (click)="showTab(3)">More</a>
+        <a [ngClass]="{'selected-tab': currentTab==4, 'not-selected-tab': currentTab!=4}" (click)="showTab(4)">Etc</a>
       </nav>
   </div>
 
@@ -76,13 +84,13 @@
     <div class="col-md-6 userStat-container">
 
       <div *ngIf="currentTab==0" class="userStat-row">
-        <div>
+        <div class= "userStat-item">
           Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
         </div>
-        <div class="userStat-row">
+        <div class="userStat-item">
           Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
         </div>
-        <div class="userStat-row">
+        <div class="userStat-item">
           You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
         </div>
       </div>
@@ -91,9 +99,9 @@
         <div class="tab-title">
           Your top  3 most played game
         </div>
-        <div *ngFor="let topGame of topGames; let i=index" class="userStat-row">
+        <div *ngFor="let topGame of topGames; let i=index" class="userStat-item">
           {{i+1}}.
-          <a href="https://store.steampowered.com/app/{{topGame.most_played_game_appid}}" target="_blank" class="profile_link">
+          <a href="http://store.steampowered.com/app/{{topGame.most_played_game_appid}}" target="_blank" class="profile_link">
             <img class="rounded-most-played-game-icon" src="{{topGame.most_played_game_icon}}">
             {{topGame.most_played_game_name}}
           </a>
@@ -105,7 +113,7 @@
         <div class="tab-title">
           Your top 3 Oldest Friends that have public profile
         </div>
-        <div *ngFor="let friend of friends_info; let i=index" class="userStat-row">
+        <div *ngFor="let friend of friends_info; let i=index" class="userStat-item">
           {{i+1}}. <a class="friend-link" (click)="search(friend.steam64_id)"><img class="" src="{{friend.avatar}}">{{friend.display_name}}</a> since {{convertUnixTime(friends[i].friend_since)}}
         </div>
       </div>

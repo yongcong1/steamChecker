@@ -7,8 +7,11 @@
     <ul class="navbar-nav mr-auto">
     </ul>
     <a class="navbar-nav m1-auto">
-          <a class="nav-item" href="/auth" *ngIf="loggedIn==false">
+          <a class="nav-item d-none d-lg-block d-md-none" href="/auth" *ngIf="loggedIn==false">
            <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt="HTML5" class="navbar-image"/>
+          </a>
+          <a class="nav-item nav-link d-block d-lg-none d-md-block" href="/auth" *ngIf="loggedIn==false">
+           Sign In Through Steam
           </a>
          <div *ngIf="userSummary" class="nav-item dropdown">
            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
