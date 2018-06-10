@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { map,catchError, retry } from 'rxjs/operators';
 import {JsonpModule, Jsonp, Response, Headers} from '@angular/http';
 
@@ -40,12 +40,26 @@ export interface Friends{
   friend_since: number;
 }
 
+
 @Injectable({
   providedIn: 'root',
 })
 
 export class ConfigService {
+  return_data:any;
+  show_stats_source = new Subject<string>();
+  show_stats$ = this.show_stats_source.asObservable();
+  custom_id_source = new Subject<string>();
+  custom_id$ = this.custom_id_source.asObservable();
   constructor(private http: HttpClient) { }
+
+  show_stats(steam64ID){
+    this.show_stats_source.next(steam64ID);
+  }
+
+  custom_id(custom_id){
+    this.custom_id_source.next(custom_id);
+  }
 
   //get the ISteamUser api to retrieve steamid from custom url
   userCustomUrl = '/customURL/';

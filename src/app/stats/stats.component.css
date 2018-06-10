@@ -4,10 +4,6 @@
   margin-top: 10px;
 }
 
-.searchRow{
-  margin-top: 20px;
-}
-
 .profile-picture{
   text-decoration: none;
   min-width: 190px;
@@ -106,6 +102,9 @@
 .tab-title{
   font-size: 20px;
   font-weight: bold;
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: #8e9196;
 }
 
 .friend-row{

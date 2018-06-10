@@ -1,0 +1,20 @@
+<div class="row searchRow justify-content-center">
+  <div class="col-md-5">
+    <div class="row justify-content-center">
+      <form class="form-inline" (ngSubmit)="search(steam64id.value); steam64id.value='';" #steam64idForm="ngForm">
+        <div class="form-group mx-sm-1 mb-2">
+            <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
+        </div>
+        <input type="button" class="btn btn-dark mb-2" (click)="search(steam64id.value); steam64id.value='';" value="check"/>
+      </form>
+      <div class="form-group mx-sm-2 mb-2">
+      </div>
+      <form class="form-inline" (ngSubmit)="searchCustom(customUrl.value);" #customUrlForm="ngForm">
+        <div class="form-group mx-sm-1 mb-2">
+          <input type="text" class="form-control" #customUrl placeholder="Custom Url">
+        </div>
+        <input type="button" class="btn btn-dark mb-2" (click)="searchCustom(customUrl.value); customUrl.value='';" value="check"/>
+      </form>
+    </div>
+  </div>
+</div>

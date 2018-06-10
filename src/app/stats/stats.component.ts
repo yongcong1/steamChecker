@@ -3,13 +3,12 @@ import { UserSummary,  UserStats, ConfigService, TopGames, Friends, PrivateUserS
 import {ChartModule} from 'primeng/chart';
 
 @Component({
-  selector: 'app-config',
-  templateUrl: './config.component.html',
-  providers: [ ConfigService ],
-  styleUrls: ['./config.component.css']
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.css']
 })
 
-export class ConfigComponent implements OnInit {
+export class StatsComponent implements OnInit {
 
   topGames:TopGames[]=[];
   userSummary: UserSummary;
@@ -31,11 +30,20 @@ export class ConfigComponent implements OnInit {
   friend_error: string;
 
   constructor(private configService: ConfigService) {
+    configService.show_stats$.subscribe(
+      data => {
+        this.search(data);
+      }
+    );
+    configService.custom_id$.subscribe(
+      data =>{
+        this.searchCustom(data);
+      }
+    );
   }
-
+  
   ngOnInit() {
   }
-
 
   showTab(tab: number){
     this.currentTab = tab;
@@ -80,12 +88,12 @@ export class ConfigComponent implements OnInit {
     this.friends=[];
     this.friends_info=[];
     this.friend_error=null;
+    this.searchCustom_response = null;
   }
 
   //the api returns the steamid that belongs to the custom name/url
   searchCustom(customUrl: string){
     this.newSearch();
-    this.searchCustom_response = null;
 
     if(customUrl.length==0){
       this.empty_search = true;

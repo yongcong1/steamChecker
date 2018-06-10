@@ -1,30 +1,10 @@
 <div class="container-fluid">
-  <div class="row searchRow justify-content-center">
-    <div class="col-md-5">
-      <div class="row justify-content-center">
-        <form class="form-inline" (ngSubmit)="search(steam64id.value); steam64id.value='';" #steam64idForm="ngForm">
-          <div class="form-group mx-sm-1 mb-2">
-              <input type="text" class="form-control" #steam64id placeholder="Steam64 ID">
-          </div>
-          <input type="button" class="btn btn-primary mb-2" (click)="search(steam64id.value); steam64id.value='';" value="check"/>
-        </form>
-        <div class="form-group mx-sm-2 mb-2">
-        </div>
-        <form class="form-inline" (ngSubmit)="searchCustom(customUrl.value);" #customUrlForm="ngForm">
-          <div class="form-group mx-sm-1 mb-2">
-            <input type="text" class="form-control" #customUrl placeholder="Custom Url">
-          </div>
-          <input type="button" class="btn btn-primary mb-2" (click)="searchCustom(customUrl.value); customUrl.value='';" value="check"/>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <div class="row justify-content-center">
     <div *ngIf="empty_search" class="user-summary-row col-md-6 userStat-container">
       please enter something
     </div>
-    <div *ngIf="searchCustom_response==false" class="user-summary-row col-md-6 userStat-container">
+    <div *ngIf="searchCustom_response==false && !userSummary" class="user-summary-row col-md-6 userStat-container">
       please enter a valid custom URL
     </div>
     <div *ngIf="error" class="user-summary-row col-md-6 userStat-container">
@@ -44,7 +24,9 @@
               <div>
                 <span class="status-circle" [ngClass]="userSummary.status">
                 </span>
-                <span class=""> currently {{userSummary.status}} </span>
+                <span class=""> currently </span>
+                <span *ngIf="privateUserSummary.game_extra_info; else elseBlock"> playing {{privateUserSummary.game_extra_info}}</span>
+                <ng-template #elseBlock>{{userSummary.status}}</ng-template>
               </div>
             </div>
             <div *ngIf="privateUserSummary" class="profile-text-item">
@@ -63,7 +45,7 @@
   </div>
 
 
-  <div class="row justify-content-center user-summary-row" *ngIf="userStats || userStats_response==false">
+  <div class="row justify-content-center user-summary-row" *ngIf="userStats || (userStats_response==false && userSummary)">
       <nav class="col-md-6">
         <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
         <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
@@ -73,7 +55,7 @@
       </nav>
   </div>
 
-  <div class="row justify-content-center" *ngIf="userStats_response==false">
+  <div class="row justify-content-center" *ngIf="userStats_response==false && userSummary">
     <div class="userStat-row col-md-6 userStat-container">
       cant get game stats, make sure your profile is public
     </div>
@@ -83,7 +65,10 @@
   <div class="row justify-content-center" *ngIf="userStats">
     <div class="col-md-6 userStat-container">
 
-      <div *ngIf="currentTab==0" class="userStat-row">
+      <div *ngIf="currentTab==0">
+        <div class="tab-title">
+          General Information
+        </div>
         <div class= "userStat-item">
           Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
         </div>
