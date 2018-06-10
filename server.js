@@ -62,7 +62,7 @@ app.use('/Verify', function(req, res) {
 });
 
 app.use('/account', function(req, res){
-	return res.json({"steamID": req.sessionID , "sessionID": req.sessionID});
+	return res.json({"steamID": req.session.steamID , "sessionID": req.sessionID});
 });
 
 app.use('/signout', function(req, res){
