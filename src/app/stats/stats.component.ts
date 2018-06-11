@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSummary,  UserStats, ConfigService, TopGames, Friends, PrivateUserSummary } from '../config.service';
+import { APIService, UserSummary,  UserStats, TopGames, Friends, PrivateUserSummary } from '../api.service';
+import { DisplayService } from '../display.service';
 import {ChartModule} from 'primeng/chart';
 
 @Component({
@@ -29,19 +30,19 @@ export class StatsComponent implements OnInit {
   friends_info: UserSummary[] = [];
   friend_error: string;
 
-  constructor(private configService: ConfigService) {
-    configService.show_stats$.subscribe(
+  constructor(private apiService: APIService, private displayService:DisplayService) {
+    displayService.show_stats$.subscribe(
       data => {
         this.search(data);
       }
     );
-    configService.custom_id$.subscribe(
+    displayService.custom_id$.subscribe(
       data =>{
         this.searchCustom(data);
       }
     );
   }
-  
+
   ngOnInit() {
   }
 
@@ -104,7 +105,7 @@ export class StatsComponent implements OnInit {
     if(customUrl.slice(-1)=="/"){
       customUrl = customUrl.substring(0, customUrl.length-1);
     }
-    this.configService.getUserSteamId(customUrl).subscribe(data => {
+    this.apiService.getUserSteamId(customUrl).subscribe(data => {
       data=data['response'];
       if(data['success']==1){
         this.searchCustom_response = true;
@@ -150,7 +151,7 @@ export class StatsComponent implements OnInit {
     }
 
     //getting User Info
-    this.configService.getUserInfo(steam64id).subscribe(data =>
+    this.apiService.getUserInfo(steam64id).subscribe(data =>
     {
       if(data['response']['players'][0]){
         data = data['response']['players'][0];
@@ -176,7 +177,7 @@ export class StatsComponent implements OnInit {
     });
 
     //getting User Stats
-    this.configService.getUserStats(steam64id).subscribe(data =>
+    this.apiService.getUserStats(steam64id).subscribe(data =>
     {
       this.gameStats = data;
       if(data['response']['games']){
@@ -236,7 +237,7 @@ export class StatsComponent implements OnInit {
     });
 
   //getting friends list
-  this.configService.getFriendList(steam64id).subscribe(data =>{
+  this.apiService.getFriendList(steam64id).subscribe(data =>{
     if(data['friendslist']['friends']){
       var top_x_friends = 3;
       for( let friend_info of data['friendslist']['friends']){
@@ -263,7 +264,7 @@ export class StatsComponent implements OnInit {
       }
       if(this.friends.length>0){
       for( let i in this.friends){
-        this.configService.getUserInfo(this.friends[i].steam64_id).subscribe(data =>
+        this.apiService.getUserInfo(this.friends[i].steam64_id).subscribe(data =>
         { if(data['response']['players'][0]){
             data = data['response']['players'][0];
             var friend_userSummary:UserSummary = {

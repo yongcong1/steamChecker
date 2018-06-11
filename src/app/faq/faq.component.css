@@ -1,0 +1,16 @@
+.FAQ-title{
+  font-weight: bold;
+  font-size: 25px;
+  margin-top: 15px;
+}
+
+.FAQ-container{
+  text-align: center;
+  font-size: 15px;
+}
+
+.FAQ-question{
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}

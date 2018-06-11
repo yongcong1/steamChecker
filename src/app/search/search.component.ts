@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { DisplayService } from '../display.service';
 
 @Component({
   selector: 'app-search',
@@ -8,17 +8,20 @@ import { ConfigService } from '../config.service';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private configService:ConfigService) { }
+  title = 'Check Your Steam Stats';
+
+  constructor(private displayService:DisplayService) {
+   }
 
   ngOnInit() {
   }
 
   searchCustom(custom_id){
-    this.configService.custom_id(custom_id);
+    this.displayService.custom_id(custom_id);
   }
 
   search(steam64ID){
-    this.configService.show_stats(steam64ID);
+    this.displayService.show_stats(steam64ID);
   }
 
 }

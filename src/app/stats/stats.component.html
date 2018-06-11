@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
   <div class="row justify-content-center">
     <div *ngIf="empty_search" class="user-summary-row col-md-6 userStat-container">
       please enter something
@@ -29,9 +28,6 @@
                 <ng-template #elseBlock>{{userSummary.status}}</ng-template>
               </div>
             </div>
-            <div *ngIf="privateUserSummary" class="profile-text-item">
-              Account created in {{convertUnixTime(privateUserSummary.time_created)}}
-            </div>
             <div class="profile-text-item">
               Steam64ID : {{userSummary.steam64_id}}
             </div>
@@ -50,13 +46,11 @@
         <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
         <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
         <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Friends</a>
-        <a [ngClass]="{'selected-tab': currentTab==3, 'not-selected-tab': currentTab!=3}" (click)="showTab(3)">More</a>
-        <a [ngClass]="{'selected-tab': currentTab==4, 'not-selected-tab': currentTab!=4}" (click)="showTab(4)">Etc</a>
       </nav>
   </div>
 
   <div class="row justify-content-center" *ngIf="userStats_response==false && userSummary">
-    <div class="userStat-row col-md-6 userStat-container">
+    <div class="col-md-6 userStat-container">
       cant get game stats, make sure your profile is public
     </div>
   </div>
@@ -68,6 +62,9 @@
       <div *ngIf="currentTab==0">
         <div class="tab-title">
           General Information
+        </div>
+        <div *ngIf="privateUserSummary" class="userStat-item">
+          Account created in {{convertUnixTime(privateUserSummary.time_created)}}
         </div>
         <div class= "userStat-item">
           Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
@@ -82,7 +79,7 @@
 
       <div *ngIf="currentTab==1">
         <div class="tab-title">
-          Your top  3 most played game
+          Your top  3 most played games
         </div>
         <div *ngFor="let topGame of topGames; let i=index" class="userStat-item">
           {{i+1}}.

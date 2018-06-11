@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService, UserSummary } from '../config.service';
+import { APIService, UserSummary } from '../api.service';
+import { DisplayService } from '../display.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,14 +14,14 @@ export class NavbarComponent implements OnInit {
   accountError: string;
   currentAccountID: string;
 
-  constructor(private configService:ConfigService) { }
+  constructor(private apiService:APIService, private displayService: DisplayService) { }
 
   ngOnInit() {
     this.setAccount();
   }
 
   searchUser(steam64id: string){
-      this.configService.getUserInfo(steam64id).subscribe((data: UserSummary) =>
+      this.apiService.getUserInfo(steam64id).subscribe((data: UserSummary) =>
       { if(data['response']['players']){
           data = data['response']['players'][0];
           this.userSummary = {
@@ -35,11 +36,11 @@ export class NavbarComponent implements OnInit {
   }
 
   showStats(){
-    this.configService.show_stats(this.currentAccountID);
+    this.displayService.show_stats(this.currentAccountID);
   }
 
   setAccount(){
-    this.configService.getAccount().subscribe(data => {
+    this.apiService.getAccount().subscribe(data => {
       if(!data['steamID']){
         this.loggedIn = false;
       }
@@ -51,6 +52,6 @@ export class NavbarComponent implements OnInit {
         this.currentAccountID = data['steamID'];
         this.searchUser(data['steamID']);
       }
-    })
+    });
   }
 }

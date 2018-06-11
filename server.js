@@ -92,6 +92,11 @@ app.use('/friendList/', function(req, res) {
 
 app.use(express.static(__dirname + '/docs'));
 
+app.all('/*', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('/docs/index.html', { root: __dirname });
+});
+
 
 app.listen(process.env.PORT || app.get('port'), function(){
 	console.log("server is listening");

@@ -9,13 +9,27 @@ import {ChartModule} from 'primeng/chart';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchComponent } from './search/search.component';
 import { StatsComponent } from './stats/stats.component';
+import { MainComponent } from './main/main.component';
+import { RouterModule, Routes } from '@angular/router';
+import { FAQComponent } from './faq/faq.component';
+import { UserStatComponent } from './user-stat/user-stat.component';
+
+const appRoutes: Routes = [
+  { path: 'main', component: MainComponent },
+  { path: 'FAQ', component: FAQComponent },
+  { path: 'mystats', component: UserStatComponent},
+  { path: '', redirectTo: '/main', pathMatch:'full'}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SearchComponent,
-    StatsComponent
+    StatsComponent,
+    MainComponent,
+    FAQComponent,
+    UserStatComponent
   ],
   imports: [
     JsonpModule,
@@ -23,11 +37,11 @@ import { StatsComponent } from './stats/stats.component';
     HttpClientModule,
     HttpClientModule,
     FormsModule,
-    ChartModule
+    ChartModule,
+    RouterModule.forRoot(appRoutes, {enableTracing:true})
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }

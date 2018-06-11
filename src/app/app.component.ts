@@ -1,15 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { UserSummary, ConfigService } from './config.service';
+import { DisplayService } from './display.service';
+import { APIService } from './api.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  providers: [ ConfigService ],
+  providers: [ APIService, DisplayService ],
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  title = 'Check Your Steam Stats';
 
   constructor() {
   }

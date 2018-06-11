@@ -1,3 +1,7 @@
+<h1 class="center-text">
+  {{ title }}!
+</h1>
+
 <div class="row searchRow justify-content-center">
   <div class="col-md-5">
     <div class="row justify-content-center">
@@ -9,7 +13,7 @@
       </form>
       <div class="form-group mx-sm-2 mb-2">
       </div>
-      <form class="form-inline" (ngSubmit)="searchCustom(customUrl.value);" #customUrlForm="ngForm">
+      <form class="form-inline" (ngSubmit)="searchCustom(customUrl.value); customUrl.value='';" #customUrlForm="ngForm">
         <div class="form-group mx-sm-1 mb-2">
           <input type="text" class="form-control" #customUrl placeholder="Custom Url">
         </div>
