@@ -6,8 +6,8 @@
 
 .profile-picture{
   text-decoration: none;
-  min-width: 190px;
-  min-height: 190px;
+  width: 190px;
+  height: 190px;
 }
 
 .profile-name{
@@ -34,8 +34,8 @@
 }
 
 .userSummary-text{
-  min-height:180px;
-  min-width: 250px;
+  height:185px;
+  width: 260px;
   padding: 6px;
   background-color: #202328;
   border-radius: 10px;
@@ -43,8 +43,8 @@
   border-color: #888b91;
   border-width: 2px;
   color: white;
-  margin-top:5px;
   overflow-wrap: break-word;
+  margin-left: 5px;
 }
 
 .userStat-container{
@@ -231,5 +231,5 @@ a.not-selected-tab.active {
 .Away{background-color:yellow}
 .Snooze{background-color:orange}
 
-.pie,.bar{width:50%;height:100%;margin:10px;}
-#inline{width:100%;height:auto;display:flex;}
+.pie,.bar{width:50%;height:100%;margin:auto;}
+#inline{width:100%;height:auto;display:block;}

@@ -107,7 +107,7 @@ export class APIService {
     // return an observable with a user-facing error message
     if(error.status===500)
     return throwError(
-      'invalid steam64 ID, please enter a valid steam64 ID'
+      'invalid steam64 ID or custom URL, please enter a valid steam64 ID or custom URL'
     );
     else if(error.status==401)
     return throwError(

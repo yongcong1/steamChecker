@@ -105,20 +105,30 @@ export class StatsComponent implements OnInit {
     if(customUrl.slice(-1)=="/"){
       customUrl = customUrl.substring(0, customUrl.length-1);
     }
-    this.apiService.getUserSteamId(customUrl).subscribe(data => {
-      data=data['response'];
-      if(data['success']==1){
-        this.searchCustom_response = true;
-        this.search(data['steamid']);
-      }
-      else{
-        this.searchCustom_response = false;
-      }
-    },
-    error=>{
-      console.log("there is an error: " + error);
-      this.error = error;
-    });}
+    if(customUrl.includes("https://steamcommunity.com/profiles/")){
+      customUrl = customUrl.split("https://steamcommunity.com/profiles/")[1];
+      this.search(customUrl);
+    }
+    else{
+      this.apiService.getUserSteamId(customUrl).subscribe(data => {
+        data=data['response'];
+        if(data['success']==1){
+          this.searchCustom_response = true;
+          this.search(data['steamid']);
+        }
+        else if(data['success']==42){
+          this.search(customUrl);
+        }
+        else{
+          this.searchCustom_response = false;
+        }
+      },
+      error=>{
+        console.log("there is an error: " + error);
+        this.error = error;
+      });
+    }
+  }
 
     makeGameGraphs(data){
       let gameInfo = data.response.games
@@ -133,7 +143,12 @@ export class StatsComponent implements OnInit {
             '#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC','#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00',
             '#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
           }
-        ]
+        ],
+        options: {
+          legend: {
+            display: false
+          }
+        }
       }
     }
 
