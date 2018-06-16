@@ -16,7 +16,7 @@ app.use(session(
 
 app.set('port', 4200);
 
-var prod_addr = "https://steamchecker.info";
+var prod_addr = "http://steamchecker.info/";
 
 addr = prod_addr;
 
