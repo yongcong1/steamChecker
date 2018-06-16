@@ -3,6 +3,7 @@ body {
   background-color: #a2a8b2;
   padding: 0;
   margin: 0;
+  background-image: url("assets/Background.jpg");
 }
 
 html {

@@ -13,6 +13,7 @@ import { MainComponent } from './main/main.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FAQComponent } from './faq/faq.component';
 import { UserStatComponent } from './user-stat/user-stat.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: 'main', component: MainComponent },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ChartModule,
-    RouterModule.forRoot(appRoutes, {enableTracing:true})
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

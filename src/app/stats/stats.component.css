@@ -29,6 +29,44 @@
   text-align: left;
 }
 
+a.profile_link:link{
+  color:   white;
+}
+a.profile_link:visited{
+   color:   white;
+   text-decoration: none;
+}
+a.profile_link:hover{
+  font-weight: bold;
+  color: white;
+}
+a.profile_link:active{
+  color: white;
+}
+
+.profile-item{
+  margin-top:15px;
+}
+
+.status-text{
+  font-size: 10px;
+}
+
+.status-circle{
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  background-color: green;
+  display: inline-block;
+}
+
+.user-summary-row{
+  margin-top: 20px;
+}
+
 .userSummary-min-width{
   min-width: 800px;
 }
@@ -47,6 +85,27 @@
   margin-left: 5px;
 }
 
+
+.userSummary-image{
+  border-style: solid;
+  border-width: 1px;
+  border-color: #2e2e30;
+  border-radius: 10px;
+}
+
+.tab-title{
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: #8e9196;
+}
+
+.user-stats{
+  display:inline-block;
+  overflow: hidden;
+}
+
 .userStat-container{
   background-color: #202328;
   border-style: solid;
@@ -57,13 +116,12 @@
   text-align: center;
   min-height: 150px;
   color: white;
+  display:inline-block;
 }
 
-.userSummary-image{
-  border-style: solid;
-  border-width: 1px;
-  border-color: #2e2e30;
-  border-radius: 10px;
+.temp{
+  display:inline-block;
+  width:inherit;
 }
 
 .rounded-most-played-game-icon{
@@ -77,14 +135,6 @@
   border-width: 2px;
 }
 
-.button_gap{
-  margin-left: 15px;
-}
-
-.row2{
-    margin-top: 5px;
-}
-
 .userStat-row{
   margin-top:10px;
 }
@@ -94,61 +144,25 @@
   padding-bottom: 5px;
 }
 
-
-.user-summary-row{
-  margin-top: 20px;
-}
-
-.tab-title{
-  font-size: 20px;
-  font-weight: bold;
-  border-bottom: 2px;
-  border-bottom-style: solid;
-  border-bottom-color: #8e9196;
-}
-
 .friend-row{
   margin-top: 20px;
 }
 
-a.friend-link:link
-{
+a.friend-link:link{
   color:   white;
 }
-a.friend-link:visited
-{
+a.friend-link:visited{
    color:   white;
    text-decoration: none;
 }
-a.friend-link:hover
-{
+a.friend-link:hover{
   color: white;
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
 }
-a.friend-link:active
-{
+a.friend-link:active{
   color:   white;
-}
-
-a.profile_link:link
-{
-  color:   white;
-}
-a.profile_link:visited
-{
-   color:   white;
-   text-decoration: none;
-}
-a.profile_link:hover
-{
-  font-weight: bold;
-  color: white;
-}
-a.profile_link:active
-{
-  color: white;
 }
 
 a.selected-tab {
@@ -163,11 +177,9 @@ a.selected-tab {
   border-color: #888b91;
   cursor: pointer;
 }
-
 a.selected-tab:visited{
   color: black;
 }
-
 a.selected-tab:link {
   color: black;
 }
@@ -190,11 +202,9 @@ a.not-selected-tab {
   border-color: #888b91;
   cursor: pointer;
 }
-
 a.not-selected-tab:visited{
   color: white;
 }
-
 a.not-selected-tab:link {
   color: white;
 }
@@ -204,25 +214,6 @@ a.not-selected-tab:hover {
 }
 a.not-selected-tab.active {
   color: white;
-}
-
-.tab-gap{
-  margin-left: 2px;
-}
-
-.status-text{
-  font-size: 10px;
-}
-
-.status-circle{
-  width: 8px;
-  height: 8px;
-  border-radius: 8px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
-  background-color: green;
-  display: inline-block;
 }
 
 .Online{background-color:green}

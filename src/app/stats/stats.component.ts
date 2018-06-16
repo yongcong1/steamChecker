@@ -2,11 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { APIService, UserSummary,  UserStats, TopGames, Friends, PrivateUserSummary } from '../api.service';
 import { DisplayService } from '../display.service';
 import {ChartModule} from 'primeng/chart';
+import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.css']
+  styleUrls: ['./stats.component.css'],
+  animations: [
+    trigger('dropdown', [
+      state('in', style({transform: 'translateY(0)'})),
+      transition('void => *', [
+        animate(800, keyframes([
+          style({opacity: 0, transform: 'translateY(-100%)', offset: 0}),
+          style({opacity: 1, transform: 'translateY(30px)',  offset: 0.3}),
+          style({opacity: 1, transform: 'translateY(-15px)',  offset: 0.6}),
+          style({opacity: 1, transform: 'translateY(15px)',  offset: 0.8}),
+          style({opacity: 1, transform: 'translateY(0)',     offset: 1.0})
+        ]))
+      ])
+    ]),
+
+    trigger('switchTab', [
+      state('active', style({transform: 'translateX(0)'})),
+      state('inactive', style({transform: 'scale(0)'})),
+      transition('void => active', [
+        animate('500ms ease-out', keyframes([
+          style({opacity: 1, transform: 'translateX(-100%)', offset: 0}),
+          style({opacity: 1, transform: 'translateX(0)',     offset: 1.0}),
+        ]))
+      ])
+    ])
+  ]
 })
 
 export class StatsComponent implements OnInit {

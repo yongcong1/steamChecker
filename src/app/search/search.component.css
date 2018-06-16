@@ -1,4 +1,14 @@
 .center-text{
   text-align: center;
-  font-weight: bold;
+  font-size: 40px;
+}
+
+.inner{
+  overflow: hidden;
+  display: inline-block;
+}
+
+.contents{
+  display:inline-block;
+  white-space: nowrap;
 }

@@ -9,7 +9,7 @@
 
   <div class="col-md-12" *ngIf="userSummary && userSummary_response">
     <div class="row user-summary-row justify-content-center">
-      <div class="profile-picture">
+      <div class="profile-picture" [@dropdown]="'in'">
             <a href="{{userSummary.profile_url}}" target="_blank">
                 <img class="userSummary-image" src="{{userSummary.avatar}}">
             </a>
@@ -25,12 +25,14 @@
               <ng-template #elseBlock>{{userSummary.status}}</ng-template>
             </div>
           </div>
-          <div class="profile-text-item">
-            Steam64ID : {{userSummary.steam64_id}}
-          </div>
-          <div class= "profile-text-item">
-            <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">View Steam Profile
-            </a>
+          <div class="profile-item">
+            <div class="profile-text-item">
+              Steam64ID : {{userSummary.steam64_id}}
+            </div>
+            <div class= "profile-text-item">
+              <a class="profile_link" href="{{userSummary.profile_url}}" target="_blank">View Steam Profile
+              </a>
+            </div>
           </div>
         </div>
     </div>
@@ -47,9 +49,8 @@
 </div>
 
 <div class="row justify-content-center" *ngIf="userStats">
-  <div class="col-sm-5 userStat-container" *ngIf="userStats">
-
-    <div *ngIf="currentTab==0">
+  <div class="col-sm-5 user-stats userStat-container" *ngIf="userStats">
+    <div class="temp" *ngIf="currentTab==0" [@switchTab] = "currentTab==0 ? 'active':'inactive'">
       <div class="tab-title">
         General Information
       </div>
@@ -67,7 +68,7 @@
       </div>
     </div>
 
-    <div *ngIf="currentTab==1">
+    <div class="temp" *ngIf="currentTab==1" [@switchTab] = "currentTab==1 ? 'active':'inactive'">
       <div class="tab-title">
         Your top  3 most played games
       </div>
@@ -81,7 +82,7 @@
       </div>
     </div>
 
-    <div *ngIf="currentTab==2 && friends_info.length!=0">
+    <div class="temp" *ngIf="currentTab==2 && friends_info.length!=0"  [@switchTab] = "currentTab==2 ? 'active':'inactive'">
       <div class="tab-title">
         Your top 3 Oldest Friends that have public profile
       </div>
@@ -95,7 +96,7 @@
   </div>
 </div>
 
-<div class="row justify-content-center" *ngIf="userStats_response==false && userSummary">
+<div class="row justify-content-center" *ngIf="userStats_response==false && userSummary" [@switchTab] = "currentTab">
   <div class="col-sm-5 userStat-container">
     cant get game stats, make sure your profile is public
   </div>
