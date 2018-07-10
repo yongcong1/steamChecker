@@ -1,0 +1,92 @@
+.table{
+  margin: auto;
+  width: 60%;
+  margin-top: 3px;
+}
+
+.dropdown-cursor{
+  cursor: pointer;
+}
+
+a.dropdown-cursor:hover{
+  background-color:#007bff;
+}
+
+.option{
+  margin:auto;
+  width:60%;
+  margin-top: 10px;
+}
+
+.page-number{
+  width: 70px;
+  margin-left: 5px;
+}
+.page-right{
+  margin-right: 5px;
+}
+
+.table-title{
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.center-text{
+  text-align: center;
+}
+
+.page-button{
+  margin:auto;
+  width:60%;
+  margin-top: 5px;
+}
+
+.page-right{
+
+}
+
+a.app-name{
+  color: white;
+}
+a.app-name:visited{
+  color: white;
+}
+a.app-name:link {
+  color: white;
+}
+a.app-name:hover {
+  color: white;
+}
+a.app-name:active {
+  color: white;
+}
+
+a.page {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  padding: 5px 10px;
+  text-decoration: none;
+  display: inline-block;
+  background-color: #202328;
+  color: white;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #888b91;
+  cursor: pointer;
+}
+a.page:visited{
+  color: white;
+}
+a.page:link {
+  color: white;
+}
+a.page:hover {
+  background-color: black;
+  color: white;
+}
+a.page:active {
+  color: white;
+}

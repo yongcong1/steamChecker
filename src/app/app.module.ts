@@ -14,12 +14,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { FAQComponent } from './faq/faq.component';
 import { UserStatComponent } from './user-stat/user-stat.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { GameStatsComponent } from './game-stats/game-stats.component';
 
 const appRoutes: Routes = [
-  { path: 'main', component: MainComponent },
+  { path: '', component: MainComponent },
   { path: 'FAQ', component: FAQComponent },
   { path: 'mystats', component: UserStatComponent},
-  { path: '', redirectTo: '/main', pathMatch:'full'}
+  { path: 'gamestats', component: GameStatsComponent}
 ];
 
 @NgModule({
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     StatsComponent,
     MainComponent,
     FAQComponent,
-    UserStatComponent
+    UserStatComponent,
+    GameStatsComponent
   ],
   imports: [
     JsonpModule,

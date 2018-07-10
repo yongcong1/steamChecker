@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService, UserSummary } from '../api.service';
 import { DisplayService } from '../display.service';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,21 +37,22 @@ export class NavbarComponent implements OnInit {
   }
 
   showStats(){
-    this.displayService.show_stats(this.currentAccountID);
+    this.displayService.showStats(this.currentAccountID);
   }
 
   setAccount(){
     this.apiService.getAccount().subscribe(data => {
-      if(!data['steamID']){
+      let steamAccount = data['steamID'];
+      if(!steamAccount){
         this.loggedIn = false;
       }
-      else if(data['steamID']==""){
+      else if(steamAccount==""){
         this.accountError = "You are not logged in";
       }
       else{
         this.loggedIn = true;
-        this.currentAccountID = data['steamID'];
-        this.searchUser(data['steamID']);
+        this.currentAccountID = steamAccount;
+        this.searchUser(steamAccount);
       }
     });
   }

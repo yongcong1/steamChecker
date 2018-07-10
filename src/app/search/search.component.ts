@@ -51,12 +51,12 @@ export class SearchComponent implements AfterViewInit {
     console.log(this.currentState);
   }
 
-  searchCustom(custom_id){
-    this.displayService.custom_id(custom_id);
+  searchCustom(customID){
+    this.displayService.setCustomID(customID);
   }
 
   search(steam64ID){
-    this.displayService.show_stats(steam64ID);
+    this.displayService.showStats(steam64ID);
   }
 
 }

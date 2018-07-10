@@ -22,7 +22,7 @@ export class UserStatComponent implements OnInit {
       else if(data['steamID']==""){
       }
       else{
-        this.displayService.show_stats(data['steamID']);
+        this.displayService.showStats(data['steamID']);
       }
     });
   }

@@ -186,7 +186,7 @@ a.selected-tab:link {
 a.selected-tab:hover {
   color: black;
 }
-a.selected-tab.active {
+a.selected-tab:active {
   color: black;
 }
 
@@ -212,7 +212,7 @@ a.not-selected-tab:hover {
   background-color: black;
   color: white;
 }
-a.not-selected-tab.active {
+a.not-selected-tab:active {
   color: white;
 }
 

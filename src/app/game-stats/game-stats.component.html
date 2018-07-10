@@ -1,0 +1,67 @@
+<div class="table-title">
+  List of Steam games
+</div>
+
+<div *ngIf="!data" class="table center-text">
+  currently loading data
+</div>
+
+<div class="row table">
+  <div class="dropdown col-md" *ngIf="data">
+    displaying
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{pageSize}}
+    </button>
+    entries per page
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item dropdown-cursor" (click)="newPageSize(10)">10</a>
+      <a class="dropdown-item dropdown-cursor" (click)="newPageSize(25)">25</a>
+      <a class="dropdown-item dropdown-cursor" (click)="newPageSize(50)">50</a>
+      <a class="dropdown-item dropdown-cursor" (click)="newPageSize(100)">100</a>
+    </div>
+  </div>
+
+  <form class="form-inline float-md-right">
+    <label for="search" class="page-right">Search Game</label>
+    <input type="text" (input)="searchGameList($event.target.value)">
+  </form>
+</div>
+
+<table class="table table-dark" *ngIf="data">
+  <thead>
+    <tr class="d-flex">
+      <th scope="col" class="col-sm-2">#</th>
+      <th scope="col" class="col-sm-2">Appid</th>
+      <th scope="col" class="col-sm-6">Name</th>
+      <th scope="col" class="col-sm-2">Current Players</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let game of displayGameList; let i=index" class="d-flex">
+      <th scope="row" class="col-sm-2">{{(currentPage-1)*pageSize+i+1 | number}}</th>
+      <td class="col-sm-2">{{game.appid}}</td>
+      <td class="col-sm-6">
+        <a href="http://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
+          {{game.name}}
+        </a>
+      </td>
+      <td class="col-sm-2">{{game.player_count | number}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-button row" *ngIf="data">
+  <div class="col-md-8">
+    <form class="form-inline" (ngSubmit)="setPage(page.value); page.value='';">
+      <a class="page" (click)="setPage(1)">first</a>
+      <a class="page" (click)="previousPage()">previous</a>
+      <input type="text" class="form-control page-number page-left" id="page" #page placeholder="{{currentPage}}">
+      <label for="page" class="page-right">of {{lastPage}}</label>
+      <a class="page" (click)="nextPage()">next</a>
+      <a class="page" (click)="setPage(lastPage)">last</a>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <span class="page-seperate float-md-right">showing {{beginResult}} - {{endResult}} of {{totalGames}} entries</span>
+  </div>
+</div>

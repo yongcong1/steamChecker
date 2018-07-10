@@ -3,6 +3,7 @@ import { APIService, UserSummary,  UserStats, TopGames, Friends, PrivateUserSumm
 import { DisplayService } from '../display.service';
 import {ChartModule} from 'primeng/chart';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-stats',
@@ -56,13 +57,13 @@ export class StatsComponent implements OnInit {
   friends_info: UserSummary[] = [];
   friend_error: string;
 
-  constructor(private apiService: APIService, private displayService:DisplayService) {
-    displayService.show_stats$.subscribe(
+  constructor(private apiService: APIService, private displayService:DisplayService, private databaseService:DatabaseService) {
+    displayService.showStats$.subscribe(
       data => {
         this.search(data);
       }
     );
-    displayService.custom_id$.subscribe(
+    displayService.customID$.subscribe(
       data =>{
         this.searchCustom(data);
       }

@@ -8,17 +8,17 @@ import { Observable, Subject } from 'rxjs';
 
 export class DisplayService {
 
-  show_stats_source = new Subject<string>();
-  show_stats$ = this.show_stats_source.asObservable();
-  custom_id_source = new Subject<string>();
-  custom_id$ = this.custom_id_source.asObservable();
+  showStatsSource = new Subject<string>();
+  showStats$ = this.showStatsSource.asObservable();
+  customIdSource = new Subject<string>();
+  customID$ = this.customIdSource.asObservable();
   constructor() { }
 
-  show_stats(steam64ID){
-    this.show_stats_source.next(steam64ID);
+  showStats(steam64ID){
+    this.showStatsSource.next(steam64ID);
   }
 
-  custom_id(custom_id){
-    this.custom_id_source.next(custom_id);
+  setCustomID(customId){
+    this.customIdSource.next(customId);
   }
 }
