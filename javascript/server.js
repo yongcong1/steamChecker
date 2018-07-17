@@ -10,7 +10,7 @@ const url = "mongodb://localhost:27017/";
 
 var databaseServiceObj;
 
-var totalPartition = 10;
+var totalPartition = 1000;
 var currentPartition = 0;
 
 app.use(bodyParser.json());
@@ -28,6 +28,8 @@ app.use(session(
 app.set('port', 4200 || process.env.PORT);
 
 var addr = "http://steamchecker.info/";
+
+//var addr = "http://localhost:4200";
 
 relyingParty = new openid.RelyingParty(
 	addr + "verify",
@@ -67,77 +69,34 @@ app.use('/Verify', function(req, res) {
       });
 });
 
-app.get('/testing', function(req, res){
+/*app.get('/testing', function(req, res){
 	req.session.steamID = '76561198021742536';
 	res.redirect("/");
-});
+});*/
 
 app.get('/account', function(req, res){
 	return res.json({"steamID": req.session.steamID , "sessionID": req.sessionID});
 });
 
 app.get('/updategames', function(req, res){
-	gameDBSetup = false;
-	updateGames();
+	updateGames(function(){});
+	res.redirect("/");
 });
 
-//updateGames();
+app.get('/testgames', function(req, res){
+	databaseServiceObj.findGame(function(data){
+		console.log(data);
+	});
+	res.redirect("/");
+});
 
-function updateGames(callback){
+function updateGames(){
 	var url = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json';
+	//var url = 'http://steamspy.com/api.php?request=all';
 	request(url, function(err, res, body){
 		let gameJson = JSON.parse(body);
 		databaseServiceObj.createGameEntry(gameJson['applist']['apps'], function(data){
-			if(data==="finished"){
-				callback(true);
-			}
 		});
-	});
-}
-
-//intervalUpdateCurrentPlayer();
-
-function intervalUpdateCurrentPlayer(){
-	updatecurrentPlayers(currentPartition,totalPartition);
-	currentPartition++;
-	if(currentPartition>=totalPartition) currentPartition=0;
-	setTimeout(intervalUpdateCurrentPlayer, (3600/totalPartition)*1000);
-}
-
-function updatecurrentPlayers(number, total){
-	databaseServiceObj.findGame(function(data){
-		let starting = Math.floor((number/total) * data.length);
-		let ending = Math.floor(((number+1)/total) * data.length);
-		(function loop(i, end, data){
-			setTimeout(function(){
-				updatePlayerCount(data[i]);
-				i++;
-				if(i<end && i<data.length){
-					loop(i, end, data);
-				}
-			}, 50);
-		})(starting, ending, data);
-		function updatePlayerCount(result){
-			let url = 'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1?appid=' + result.appid;
-			request(url, function(err, res, body){
-				if(!res){ updatePlayerCount(result); }
-				else if(res.statusCode == 200){
-					let currentPlayerJSON = JSON.parse(body);
-					let currentPlayerCount = 0;
-					if(currentPlayerJSON['response']['result'] == 1){
-						currentPlayerCount = currentPlayerJSON['response']['player_count'];
-					}
-					let currentPlayer = {"player_count":currentPlayerCount};
-					databaseServiceObj.updateGameEntry(currentPlayer, result.appid, function(data){
-					});
-				}
-				else{
-					let currentPlayer = {"player_count":-1};
-					databaseServiceObj.updateGameEntry(currentPlayer, result.appid, function(data){
-					});
-				}
-			});
-		}
 	});
 }
 
@@ -150,11 +109,6 @@ app.get('/games', function(req, res){
 app.get('/signout', function(req, res){
 	req.session.steamID = '';
 	res.redirect("/");
-});
-
-app.use('/allgames', function(req, res){
-	//var url = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json';
-	//request(url).pipe(res);
 });
 
 app.use('/customURL/', function(req, res) {
@@ -180,7 +134,6 @@ app.use('/friendList/', function(req, res) {
 app.use(express.static(__dirname + '/../docs'));
 
 app.all('/*', function(req, res, next) {
-    // Just send the index.html for other files to support HTML5Mode
     res.sendFile('/docs/index.html', { root: __dirname + '/../'});
 });
 
@@ -190,10 +143,5 @@ MongoClient.connect(url, function(err, database){
 	app.listen(process.env.PORT || 4200, function(){
 		console.log("server is listening");
 	});
-	databaseServiceObj = new databaseService(db)
-	/*updateGames(function(data){
-		if(data){
-			intervalUpdateCurrentPlayer();
-		}
-	});*/
+	databaseServiceObj = new databaseService(db);
 });

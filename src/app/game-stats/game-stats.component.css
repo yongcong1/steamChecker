@@ -4,6 +4,10 @@
   margin-top: 3px;
 }
 
+.table-header{
+  cursor: pointer;
+}
+
 .dropdown-cursor{
   cursor: pointer;
 }
@@ -18,9 +22,15 @@ a.dropdown-cursor:hover{
   margin-top: 10px;
 }
 
+.center-text{
+  text-align: center;
+}
+
 .page-number{
-  width: 70px;
+  text-align: center;
+  width: 60px;
   margin-left: 5px;
+  margin-right: 3px;
 }
 .page-right{
   margin-right: 5px;

@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <form class="form-inline float-md-right">
+  <form class="form-inline float-md-right" *ngIf="data">
     <label for="search" class="page-right">Search Game</label>
     <input type="text" (input)="searchGameList($event.target.value)">
   </form>
@@ -30,22 +30,51 @@
 <table class="table table-dark" *ngIf="data">
   <thead>
     <tr class="d-flex">
-      <th scope="col" class="col-sm-2">#</th>
-      <th scope="col" class="col-sm-2">Appid</th>
-      <th scope="col" class="col-sm-6">Name</th>
-      <th scope="col" class="col-sm-2">Current Players</th>
+      <th scope="col" class="col-sm-1 center-text">#</th>
+      <th scope="col" class="col-sm-1 center-text"><a class="table-header" (click)="sortAppid(appidSortOrder)">Appid
+        <span *ngIf="appidSortOrder==1; else appidSortOrders">▲</span>
+        <ng-template #appidSortOrders>▼</ng-template>
+      </a></th>
+      <th scope="col" class="col-sm-6 center-text"><a class="table-header" (click)="sortName(nameSortOrder)">Name
+        <span *ngIf="nameSortOrder==1; else nameSortOrders">▲</span>
+        <ng-template #nameSortOrders>▼</ng-template>
+      </a></th>
+      <th scope="col" class="col-sm-2 center-text"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
+        <span *ngIf="playerCountSortOrder==1; else playerCountSortOrders">▲</span>
+        <ng-template #playerCountSortOrders>▼</ng-template>
+      </a></th>
+      <th scope="col" class="col-sm-2 center-text"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
+        <span *ngIf="maxPlayerCountSortOrder==1; else maxPlayerCountSortOrders">▲</span>
+        <ng-template #maxPlayerCountSortOrders>▼</ng-template>
+      </a></th>
     </tr>
   </thead>
+
   <tbody>
     <tr *ngFor="let game of displayGameList; let i=index" class="d-flex">
-      <th scope="row" class="col-sm-2">{{(currentPage-1)*pageSize+i+1 | number}}</th>
-      <td class="col-sm-2">{{game.appid}}</td>
-      <td class="col-sm-6">
+      <th scope="row" class="col-sm-1 center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
+      <td class="col-sm-1 center-text">{{game.appid}}</td>
+      <td class="col-sm-6 center-text">
         <a href="http://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
           {{game.name}}
         </a>
       </td>
-      <td class="col-sm-2">{{game.player_count | number}}</td>
+      <td class="col-sm-2 center-text">
+        <span *ngIf="game.player_count">
+          {{game.player_count[game.player_count.length-1].player_count | number}}
+        </span>
+        <span *ngIf="!game.player_count">
+          none
+        </span>
+      </td>
+      <td class="col-sm-2 center-text">
+        <span *ngIf="game.max_player_count">
+          {{game.max_player_count | number}}
+        </span>
+        <span *ngIf="!game.max_player_count">
+          none
+        </span>
+      </td>
     </tr>
   </tbody>
 </table>

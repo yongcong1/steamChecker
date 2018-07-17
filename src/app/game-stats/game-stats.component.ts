@@ -8,9 +8,9 @@ import { DatabaseService } from '../database.service';
   styleUrls: ['./game-stats.component.css']
 })
 export class GameStatsComponent implements OnInit {
-  data: any;
-  searchData: any;
-  displayGameList: any[] = [];
+  data: any; //holds the data queried from database
+  searchData: any; //main data list to display
+  displayGameList: any[] = []; //games data on pages
   pageSize: number;
   currentPage: number;
   lastPage: number;
@@ -18,27 +18,98 @@ export class GameStatsComponent implements OnInit {
   totalGames: number;
   beginResult: number;
   endResult: number;
+  currentPlayerCount: number;
+  appidSortOrder: number;
+  nameSortOrder: number;
+  playerCountSortOrder: number;
+  maxPlayerCountSortOrder: number;
 
   constructor(private apiService: APIService, private databaseService: DatabaseService) { }
 
   ngOnInit() {
     this.currentPage = 1;
     this.pageSize = 10;
+    this.appidSortOrder = 1;
+    this.nameSortOrder = 1;
+    this.playerCountSortOrder = -1;
+    this.maxPlayerCountSortOrder = -1;
     this.showGameList();
   }
 
   showGameList(){
     this.databaseService.getGameList().subscribe(data => {
+      console.log(data);
       this.data = data;
       this.data.sort((t1,t2) => {
-        if(t1.player_count > t2.player_count) return -1;
-        if(t1.player_count < t2.player_count) return 1;
+        if(!t1.player_count && !t2.player_count) return 0;
+        else if(!t1.player_count) return 1;
+        else if(!t2.player_count) return -1;
+        if(t1.player_count[t1.player_count.length-1].player_count > t2.player_count[t2.player_count.length-1].player_count) return -1;
+        if(t1.player_count[t1.player_count.length-1].player_count < t2.player_count[t2.player_count.length-1].player_count) return 1;
         return 0;
       });
       this.searchData = data;
       this.refreshGameList();
-      this.refreshPageList();
     });
+  }
+
+  sortAppid(sortOrder){
+    //-1 reverse sort
+    //1 regular sort
+    console.log(sortOrder);
+    this.appidSortOrder *= -1;
+    this.searchData.sort((t1,t2) => {
+      if(t1.appid > t2.appid) return sortOrder*-1;
+      if(t1.appid < t2.appid) return sortOrder;
+      return 0;
+    });
+    this.currentPage = 1;
+    this.refreshGameList();
+  }
+
+  sortName(sortOrder){
+    //-1 reverse sort
+    //1 regular sort
+    console.log(sortOrder);
+    this.nameSortOrder *= -1;
+    this.searchData.sort((t1,t2) => {
+      if(t1.name > t2.name) return sortOrder*-1;
+      if(t1.name < t2.name) return sortOrder;
+      return 0;
+    });
+    this.currentPage = 1;
+    this.refreshGameList();
+  }
+
+  sortPlayerCount(sortOrder){
+    console.log(sortOrder);
+    //-1 reverse sort
+    //1 regular sort
+    this.playerCountSortOrder *= -1;
+    this.searchData.sort((t1,t2) => {
+    if(!t1.player_count && !t2.player_count) return 0;
+    else if(!t1.player_count) return sortOrder;
+    else if(!t2.player_count) return -1*sortOrder;
+    if(t1.player_count[t1.player_count.length-1].player_count > t2.player_count[t2.player_count.length-1].player_count) return -1*sortOrder;
+    if(t1.player_count[t1.player_count.length-1].player_count < t2.player_count[t2.player_count.length-1].player_count) return sortOrder;
+    return 0;
+    });
+    this.currentPage = 1;
+    this.refreshGameList();
+  }
+
+  sortMaxPlayerCount(sortOrder){
+    console.log(sortOrder);
+    //-1 reverse sort
+    //1 regular sort
+    this.maxPlayerCountSortOrder *= -1;
+    this.searchData.sort((t1,t2) => {
+    if(t1.max_player_count > t2.max_player_count) return -1*sortOrder;
+    if(t1.max_player_count < t2.max_player_count) return sortOrder;
+    return 0;
+    });
+    this.currentPage = 1;
+    this.refreshGameList();
   }
 
   searchGameList(searchString){
@@ -51,10 +122,8 @@ export class GameStatsComponent implements OnInit {
         }
       }
     }
-    console.log(this.searchData);
     this.currentPage = 1;
     this.refreshGameList();
-    this.refreshPageList();
   }
 
   refreshGameList(){
@@ -75,6 +144,7 @@ export class GameStatsComponent implements OnInit {
       }
       this.endResult = this.searchData.length;
     }
+    this.refreshPageList();
   }
 
   refreshPageList(){
@@ -113,6 +183,5 @@ export class GameStatsComponent implements OnInit {
     this.pageSize = pageSize;
     this.currentPage = 1;
     this.refreshGameList();
-    this.refreshPageList();
   }
 }
