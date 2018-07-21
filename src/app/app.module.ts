@@ -1,20 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
 import {JsonpModule, Jsonp, Response} from '@angular/http';
 import { environment } from './../environments/environment';
 import { FormsModule} from '@angular/forms';
 import {ChartModule} from 'primeng/chart';
-import { NavbarComponent } from './navbar/navbar.component';
-import { SearchComponent } from './search/search.component';
-import { StatsComponent } from './stats/stats.component';
-import { MainComponent } from './main/main.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FAQComponent } from './faq/faq.component';
-import { UserStatComponent } from './user-stat/user-stat.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { GameStatsComponent } from './game-stats/game-stats.component';
+
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
+import { SearchComponent } from './Components/search/search.component';
+import { StatsComponent } from './Components/stats/stats.component';
+import { MainComponent } from './Components/main/main.component';
+import { FAQComponent } from './Components/faq/faq.component';
+import { UserStatComponent } from './Components/user-stat/user-stat.component';
+import { GameStatsComponent } from './Components/game-stats/game-stats.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },

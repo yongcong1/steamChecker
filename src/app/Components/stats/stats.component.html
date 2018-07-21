@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<div id="inline" *ngIf="gameStats && currentTab==1 && userStats">
+<div class= "d-none d-lg-block" id="inline" *ngIf="gameStats && currentTab==1 && userStats">
   <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
   <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
 </div>

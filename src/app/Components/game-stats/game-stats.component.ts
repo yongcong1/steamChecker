@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../api.service';
-import { DatabaseService } from '../database.service';
+import { APIService } from '../../Services/api.service';
+import { DatabaseService } from '../../Services/database.service';
 
 @Component({
   selector: 'app-game-stats',
@@ -63,8 +63,7 @@ export class GameStatsComponent implements OnInit {
       if(t1.appid < t2.appid) return sortOrder;
       return 0;
     });
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 
   sortName(sortOrder){
@@ -77,8 +76,7 @@ export class GameStatsComponent implements OnInit {
       if(t1.name < t2.name) return sortOrder;
       return 0;
     });
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 
   sortPlayerCount(sortOrder){
@@ -94,8 +92,7 @@ export class GameStatsComponent implements OnInit {
     if(t1.player_count[t1.player_count.length-1].player_count < t2.player_count[t2.player_count.length-1].player_count) return sortOrder;
     return 0;
     });
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 
   sortMaxPlayerCount(sortOrder){
@@ -108,8 +105,7 @@ export class GameStatsComponent implements OnInit {
     if(t1.max_player_count < t2.max_player_count) return sortOrder;
     return 0;
     });
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 
   searchGameList(searchString){
@@ -122,8 +118,7 @@ export class GameStatsComponent implements OnInit {
         }
       }
     }
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 
   refreshGameList(){
@@ -160,28 +155,23 @@ export class GameStatsComponent implements OnInit {
       if(pageNumber <= 0) this.currentPage = 1;
       else if(pageNumber > this.lastPage) this.currentPage = this.lastPage;
       else this.currentPage = pageNumber;
-      this.refreshGameList();
     }
     else{
       this.currentPage = 1;
     }
+    this.refreshGameList();
   }
 
   previousPage(){
-    this.currentPage--;
-    if(this.currentPage<=0) this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(this.currentPage-1);
   }
 
   nextPage(){
-    this.currentPage++;
-    if(this.currentPage>this.lastPage) this.currentPage = this.lastPage;
-    this.refreshGameList();
+    this.setPage(this.currentPage+1);
   }
 
   newPageSize(pageSize){
     this.pageSize = pageSize;
-    this.currentPage = 1;
-    this.refreshGameList();
+    this.setPage(1);
   }
 }

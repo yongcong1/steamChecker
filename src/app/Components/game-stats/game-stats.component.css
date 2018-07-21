@@ -1,7 +1,26 @@
-.table{
+@media (max-width: 576px) {
+
+  [class*="col-"] {
+      margin-bottom: 5px;
+  }
+
+  .table-position{
+    margin-top: 0px;
+  }
+
+}
+
+.page-buttons{
+  display:flex;
+}
+
+.table-position{
+  margin-top: 7px;
+}
+
+.page-layout{
   margin: auto;
-  width: 60%;
-  margin-top: 3px;
+  max-width: 1000px;
 }
 
 .table-header{
@@ -10,6 +29,10 @@
 
 .dropdown-cursor{
   cursor: pointer;
+}
+
+.search-bar{
+  float:right;
 }
 
 a.dropdown-cursor:hover{
@@ -26,18 +49,22 @@ a.dropdown-cursor:hover{
   text-align: center;
 }
 
+.form-display-inline{
+  display:inline;
+}
+
 .page-number{
   text-align: center;
   width: 60px;
   margin-left: 5px;
   margin-right: 3px;
 }
+
 .page-right{
   margin-right: 5px;
 }
 
 .table-title{
-  text-align: center;
   font-size: 25px;
   font-weight: bold;
 }
@@ -46,15 +73,6 @@ a.dropdown-cursor:hover{
   text-align: center;
 }
 
-.page-button{
-  margin:auto;
-  width:60%;
-  margin-top: 5px;
-}
-
-.page-right{
-
-}
 
 a.app-name{
   color: white;

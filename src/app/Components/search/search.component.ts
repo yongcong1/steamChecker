@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { DisplayService } from '../display.service';
+import { DisplayService } from '../../Services/display.service';
 import { trigger,state,style,transition,animate,keyframes,group } from '@angular/animations';
 
 @Component({

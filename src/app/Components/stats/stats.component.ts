@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService, UserSummary,  UserStats, TopGames, Friends, PrivateUserSummary } from '../api.service';
-import { DisplayService } from '../display.service';
 import {ChartModule} from 'primeng/chart';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
-import { DatabaseService } from '../database.service';
+
+import { APIService, UserSummary,  UserStats, TopGames, Friends, PrivateUserSummary } from '../../Services/api.service';
+import { DisplayService } from '../../Services/display.service';
+import { DatabaseService } from '../../Services/database.service';
 
 @Component({
   selector: 'app-stats',
@@ -236,7 +237,7 @@ export class StatsComponent implements OnInit {
           }
           var topgame:TopGames = {
               most_played_game_appid: time['appid'],
-              most_played_game_icon: "http://media.steampowered.com/steamcommunity/public/images/apps/" +
+              most_played_game_icon: "https://steamcdn-a.opskins.media/steamcommunity/public/images/apps/" +
               time['appid']+ "/" + time['img_icon_url']+".jpg",
               most_played_game_name: time['name'],
               most_played_game_time_hr: Math.floor(time['playtime_forever']/60),

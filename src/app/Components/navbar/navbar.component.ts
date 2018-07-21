@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService, UserSummary } from '../api.service';
-import { DisplayService } from '../display.service';
-import { DatabaseService } from '../database.service';
+import { APIService, UserSummary } from '../../Services/api.service';
+import { DisplayService } from '../../Services/display.service';
+import { DatabaseService } from '../../Services/database.service';
 
 @Component({
   selector: 'app-navbar',

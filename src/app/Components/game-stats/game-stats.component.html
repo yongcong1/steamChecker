@@ -1,0 +1,105 @@
+<div class="page-layout">
+  <div class="table-title center-text">
+    List of Steam Games
+  </div>
+
+  <div *ngIf="!data" class="center-text">
+    currently loading data
+  </div>
+
+  <div class="row">
+    <div class="dropdown col-sm-6 text-center text-sm-left" *ngIf="data">
+      Displaying
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{pageSize}}
+      </button>
+      Entries Per Page
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item dropdown-cursor" (click)="newPageSize(10)">10</a>
+        <a class="dropdown-item dropdown-cursor" (click)="newPageSize(25)">25</a>
+        <a class="dropdown-item dropdown-cursor" (click)="newPageSize(50)">50</a>
+        <a class="dropdown-item dropdown-cursor" (click)="newPageSize(100)">100</a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 mt-auto" *ngIf="data">
+      <div class="row float-sm-right">
+        <div class="col-12 text-center">
+          Search Game
+          <input type="text" (input)="searchGameList($event.target.value)">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive-xl table-position">
+    <table class="table table-dark" *ngIf="data">
+      <thead>
+        <tr class="d-flex">
+          <th scope="col" class="col-1 center-text">#</th>
+          <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortAppid(appidSortOrder)">Appid
+            <span *ngIf="appidSortOrder==1; else appidSortOrders">▲</span>
+            <ng-template #appidSortOrders>▼</ng-template>
+          </a></th>
+          <th scope="col" class="col-5 center-text"><a class="table-header" (click)="sortName(nameSortOrder)">Name
+            <span *ngIf="nameSortOrder==1; else nameSortOrders">▲</span>
+            <ng-template #nameSortOrders>▼</ng-template>
+          </a></th>
+          <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
+            <span *ngIf="playerCountSortOrder==1; else playerCountSortOrders">▲</span>
+            <ng-template #playerCountSortOrders>▼</ng-template>
+          </a></th>
+          <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
+            <span *ngIf="maxPlayerCountSortOrder==1; else maxPlayerCountSortOrders">▲</span>
+            <ng-template #maxPlayerCountSortOrders>▼</ng-template>
+          </a></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let game of displayGameList; let i=index" class="d-flex">
+          <th scope="row" class="col-1 center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
+          <td class="col-2 center-text">{{game.appid}}</td>
+          <td class="col-5 center-text">
+            <a href="http://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
+              {{game.name}}
+            </a>
+          </td>
+          <td class="col-2 center-text">
+            <span *ngIf="game.player_count">
+              {{game.player_count[game.player_count.length-1].player_count | number}}
+            </span>
+            <span *ngIf="!game.player_count">
+              none
+            </span>
+          </td>
+          <td class="col-2 center-text">
+            <span *ngIf="game.max_player_count">
+              {{game.max_player_count | number}}
+            </span>
+            <span *ngIf="!game.max_player_count">
+              none
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" *ngIf="data">
+    <div class="col-sm-7">
+      <div class="row">
+        <div class = "col-12 text-center text-sm-left">
+            <a class="page" (click)="setPage(1)">first</a>
+            <a class="page" (click)="previousPage()">previous</a>
+            <form class="form-display-inline" (ngSubmit)="setPage(page.value); page.value='';">
+              <input type="text" class="page-number page-left" id="page" #page placeholder="{{currentPage}}"><span class="d-none d-md-inline page-right">of {{lastPage}}</span>
+            </form>
+            <a class="page" (click)="nextPage()">next</a>
+            <a class="page" (click)="setPage(lastPage)">last</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-5 text-center">
+      <span class="page-seperate float-sm-right">showing {{beginResult}} - {{endResult}} of {{totalGames}} entries</span>
+    </div>
+  </div>
+</div>

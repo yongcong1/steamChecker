@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../api.service';
-import { DisplayService } from '../display.service';
+import { APIService } from '../../Services/api.service';
+import { DisplayService } from '../../Services/display.service';
 
 @Component({
   selector: 'app-user-stat',
