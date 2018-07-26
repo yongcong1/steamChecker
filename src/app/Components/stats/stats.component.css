@@ -1,3 +1,11 @@
+@media (max-width: 576px) {
+
+  .mobile-margin-top{
+    margin-top: 15px;
+  }
+
+}
+
 .profile{
   text-decoration: none;
   width: 190px;
@@ -77,9 +85,6 @@ a.profile_link:active{
   padding: 6px;
   background-color: #202328;
   border-radius: 10px;
-  border-style: solid;
-  border-color: #888b91;
-  border-width: 2px;
   color: white;
   overflow-wrap: break-word;
   margin-left: 5px;
@@ -89,8 +94,9 @@ a.profile_link:active{
 .userSummary-image{
   border-style: solid;
   border-width: 1px;
-  border-color: #2e2e30;
+  border-color: grey;
   border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3)
 }
 
 .tab-title{
@@ -108,18 +114,17 @@ a.profile_link:active{
 
 .userStat-container{
   background-color: #202328;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #888b91;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 5px;
   border-radius: 10px;
   text-align: center;
   min-height: 150px;
   color: white;
   display:inline-block;
+  margin-top: 5px;
 }
 
-.temp{
+.tabs{
   display:inline-block;
   width:inherit;
 }
@@ -172,10 +177,9 @@ a.selected-tab {
   background-color: white;
   color: black;
   border-radius: 5px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #888b91;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
+  margin-right: 5px;
 }
 a.selected-tab:visited{
   color: black;
@@ -184,6 +188,7 @@ a.selected-tab:link {
   color: black;
 }
 a.selected-tab:hover {
+  box-shadow: none;
   color: black;
 }
 a.selected-tab:active {
@@ -197,10 +202,9 @@ a.not-selected-tab {
   background-color: #202328;
   color: white;
   border-radius: 5px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #888b91;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
+  margin-right: 5px;
 }
 a.not-selected-tab:visited{
   color: white;
@@ -210,6 +214,7 @@ a.not-selected-tab:link {
 }
 a.not-selected-tab:hover {
   background-color: black;
+  box-shadow: none;
   color: white;
 }
 a.not-selected-tab:active {

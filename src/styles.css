@@ -1,18 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  background-color: #a2a8b2;
+  background-color: white;
   padding: 0;
   margin: 0;
-  background-image: url("assets/Background.jpg");
 }
 
-.view-height{
-  min-height: 95vh;
-}
 
 html {
   overflow: -moz-scrollbars-vertical;
   overflow-y: scroll;
+  overflow-x: auto;
 }
 
 footer{

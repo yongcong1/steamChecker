@@ -1,0 +1,36 @@
+.background{
+  background-image: url("/assets/background.jpg");
+  color: white;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 91vh;
+}
+
+.header-image{
+  width: 460px;
+  height: 215px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: grey;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.game-title{
+  text-shadow: 1px 1px 2px black, 0 0 1px white, 0 0 4px white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.vertical-gap{
+  margin-top: 10px;
+}
+
+.playerCountChart{
+  width:40%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3);
+}

@@ -11,4 +11,8 @@ export class DatabaseService {
   getGameList(){
     return this.http.get('/games');
   }
+
+  getGameDetail(appid){
+    return this.http.get('/gameDetail/' + appid);
+  }
 }

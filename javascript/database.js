@@ -1,14 +1,30 @@
-var  db;
-
+var db;
 class DatabaseService{
   constructor(database){
     db = database;
   }
 
-  findGame(callback){
+  findGames(callback){
     let games = db.collection('games');
-    games.find({'player_count.player_count':{$gte:1}} , {projection:{ _id: 0, 'player_count.time' : 0, player_count: {$slice:-1}}}).sort({appid:1}).toArray(function(err, cursor){
-      return callback(cursor);
+    games.aggregate(
+    [
+    {$sort: {appid:1}},
+    {$match : {'max_player_count':{$gt:0}}} ,
+    {$project:{ _id: 0, 'current_player': 1, 'appid': 1, 'name': 1, 'max_player_count':1}},
+    {$sort: {appid: 1}}
+    ], function(err, result){ result.toArray(function(err, cursor){
+      callback(cursor);
+    })});
+  }
+
+  findGamebyID(gameAppID, callback){
+    let games = db.collection('games');
+    games.findOne({appid : parseInt(gameAppID)}, {fields:{ _id: 0}}, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      console.log(result);
+      callback(result);
     });
   }
 

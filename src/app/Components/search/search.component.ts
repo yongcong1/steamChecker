@@ -30,7 +30,7 @@ import { trigger,state,style,transition,animate,keyframes,group } from '@angular
     ]),
 
     trigger('title', [
-      state('in', style({width: '*', overflow: 'hidden'})),
+      state('in', style({width: '*', overflow: 'visible'})),
       transition('void => *', [
         style({width: 0, overflow: 'hidden'}),
         animate(500, style({width: '*', overflow: 'hidden'}))

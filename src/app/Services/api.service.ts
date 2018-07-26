@@ -84,6 +84,14 @@ export class APIService {
     );
   }
 
+  steamAppDetail = '/steamGameDetail';
+  getSteamDetails(gameID: string){
+    return this.http.get(this.steamAppDetail + "?appids="+ gameID).pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
   getAccount(){
     return this.http.get('/account').pipe(
       retry(1),

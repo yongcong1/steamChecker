@@ -12,3 +12,15 @@
   display:inline-block;
   white-space: nowrap;
 }
+
+.form-control{
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);
+}
+
+.form-control:focus{
+  box-shadow: none;
+}
+
+strong{
+  text-shadow: 1px 1px 2px black, 0 0 1px white, 0 0 4px white;
+}

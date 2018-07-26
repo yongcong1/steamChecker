@@ -84,7 +84,7 @@ app.get('/updategames', function(req, res){
 });
 
 app.get('/testgames', function(req, res){
-	databaseServiceObj.findGame(function(data){
+	databaseServiceObj.findGames(function(data){
 		console.log(data);
 	});
 	res.redirect("/");
@@ -92,7 +92,6 @@ app.get('/testgames', function(req, res){
 
 function updateGames(){
 	var url = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json';
-	//var url = 'http://steamspy.com/api.php?request=all';
 	request(url, function(err, res, body){
 		let gameJson = JSON.parse(body);
 		databaseServiceObj.createGameEntry(gameJson['applist']['apps'], function(data){
@@ -101,9 +100,16 @@ function updateGames(){
 }
 
 app.get('/games', function(req, res){
-		databaseServiceObj.findGame(function(data){
+		databaseServiceObj.findGames(function(data){
 			res.send(data);
 		});
+});
+
+app.get('/gameDetail/:appid', function(req, res){
+	let appid = req.params.appid;
+	databaseServiceObj.findGamebyID(appid, function(data){
+		res.send(data);
+	});
 });
 
 app.get('/signout', function(req, res){
@@ -127,7 +133,12 @@ app.use('/userStats/', function(req, res) {
 });
 
 app.use('/friendList/', function(req, res) {
-	var url = ' http://api.steampowered.com/ISteamUser/GetFriendList/v0001/'+ '?key=' + apiKey + req.url.substring(1);
+	var url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/'+ '?key=' + apiKey + req.url.substring(1);
+	request(url).pipe(res);
+});
+
+app.use('/steamGameDetail/', function(req, res){
+	var url = 'https://store.steampowered.com/api/appdetails' + req.url.substring(1);
 	request(url).pipe(res);
 });
 

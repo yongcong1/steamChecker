@@ -16,12 +16,14 @@ import { MainComponent } from './Components/main/main.component';
 import { FAQComponent } from './Components/faq/faq.component';
 import { UserStatComponent } from './Components/user-stat/user-stat.component';
 import { GameStatsComponent } from './Components/game-stats/game-stats.component';
+import { GameStatsDetailComponent } from './Components/game-stats-detail/game-stats-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'FAQ', component: FAQComponent },
   { path: 'mystats', component: UserStatComponent},
-  { path: 'gamestats', component: GameStatsComponent}
+  { path: 'gamestats', component: GameStatsComponent},
+  { path: 'gamestats/:appid', component: GameStatsDetailComponent}
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     MainComponent,
     FAQComponent,
     UserStatComponent,
-    GameStatsComponent
+    GameStatsComponent,
+    GameStatsDetailComponent
   ],
   imports: [
     JsonpModule,

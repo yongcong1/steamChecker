@@ -1,6 +1,6 @@
 .FAQ-title{
   font-weight: bold;
-  font-size: 25px;
+  font-size: 40px;
   margin-top: 15px;
 }
 
@@ -13,4 +13,17 @@
   font-weight: bold;
   font-size: 20px;
   margin-top: 10px;
+}
+
+.background{
+  background-image: url("/assets/background.jpg");
+  color: white;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 91vh;
+}
+
+strong{
+  text-shadow: 1px 1px 2px black, 0 0 1px white, 0 0 4px white;
 }

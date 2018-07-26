@@ -1,0 +1,33 @@
+<div class="background" *ngIf="!steamData || !data">
+  <div class="row justify-content-center">
+    currently loading, please wait a moment
+  </div>
+</div>
+<div class="container-fluid background" [ngStyle]="{'background-image' : getBackgroundURL()}" *ngIf="steamData && data">
+  <div >
+    <div class="row">
+      <div class="col-md-12 text-center game-title">
+        {{data.name}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a href="https://store.steampowered.com/app/{{data.appid}}" target="_blank"> <img class="header-image" src="{{steamData.header_image}}"> </a>
+      </div>
+    </div>
+    <div class="row vertical-gap">
+      <div class="col-md-12 text-center">
+        developers: {{getDevelopers()}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        publishers: {{getPublishers()}}
+      </div>
+    </div>
+
+    <div class="row justify-content-center vertical-gap">
+      <p-chart class="playerCountChart d-none d-lg-block" type="line" [data]="playerStats" [options]="playerStatsOptions"></p-chart>
+    </div>
+  </div>
+</div>

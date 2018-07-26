@@ -14,7 +14,7 @@
                 <img class="userSummary-image" src="{{userSummary.avatar}}">
             </a>
         </div>
-        <div class="userSummary-text">
+        <div class="userSummary-text mobile-margin-top">
           <div class="profile-title">
             <span class="profile-name">{{userSummary.display_name}}</span>
             <div>
@@ -50,7 +50,7 @@
 
 <div class="row justify-content-center" *ngIf="userStats">
   <div class="col-sm-5 user-stats userStat-container" *ngIf="userStats">
-    <div class="temp" *ngIf="currentTab==0" [@switchTab] = "currentTab==0 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==0" [@switchTab] = "currentTab==0 ? 'active':'inactive'">
       <div class="tab-title">
         General Information
       </div>
@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <div class="temp" *ngIf="currentTab==1" [@switchTab] = "currentTab==1 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==1" [@switchTab] = "currentTab==1 ? 'active':'inactive'">
       <div class="tab-title">
         Your top  3 most played games
       </div>
@@ -82,7 +82,7 @@
       </div>
     </div>
 
-    <div class="temp" *ngIf="currentTab==2 && friends_info.length!=0"  [@switchTab] = "currentTab==2 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==2 && friends_info.length!=0"  [@switchTab] = "currentTab==2 ? 'active':'inactive'">
       <div class="tab-title">
         Your top 3 Oldest Friends that have public profile
       </div>

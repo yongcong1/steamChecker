@@ -38,14 +38,13 @@ export class GameStatsComponent implements OnInit {
 
   showGameList(){
     this.databaseService.getGameList().subscribe(data => {
-      console.log(data);
       this.data = data;
       this.data.sort((t1,t2) => {
-        if(!t1.player_count && !t2.player_count) return 0;
-        else if(!t1.player_count) return 1;
-        else if(!t2.player_count) return -1;
-        if(t1.player_count[t1.player_count.length-1].player_count > t2.player_count[t2.player_count.length-1].player_count) return -1;
-        if(t1.player_count[t1.player_count.length-1].player_count < t2.player_count[t2.player_count.length-1].player_count) return 1;
+        if(!t1.current_player && !t2.current_player) return 0;
+        else if(!t1.current_player) return 1;
+        else if(!t2.current_player) return -1;
+        if(t1.current_player  > t2.current_player ) return -1;
+        if(t1.current_player  < t2.current_player ) return 1;
         return 0;
       });
       this.searchData = data;
@@ -56,7 +55,6 @@ export class GameStatsComponent implements OnInit {
   sortAppid(sortOrder){
     //-1 reverse sort
     //1 regular sort
-    console.log(sortOrder);
     this.appidSortOrder *= -1;
     this.searchData.sort((t1,t2) => {
       if(t1.appid > t2.appid) return sortOrder*-1;
@@ -69,7 +67,6 @@ export class GameStatsComponent implements OnInit {
   sortName(sortOrder){
     //-1 reverse sort
     //1 regular sort
-    console.log(sortOrder);
     this.nameSortOrder *= -1;
     this.searchData.sort((t1,t2) => {
       if(t1.name > t2.name) return sortOrder*-1;
@@ -80,23 +77,21 @@ export class GameStatsComponent implements OnInit {
   }
 
   sortPlayerCount(sortOrder){
-    console.log(sortOrder);
     //-1 reverse sort
     //1 regular sort
     this.playerCountSortOrder *= -1;
     this.searchData.sort((t1,t2) => {
-    if(!t1.player_count && !t2.player_count) return 0;
-    else if(!t1.player_count) return sortOrder;
-    else if(!t2.player_count) return -1*sortOrder;
-    if(t1.player_count[t1.player_count.length-1].player_count > t2.player_count[t2.player_count.length-1].player_count) return -1*sortOrder;
-    if(t1.player_count[t1.player_count.length-1].player_count < t2.player_count[t2.player_count.length-1].player_count) return sortOrder;
+    if(!t1.current_player && !t2.current_player) return 0;
+    else if(!t1.current_player) return sortOrder;
+    else if(!t2.current_player) return -1*sortOrder;
+    if(t1.current_player > t2.current_player) return -1*sortOrder;
+    if(t1.current_player < t2.current_player) return sortOrder;
     return 0;
     });
     this.setPage(1);
   }
 
   sortMaxPlayerCount(sortOrder){
-    console.log(sortOrder);
     //-1 reverse sort
     //1 regular sort
     this.maxPlayerCountSortOrder *= -1;
