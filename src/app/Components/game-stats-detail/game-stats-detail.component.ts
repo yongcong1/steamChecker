@@ -42,8 +42,6 @@ export class GameStatsDetailComponent implements OnInit {
         let playerCountDate = new Date(this.data['player_count'][i].time);
         playerCountTime.push(playerCountDate);
       }
-      console.log(playerCount);
-      console.log(playerCountTime);
       this.playerStats = {
         labels: playerCountTime,
         datasets: [
@@ -57,7 +55,27 @@ export class GameStatsDetailComponent implements OnInit {
       }
 
       this.playerStatsOptions = {
+        title: {
+            display: true,
+            text: 'Players Graph'
+        },
+        elements: { point: { radius: 0 } },
         legend: {display: false},
+        tooltips: {
+          callbacks: {
+            title: function(tooltipItem, data) {
+              let str = tooltipItem[0].xLabel;
+              let returnString = str.substring(0, str.indexOf(".")-4) + str.substring(str.indexOf(".")+3, str.length);
+              return returnString;
+            }
+          },
+          mode: 'index',
+          intersect: false
+        },
+        hover: {
+           mode: 'index',
+           intersect: false
+        },
         scales: {
           yAxes: [{
               ticks: {
@@ -111,7 +129,6 @@ export class GameStatsDetailComponent implements OnInit {
 
   steamDetails(gameID){
     this.apiService.getSteamDetails(gameID).subscribe( data => {
-      console.log(data[gameID]);
       if(data[gameID]['success']==true){
         this.backgroundURL = data[gameID]['data']['background'];
         this.steamData = data[gameID]['data'];

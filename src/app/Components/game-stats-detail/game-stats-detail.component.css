@@ -26,11 +26,16 @@
 }
 
 .vertical-gap{
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .playerCountChart{
   width:40%;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3);
+}
+
+.table-width{
+  width: 600px;
+  margin: auto;
 }
