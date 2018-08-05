@@ -79,6 +79,19 @@ export class GameStatsDetailComponent implements OnInit {
     });
   }
 
+  changePlayerGraph(pastNDays){
+    this.playerCount=[];
+    this.playerCountTime=[];
+    for(let i=0; i<this.data['player_count'].length; i++){
+      let playerCountDate = new Date(this.data['player_count'][i].time);
+      if(this.dayDiff(playerCountDate)-pastNDays<0){
+        this.playerCount.push(this.data['player_count'][i].player_count);
+        this.playerCountTime.push(playerCountDate);
+      }
+    }
+    this.createPlayerGraph(pastNDays);
+  }
+
   createPlayerGraph(pastNDays){
     if(pastNDays > this.earliestPlayerCountDayDiff){
       pastNDays = this.earliestPlayerCountDayDiff;
@@ -121,7 +134,7 @@ export class GameStatsDetailComponent implements OnInit {
             let hour = playerDate.getHours();
             let minute = playerDate.getMinutes();
 
-            let returnString = dayInWords[day] + " " + monthInWords[month-1] + " " + date + ", " + year + " ";
+            let returnString = dayInWords[day] + " " + monthInWords[month] + " " + date + ", " + year + " ";
             var isAM = true;
             if(hour == 0){
               hour = 12;
@@ -205,10 +218,19 @@ export class GameStatsDetailComponent implements OnInit {
     };
   }
 
+  dayDiff(date){
+    var today = new Date();
+    var timeDiff = today.getTime() - date.getTime();
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  }
+
   earliestDate(){
     var today = new Date();
-    var timeDiff = today.getTime() - this.playerCountTime[0].getTime();
+    var earliestDay = new Date(this.data['player_count'][0].time);
+    var timeDiff = today.getTime() - earliestDay.getTime();
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    alert(diffDays);
     return diffDays;
   }
 

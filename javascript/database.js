@@ -8,10 +8,8 @@ class DatabaseService{
     let games = db.collection('games');
     games.aggregate(
     [
-    {$sort: {appid:1}},
     {$match : {'current_player':{$gte:minNumberOfPlayer}}} ,
-    {$project:{ _id: 0, 'current_player': 1, 'appid': 1, 'name': 1, 'max_player_count':1}},
-    {$sort: {appid: 1}}
+    {$project:{ _id: 0, 'current_player': 1, 'appid': 1, 'name': 1, 'max_player_count':1}}
     ], function(err, result){ result.toArray(function(err, cursor){
       callback(cursor);
     })});

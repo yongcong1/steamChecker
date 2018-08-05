@@ -10,8 +10,7 @@ const url = "mongodb://localhost:27017/";
 
 var databaseServiceObj;
 
-var totalPartition = 1000;
-var currentPartition = 0;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -157,7 +156,7 @@ if(apiCallURL==""){
 
 MongoClient.connect(url, function(err, database){
 	var db = database.db("steamCheck");
-	app.listen(process.env.PORT || 3000, function(){
+	app.listen(process.env.PORT || 4200, function(){
 		console.log("server is listening");
 	});
 	databaseServiceObj = new databaseService(db);

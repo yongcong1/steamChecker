@@ -70,11 +70,11 @@
 
     <div class="row vertical-gap d-none d-lg-flex">
         <div class="col-sm-12 text-center">
-          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==0, 'not-selected': currentPlayerGraphTimeTab!=0}" class="player-graph-time-option" (click)="this.createPlayerGraph(1); currentPlayerGraphTimeTab=0"> 24 hours </span>
-          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==1, 'not-selected': currentPlayerGraphTimeTab!=1}" class="player-graph-time-option" (click)="this.createPlayerGraph(7); currentPlayerGraphTimeTab=1"> 7 days </span >
-          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==2, 'not-selected': currentPlayerGraphTimeTab!=2}" class="player-graph-time-option" (click)="this.createPlayerGraph(30); currentPlayerGraphTimeTab=2"> 1 month </span >
-          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==3, 'not-selected': currentPlayerGraphTimeTab!=3}" class="player-graph-time-option" (click)="this.createPlayerGraph(365); currentPlayerGraphTimeTab=3"> 1 year </span >
-          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==4, 'not-selected': currentPlayerGraphTimeTab!=4}" class="player-graph-time-option" (click)="this.createPlayerGraph(earliestPlayerCountDayDiff); currentPlayerGraphTimeTab=4"> All Time </span>
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==0, 'not-selected': currentPlayerGraphTimeTab!=0}" class="player-graph-time-option" (click)="changePlayerGraph(1); currentPlayerGraphTimeTab=0"> 24 hours </span>
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==1, 'not-selected': currentPlayerGraphTimeTab!=1}" class="player-graph-time-option" (click)="changePlayerGraph(7); currentPlayerGraphTimeTab=1"> 7 days </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==2, 'not-selected': currentPlayerGraphTimeTab!=2}" class="player-graph-time-option" (click)="changePlayerGraph(30); currentPlayerGraphTimeTab=2"> 1 month </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==3, 'not-selected': currentPlayerGraphTimeTab!=3}" class="player-graph-time-option" (click)="changePlayerGraph(365); currentPlayerGraphTimeTab=3"> 1 year </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==4, 'not-selected': currentPlayerGraphTimeTab!=4}" class="player-graph-time-option" (click)="changePlayerGraph(earliestPlayerCountDayDiff); currentPlayerGraphTimeTab=4"> All Time </span>
         </div>
     </div>
 
