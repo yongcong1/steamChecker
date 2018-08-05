@@ -9,7 +9,7 @@
     </div>
 
     <div class="row">
-      <div class="dropdown col-sm-6 text-center text-sm-left" *ngIf="data">
+      <div class="dropdown col-sm-6 search-align-left mt-auto" *ngIf="data">
         Display
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{pageSize}}
@@ -24,8 +24,8 @@
       </div>
 
       <div class="col-sm-6 mt-auto" *ngIf="data">
-        <div class="row float-sm-right">
-          <div class="col-12 text-center">
+        <div class="row">
+          <div class="col-12 search-align-right">
             Search Game
             <input type="text" class="custom-input" (input)="searchGameList($event.target.value)">
           </div>
@@ -33,42 +33,32 @@
       </div>
     </div>
     <div class="table-responsive table-position">
-      <table class="table table-width table-dark" *ngIf="data">
+      <table class="table table-width table-dark table-hover" *ngIf="data">
         <thead>
-          <tr class="d-flex">
-            <th scope="col" class="col-1 center-text">#</th>
-            <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortAppid(appidSortOrder)">Appid
-              <span *ngIf="appidSortOrder==1; else appidSortOrders">▲</span>
-              <ng-template #appidSortOrders>▼</ng-template>
+          <tr>
+            <th class="center-text">#</th>
+            <th  class="center-text w-40"><a class="table-header" (click)="sortName(nameSortOrder)">Name
+              <i class="fa fa-sort"></i>
             </a></th>
-            <th scope="col" class="col-5 center-text"><a class="table-header" (click)="sortName(nameSortOrder)">Name
-              <span *ngIf="nameSortOrder==1; else nameSortOrders">▲</span>
-              <ng-template #nameSortOrders>▼</ng-template>
+            <th class="center-text w-25"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
+              <i class="fa fa-sort"></i>
             </a></th>
-            <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
-              <span *ngIf="playerCountSortOrder==1; else playerCountSortOrders">▲</span>
-              <ng-template #playerCountSortOrders>▼</ng-template>
+            <th class="center-text w-15"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
+              <i class="fa fa-sort"></i>
             </a></th>
-            <th scope="col" class="col-2 center-text"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
-              <span *ngIf="maxPlayerCountSortOrder==1; else maxPlayerCountSortOrders">▲</span>
-              <ng-template #maxPlayerCountSortOrders>▼</ng-template>
-            </a></th>
+            <th  class="w-25"></th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let game of displayGameList; let i=index" class="d-flex">
-            <th scope="row" class="col-1 center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
-            <td class="col-2 center-text">
-              <a [routerLink]="['/gamestats', game.appid]" class="app-name">
-                {{game.appid}}
-              </a></td>
-            <td class="col-5 center-text">
-              <a [routerLink]="['/gamestats', game.appid]" class="app-name">
+          <tr *ngFor="let game of displayGameList; let i=index">
+            <th class="center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
+            <td class="center-text">
+              <a href="https://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
                 {{game.name}}
               </a>
             </td>
-            <td class="col-2 center-text">
+            <td class="center-text">
               <span *ngIf="game.current_player">
                 {{game.current_player | number}}
               </span>
@@ -76,7 +66,7 @@
                 none
               </span>
             </td>
-            <td class="col-2 center-text">
+            <td class="center-text">
               <span *ngIf="game.max_player_count">
                 {{game.max_player_count | number}}
               </span>
@@ -84,6 +74,10 @@
                 none
               </span>
             </td>
+            <td class="center-text">
+              <a [routerLink]="['/gamestats', game.appid]" class="app-name">
+                <i class="fa fa-info"></i> More Info
+              </a></td>
           </tr>
         </tbody>
       </table>

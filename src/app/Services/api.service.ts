@@ -30,6 +30,7 @@ export interface TopGames{
   most_played_game_appid: number;
   most_played_game_icon: string;
   most_played_game_name: string;
+  most_played_game_logo: string;
   most_played_game_time_hr: number;
   most_played_game_time_minute: number;
   most_played_game_time: number;
@@ -50,50 +51,59 @@ export class APIService {
 
   constructor(private http: HttpClient) { }
 
+  //proxyURL = '/dev';
+  proxyURL = '';
+  apiURL = this.proxyURL + '/api/';
+
   //get the ISteamUser api to retrieve steamid from custom url
-  userCustomUrl = '/customURL/';
+  userCustomUrl = this.apiURL + 'customURL/';
   getUserSteamId(customUrl: string){
-    return this.http.get(this.userCustomUrl+"&vanityurl="+customUrl).pipe(
+    var parameters = "&vanityurl="+customUrl;
+    return this.http.get(this.userCustomUrl+parameters).pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
 
   //get the ISteamUser api to retrieve information about the user based on their steam64 id
-  userSummaryUrl = '/userSummary/';
+  userSummaryUrl = this.apiURL + 'userSummary/';
   getUserInfo(steam64id: string) {
-    return this.http.get(this.userSummaryUrl +  "&steamids=" + steam64id).pipe(
+    var parameters = "&steamids=" + steam64id;
+    return this.http.get(this.userSummaryUrl +  parameters).pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
 
-  userStatUrl = '/userStats/';
+  userStatUrl = this.apiURL + 'userStats/';
   getUserStats(steam64id: string){
-    return this.http.get(this.userStatUrl + "&steamid=" + steam64id + "&include_appinfo=1").pipe(
+    var parameters = "&steamid=" + steam64id + "&include_appinfo=1";
+    return this.http.get(this.userStatUrl + parameters).pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
 
-  friendListUrl = '/friendList/';
+  friendListUrl = this.apiURL + 'friendList/';
   getFriendList(steam64id: string){
-    return this.http.get(this.friendListUrl + "&steamid=" + steam64id + "&relationship=friend").pipe(
+    var parameters = "&steamid=" + steam64id + "&relationship=friend";
+    return this.http.get(this.friendListUrl + parameters).pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
 
-  steamAppDetail = '/steamGameDetail';
+  steamAppDetail = this.apiURL + 'steamGameDetail/';
   getSteamDetails(gameID: string){
-    return this.http.get(this.steamAppDetail + "?appids="+ gameID).pipe(
+    var parameters = "appids=" + gameID;
+    return this.http.get(this.steamAppDetail + parameters).pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
 
   getAccount(){
-    return this.http.get('/account').pipe(
+    return this.http.get(this.proxyURL + '/account').pipe(
       retry(1),
       catchError(this.handleError)
     );

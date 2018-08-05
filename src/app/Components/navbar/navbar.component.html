@@ -1,35 +1,53 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" routerLink="/">SteamCheck</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="order-0">
+      <a class="navbar-brand" routerLink="/home">SteamCheck</a>
+    </div>
+    <div class="collapse navbar-collapse w-100 order-1 order-lg-0 navbarSupportedContent">
+      <ul class="navbar-nav" id="navbar">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active"><i class="fa fa-home"></i> Home
+        </a>
+        <a class="nav-link" routerLink="/gamestats" routerLinkActive="active"><i class="fa fa-line-chart"></i> Game Stats
+        </a>
+        <a class="nav-link" routerLink="/FAQ" routerLinkActive="active"><i class="fa fa-question"></i> FAQ
+        </a>
+        <!-- TODO: Implement live search
+        <span class="collapse-padding-bottom">
+          <a class="nav-link search-game" (click)="toggleSearchGame()" *ngIf="!showSearchGame"><i class="fa fa-search"></i> Search Game
+          </a>
+          <form class="form-group margin-left-10" *ngIf="showSearchGame">
+            <input type="text" class="form-control" (blur)="toggleSearchGame()" placeholder="Search Game" id="navbar-search-text" appAutofocus>
+            <span class="fa fa-search"></span>
+          </form>
+        </span>
+        -->
+      </ul>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <a class="nav-link" routerLink="/gamestats" routerLinkActive="active">Game Stats
+
+    <div class="navbar-collapse collapse w-100 order-3 navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <a class="nav-link sign-in" href="/auth" *ngIf="loggedIn==false">
+         <img src="assets/sign_in.png" class="navbar-image d-none d-lg-block"/>
+         <span class="d-block d-lg-none">
+           <i class="fa fa-sign-in"></i> Sign In Through Steam
+          </span>
         </a>
-        <a class="nav-link" routerLink="/FAQ" routerLinkActive="active">FAQ
-        </a>
-      </ul>
-      <a class="navbar-nav m1-auto">
-            <a class="nav-item d-none d-sm-block" href="/auth" *ngIf="loggedIn==false">
-             <img src="assets/sign_in.png" class="navbar-image"/>
-            </a>
-            <a class="nav-item nav-link d-block d-sm-none" href="/auth" *ngIf="loggedIn==false">
-             Sign In Through Steam
-            </a>
-           <div *ngIf="userSummary" class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               {{userSummary.display_name}}
-             </a>
-             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-               <a class="dropdown-item" href="{{userSummary.profile_url}}" target="_blank">Steam Profile</a>
-               <a class="dropdown-item dropdown-cursor" routerLink="/mystats">My Stats</a>
-               <a class="dropdown-item" href="/signout">Logout</a>
-             </div>
-           </div>
-           <a *ngIf="userSummary" class="nav-item" href="{{userSummary.profile_url}}" target="_blank">
-             <img class="avatar-small" src="{{userSummary.avatar}}">
+         <div *ngIf="userSummary" class="nav-item dropdown">
+           <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{userSummary.display_name}}
            </a>
+           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+             <a class="dropdown-item" href="{{userSummary.profile_url}}" target="_blank">Steam Profile</a>
+             <a class="dropdown-item dropdown-cursor" routerLink="/mystats">My Stats</a>
+             <a class="dropdown-item" href="/signout">Logout</a>
+           </div>
+         </div>
+         <a *ngIf="userSummary" class="nav-item" href="{{userSummary.profile_url}}" target="_blank">
+           <img class="avatar-small" src="{{userSummary.avatar}}">
          </a>
+       </ul>
      </div>
 </nav>

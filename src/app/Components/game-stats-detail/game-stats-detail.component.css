@@ -5,6 +5,7 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   min-height: calc(100vh - 56px);
+  background-color: black;
 }
 
 .header-image{
@@ -25,17 +26,85 @@
   font-weight: bold;
 }
 
+.shadow-overflow{
+  overflow:visible;
+}
+
 .vertical-gap{
   margin-top: 15px;
+}
+
+.player-graph-text{
+  font-size: 20px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.player-graph{
+  overflow: visible;
+  min-height: 450px;
+  margin-top: 7px;
+}
+
+.player-graph-time-option{
+  color:black;
+  padding: 5px;
+  border-color: grey;
+  border-style: solid;
+  border-width: 1px;
+}
+.player-graph-time-option:hover{
+  background-color: #cfd2d6;
+  cursor:pointer;
+}
+
+.selected{
+  background-color: #cfd2d6;
+}
+
+.not-selected{
+  background-color: white;
 }
 
 .playerCountChart{
   width:40%;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3);
+  height: 80%;
 }
 
 .table-width{
   width: 600px;
   margin: auto;
+  background-color:white;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,.2),0 6px 20px 0 rgba(255,255,255,.3);
+}
+
+.bold{
+  font-weight: bold;
+}
+
+a.visit-store{
+  text-shadow: 1px 1px 2px black, 0 0 1px white, 0 0 4px white;
+  font-size: 25px;
+  color:white;
+}
+
+a.visit-store:visited{
+  color:white;
+}
+a.visit-store:link {
+  color:white;
+}
+
+a.visit-store:hover{
+  text-shadow: 1px 1px 2px black, 0 0 1px white, 0 0 4px white;
+  font-size: 25px;
+  font-weight: bold;
+  color:white;
+}
+
+a.visit-store:active {
+  color:white;
 }

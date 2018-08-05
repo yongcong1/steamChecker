@@ -39,8 +39,12 @@ relyingParty = new openid.RelyingParty(
 	[]
 );
 
+//var apiCallURL = "/dev"; //proxy config for local development
 
-app.use('/Auth', function(req, res) {
+var apiCallURL = ""; //Production does not need proxy config
+
+
+app.use(apiCallURL + '/Auth', function(req, res) {
 	relyingParty.authenticate('https://steamcommunity.com/openid', false, function(err, authURL) {
         if(err){
           console.log(err);
@@ -53,7 +57,7 @@ app.use('/Auth', function(req, res) {
       });
 });
 
-app.use('/Verify', function(req, res) {
+app.use(apiCallURL + '/Verify', function(req, res) {
 	relyingParty.verifyAssertion(req, function(err, result) {
         if(err){
           console.log(err);
@@ -69,24 +73,17 @@ app.use('/Verify', function(req, res) {
       });
 });
 
-/*app.get('/testing', function(req, res){
-	req.session.steamID = '76561198021742536';
-	res.redirect("/");
-});*/
-
-app.get('/account', function(req, res){
+app.get(apiCallURL+'/account', function(req, res){
 	return res.json({"steamID": req.session.steamID , "sessionID": req.sessionID});
 });
 
-app.get('/updategames', function(req, res){
-	updateGames(function(){});
+app.get(apiCallURL+'/signout', function(req, res){
+	req.session.steamID = '';
 	res.redirect("/");
 });
 
-app.get('/testgames', function(req, res){
-	databaseServiceObj.findGames(function(data){
-		console.log(data);
-	});
+app.get(apiCallURL+'/updategames', function(req, res){
+	updateGames();
 	res.redirect("/");
 });
 
@@ -99,59 +96,68 @@ function updateGames(){
 	});
 }
 
-app.get('/games', function(req, res){
-		databaseServiceObj.findGames(function(data){
+app.get(apiCallURL+'/db/games', function(req, res){
+		databaseServiceObj.findGames(1, function(data){
 			res.send(data);
 		});
 });
 
-app.get('/gameDetail/:appid', function(req, res){
+app.get(apiCallURL+'/db/gameDetail/:appid', function(req, res){
 	let appid = req.params.appid;
 	databaseServiceObj.findGamebyID(appid, function(data){
 		res.send(data);
 	});
 });
 
-app.get('/signout', function(req, res){
-	req.session.steamID = '';
-	res.redirect("/");
+app.get(apiCallURL+'/db/navbarGameList', function(req, res){
+	databaseServiceObj.navbarFindGame(function(data){
+		res.send(data);
+	});
 });
 
-app.use('/customURL/', function(req, res) {
-	var url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/'+ '?key=' + apiKey  + req.url.substring(1);
+app.get(apiCallURL+'/api/customURL/:param', function(req, res) {
+	let param = req.params.param;
+	var url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?'+ 'key=' + apiKey  + param;
 	request(url).pipe(res);
 });
 
-app.use('/userSummary/', function(req, res) {
-	var url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'+ '?key=' + apiKey + req.url.substring(1);
+app.get(apiCallURL+'/api/userSummary/:param', function(req, res) {
+	let param = req.params.param;
+	var url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?'+ 'key=' + apiKey + param;
 	request(url).pipe(res);
 });
 
-app.use('/userStats/', function(req, res) {
-	var url = 'https://api.steampowered.com//IPlayerService/GetOwnedGames/v0001/'+ '?key=' + apiKey  + req.url.substring(1);
+app.get(apiCallURL+'/api/userStats/:param', function(req, res) {
+	let param = req.params.param;
+	var url = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?'+ 'key=' + apiKey  + param;
 	request(url).pipe(res);
 });
 
-app.use('/friendList/', function(req, res) {
-	var url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/'+ '?key=' + apiKey + req.url.substring(1);
+app.get(apiCallURL+'/api/friendList/:param', function(req, res) {
+	let param = req.params.param;
+	var url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?'+ 'key=' + apiKey + param;
 	request(url).pipe(res);
 });
 
-app.use('/steamGameDetail/', function(req, res){
-	var url = 'https://store.steampowered.com/api/appdetails' + req.url.substring(1);
+app.get(apiCallURL+'/api/steamGameDetail/:param', function(req, res){
+	let param = req.params.param;
+	var url = 'https://store.steampowered.com/api/appdetails?' + param;
 	request(url).pipe(res);
 });
 
-app.use(express.static(__dirname + '/../docs'));
 
-app.all('/*', function(req, res, next) {
-    res.sendFile('/docs/index.html', { root: __dirname + '/../'});
-});
+if(apiCallURL==""){
+	app.use(express.static(__dirname + '/../docs'));
+
+	app.all('/*', function(req, res, next) {
+	    res.sendFile('/docs/index.html', { root: __dirname + '/../'});
+	});
+}
 
 
 MongoClient.connect(url, function(err, database){
 	var db = database.db("steamCheck");
-	app.listen(process.env.PORT || 4200, function(){
+	app.listen(process.env.PORT || 3000, function(){
 		console.log("server is listening");
 	});
 	databaseServiceObj = new databaseService(db);

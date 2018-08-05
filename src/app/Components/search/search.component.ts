@@ -42,6 +42,7 @@ export class SearchComponent implements AfterViewInit {
 
   currentState = "inactive";
   title = 'Check Your Steam Stats';
+  userSearchText:string;
 
   constructor(private displayService:DisplayService) {
    }
@@ -51,12 +52,16 @@ export class SearchComponent implements AfterViewInit {
     console.log(this.currentState);
   }
 
-  searchCustom(customID){
-    this.displayService.setCustomID(customID);
+  searchCustom(){
+    console.log(this.userSearchText);
+    this.displayService.setCustomID(this.userSearchText);
+    this.userSearchText="";
+
   }
 
   search(steam64ID){
     this.displayService.showStats(steam64ID);
+
   }
 
 }

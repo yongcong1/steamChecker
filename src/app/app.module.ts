@@ -17,13 +17,18 @@ import { FAQComponent } from './Components/faq/faq.component';
 import { UserStatComponent } from './Components/user-stat/user-stat.component';
 import { GameStatsComponent } from './Components/game-stats/game-stats.component';
 import { GameStatsDetailComponent } from './Components/game-stats-detail/game-stats-detail.component';
+import { AutofocusDirective } from './autofocus.directive';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-  { path: '', component: MainComponent },
+  { path: '', redirectTo: '/home',pathMatch: 'full'},
+  { path: 'home', component: MainComponent },
   { path: 'FAQ', component: FAQComponent },
   { path: 'mystats', component: UserStatComponent},
   { path: 'gamestats', component: GameStatsComponent},
-  { path: 'gamestats/:appid', component: GameStatsDetailComponent}
+  { path: 'gamestats/:appid', component: GameStatsDetailComponent},
+  { path: '404', component: PageNotFoundComponent},
+  { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({
@@ -36,7 +41,9 @@ const appRoutes: Routes = [
     FAQComponent,
     UserStatComponent,
     GameStatsComponent,
-    GameStatsDetailComponent
+    GameStatsDetailComponent,
+    AutofocusDirective,
+    PageNotFoundComponent
   ],
   imports: [
     JsonpModule,

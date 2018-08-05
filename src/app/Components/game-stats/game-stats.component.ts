@@ -162,7 +162,7 @@ export class GameStatsComponent implements OnInit {
   }
 
   nextPage(){
-    this.setPage(this.currentPage+1);
+    this.setPage(Number(this.currentPage)+1);
   }
 
   newPageSize(pageSize){

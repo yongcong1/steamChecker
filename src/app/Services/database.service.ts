@@ -8,11 +8,20 @@ export class DatabaseService {
 
   constructor(private http: HttpClient) { }
 
+  //proxyURL = '/dev';
+  proxyURL = '';
+  dbURL = this.proxyURL + '/db/';
+
   getGameList(){
-    return this.http.get('/games');
+    return this.http.get(this.dbURL + 'games');
   }
 
   getGameDetail(appid){
-    return this.http.get('/gameDetail/' + appid);
+    return this.http.get(this.dbURL + 'gameDetail/' + appid);
   }
+
+  navbarGetGameList(){
+    return this.http.get(this.dbURL + 'navbarGameList');
+  }
+
 }

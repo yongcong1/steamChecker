@@ -1,10 +1,15 @@
-<div class="background" *ngIf="!steamData || !data">
+<div class="background" *ngIf="errors">
+  <div class="row justify-content-center">
+    {{errors}}
+  </div>
+</div>
+<div class="background" *ngIf="(!steamData || !data) && !errors">
   <div class="row justify-content-center">
     currently loading, please wait a moment
   </div>
 </div>
-<div class="container-fluid background" [ngStyle]="{'background-image' : getBackgroundURL()}" *ngIf="steamData && data">
-  <div >
+<div class="container-fluid background" *ngIf="steamData && data" [ngStyle]="{'background-image' : backgroundURL}">
+  <div>
     <div class="row">
       <div class="col-md-12 text-center game-title">
         {{data.name}}
@@ -16,41 +21,69 @@
       </div>
     </div>
 
-    <div class="table-responsive vertical-gap">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a class="visit-store" href="https://store.steampowered.com/app/{{data.appid}}" target="_blank"> Visit Steam Store </a>
+      </div>
+    </div>
+
+    <div class="table-responsive shadow-overflow">
       <table class="table table-bordered table-width">
         <thead>
         </thead>
         <tbody>
-          <tr class="d-flex">
-            <td class="col-6">Steam Appid</td>
-            <td class="col-6">{{data.appid}}</td>
+          <tr>
+            <td>Steam Appid</td>
+            <td>{{data.appid}}</td>
           </tr>
-          <tr class="d-flex">
-            <td class="col-6">Developers</td>
-            <td class="col-6">{{getDevelopers()}}</td>
+          <tr>
+            <td>Developer<span *ngIf="steamData.developers.length > 1">s</span></td>
+            <td> <a *ngFor="let developer of steamData.developers; let i=index"> <span class="bold" *ngIf="steamData.developers.length > 1"> {{i+1}}. </span> {{developer}} <br/> </a> </td>
           </tr>
-          <tr class="d-flex">
-            <td class="col-6">Publishers</td>
-            <td class="col-6">{{getPublishers()}}</td>
+          <tr>
+            <td>Publisher<span *ngIf="steamData.publishers.length > 1">s</span></td>
+            <td> <a *ngFor="let publisher of steamData.publishers; let i=index"> <span class="bold" *ngIf="steamData.publishers.length > 1"> {{i+1}}. </span> {{publisher}} <br/> </a></td>
           </tr>
-          <tr class="d-flex" *ngIf="steamData.metacritic">
-            <td class="col-6">Meta Critic Score</td>
-            <td class="col-6">{{steamData.metacritic.score}}</td>
+          <tr>
+            <td>Release Date</td>
+            <td>{{steamData.release_date.date}}</td>
           </tr>
-          <tr class="d-flex">
-            <td class="col-6">Release Date</td>
-            <td class="col-6">{{steamData.release_date.date}}</td>
+          <tr *ngIf="steamData.price_overview">
+            <td>Current Price</td>
+            <td>${{(steamData.price_overview.final / 100) | number}}</td>
           </tr>
-          <tr class="d-flex" *ngIf="steamData.price_overview">
-            <td class="col-6">Current Price</td>
-            <td class="col-6">${{steamData.price_overview.final / 100}}</td>
+          <tr>
+            <td>Peak Players</td>
+            <td>{{data.max_player_count | number}}</td>
+          </tr>
+          <tr>
+            <td>Peak Players for Last 24 Hours</td>
+            <td>{{twentyFourHourPeak | number}}</td>
+          </tr>
+          <tr>
+            <td>Current Players</td>
+            <td>{{data.current_player | number}}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="row justify-content-center vertical-gap">
-      <p-chart class="playerCountChart d-none d-lg-block" type="line" [data]="playerStats" [options]="playerStatsOptions"></p-chart>
+    <div class="row vertical-gap d-none d-lg-flex">
+        <div class="col-sm-12 text-center">
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==0, 'not-selected': currentPlayerGraphTimeTab!=0}" class="player-graph-time-option" (click)="this.createPlayerGraph(1); currentPlayerGraphTimeTab=0"> 24 hours </span>
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==1, 'not-selected': currentPlayerGraphTimeTab!=1}" class="player-graph-time-option" (click)="this.createPlayerGraph(7); currentPlayerGraphTimeTab=1"> 7 days </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==2, 'not-selected': currentPlayerGraphTimeTab!=2}" class="player-graph-time-option" (click)="this.createPlayerGraph(30); currentPlayerGraphTimeTab=2"> 1 month </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==3, 'not-selected': currentPlayerGraphTimeTab!=3}" class="player-graph-time-option" (click)="this.createPlayerGraph(365); currentPlayerGraphTimeTab=3"> 1 year </span >
+          <span [ngClass]="{'selected': currentPlayerGraphTimeTab==4, 'not-selected': currentPlayerGraphTimeTab!=4}" class="player-graph-time-option" (click)="this.createPlayerGraph(earliestPlayerCountDayDiff); currentPlayerGraphTimeTab=4"> All Time </span>
+        </div>
+    </div>
+
+    <div class="row justify-content-center player-graph d-none d-lg-flex">
+      <p-chart class="playerCountChart" type="line" [data]="playerStats" [options]="playerStatsOptions"></p-chart>
+    </div>
+
+    <div class="row justify-content-center player-graph-text d-flex d-lg-none">
+      Player Graph is available on Desktop
     </div>
   </div>
 </div>

@@ -4,12 +4,12 @@ class DatabaseService{
     db = database;
   }
 
-  findGames(callback){
+  findGames(minNumberOfPlayer, callback){
     let games = db.collection('games');
     games.aggregate(
     [
     {$sort: {appid:1}},
-    {$match : {'max_player_count':{$gt:0}}} ,
+    {$match : {'current_player':{$gte:minNumberOfPlayer}}} ,
     {$project:{ _id: 0, 'current_player': 1, 'appid': 1, 'name': 1, 'max_player_count':1}},
     {$sort: {appid: 1}}
     ], function(err, result){ result.toArray(function(err, cursor){
@@ -21,11 +21,18 @@ class DatabaseService{
     let games = db.collection('games');
     games.findOne({appid : parseInt(gameAppID)}, {fields:{ _id: 0}}, function(err, result){
       if(err){
-        console.log(err);
       }
-      console.log(result);
       callback(result);
     });
+  }
+
+  navbarFindGame(callback){
+    let games = db.collection('games');
+    games.find({}, {fields: { _id: 0, appid: 1, name: 1}}).sort({ appid: 1}).toArray(function(err, cursor){
+      if(err){
+      }
+      callback(cursor);
+  });
   }
 
   updateGameEntry(appList){

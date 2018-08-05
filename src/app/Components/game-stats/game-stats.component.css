@@ -1,4 +1,4 @@
-@media (max-width: 576px) {
+@media (max-width: 575px) {
 
   [class*="col-"] {
       margin-bottom: 5px;
@@ -9,6 +9,31 @@
     background-color: #212529;
     margin-bottom: 5px;
   }
+
+  .search-align-left{
+    text-align: center !important;
+  }
+
+  .search-align-right{
+    text-align: center !important;
+  }
+
+}
+
+.w-15{
+  width:15% !important;
+}
+
+.w-40{
+  width:40% !important;
+}
+
+.search-align-left{
+  text-align: left;
+}
+
+.search-align-right{
+  text-align: right;
 }
 
 strong{
@@ -31,7 +56,7 @@ strong{
 }
 
 .table-width{
-  min-width: 600px;
+  min-width: 800px;
 }
 
 .table-title{
@@ -91,6 +116,20 @@ a.app-name:hover {
 }
 a.app-name:active {
   color: white;
+}
+
+a.more-info:hover span.no-display {
+  display: none;
+}
+a.more-info:hover:before {
+  content: "More Info";
+}
+
+a.visit-store:hover span.no-display {
+  display: none;
+}
+a.visit-store:hover:before {
+  content: "Visit Steam Store";
 }
 
 a.page {

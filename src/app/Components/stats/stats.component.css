@@ -6,6 +6,14 @@
 
 }
 
+@media (min-width: 992px) {
+
+  .general-row{
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
 .profile{
   text-decoration: none;
   width: 190px;
@@ -100,11 +108,18 @@ a.profile_link:active{
 }
 
 .tab-title{
-  font-size: 20px;
+  font-size: 35px;
   font-weight: bold;
-  border-bottom: 2px;
+  text-shadow: 1px 1px 2px #000,0 0 1px #fff,0 0 4px #fff;
+  border-bottom: white;
   border-bottom-style: solid;
-  border-bottom-color: #8e9196;
+  padding-bottom: 15px;
+}
+
+.general-info-text{
+  font-size: 25px;
+  font-weight: 700;
+  text-shadow: 0 0 3px lightblue;
 }
 
 .user-stats{
@@ -122,6 +137,8 @@ a.profile_link:active{
   color: white;
   display:inline-block;
   margin-top: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .tabs{
@@ -131,8 +148,6 @@ a.profile_link:active{
 
 .rounded-most-played-game-icon{
   vertical-align: middle;
-  width:32px;
-  height:32px;
   border-style: solid;
   border-width: 2px;
   border-color: white;
@@ -219,6 +234,225 @@ a.not-selected-tab:hover {
 }
 a.not-selected-tab:active {
   color: white;
+}
+
+.game-row{
+  margin-top: 35px;
+}
+
+.game-image {
+  min-width: 188px; min-height: 73px;
+  position: relative;
+  max-width: 188px; max-height: 73px;
+  margin:auto;
+}
+
+.ribbon-1 {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 69px; height: 70px;
+  text-align: right;
+}
+.ribbon-1 span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 18px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 79px;
+  display: block;
+  background: gold;
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 13px; right: -16px;
+  text-shadow: 0 0 10px black;
+}
+.ribbon-1 span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid gold;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid gold;
+}
+.ribbon-1 span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid gold;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid gold;
+}
+
+.ribbon-2 {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 69px; height: 70px;
+  text-align: right;
+}
+.ribbon-2 span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 18px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 79px;
+  display: block;
+  background: silver;
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 13px; right: -16px;
+  text-shadow: 0 0 10px black;
+}
+.ribbon-2 span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid silver;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid silver;
+}
+.ribbon-2 span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid silver;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid silver;
+}
+
+.ribbon-3 {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 69px; height: 70px;
+  text-align: right;
+}
+.ribbon-3 span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 18px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 79px;
+  display: block;
+  background: #cd7f32;
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 13px; right: -16px;
+  text-shadow: 0 0 10px black;
+}
+.ribbon-3 span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #cd7f32;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #cd7f32;
+}
+.ribbon-3 span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #cd7f32;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #cd7f32;
+}
+
+.game-name{
+  font-size:20px;
+  font-weight: bolder;
+}
+
+.game-hours-1{
+  font-size:20px;
+  font-weight: bolder;
+  color:gold;
+}
+.game-hours-2{
+  font-size:20px;
+  font-weight: bolder;
+  color:silver;
+}
+.game-hours-3{
+  font-size:20px;
+  font-weight: bolder;
+  color:#cd7f32;
+}
+
+.stats-text{
+  text-align: center;
+  font-size: 20px;
+}
+
+.stats-row{
+  margin-top:10px;
+  text-align:center;
+}
+
+.friends-image{
+  border-style: solid;
+  border-radius: 100px;
+}
+
+.friends-avatar{
+  display: inline-block;
+}
+
+.friends-row{
+  margin-top: 15px;
+}
+
+.friends-text{
+  font-size: 20px;
+  font-weight: bolder;
+}
+.friends-number-one{
+  font-size: 80px;
+  font-weight: bolder;
+  color:gold;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.friends-number-two{
+  font-size: 60px;
+  font-weight: bolder;
+  color:silver;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.friends-number-three{
+  font-size: 40px;
+  font-weight: bolder;
+  color:#cd7f32;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.friends-name{
+  display:block;
 }
 
 .Online{background-color:green}

@@ -20,7 +20,7 @@
             <div>
               <span class="status-circle" [ngClass]="userSummary.status">
               </span>
-              <span class=""> currently </span>
+              <span class=""> Currently </span>
               <span *ngIf="privateUserSummary && privateUserSummary.game_extra_info; else elseBlock"> playing {{privateUserSummary.game_extra_info}}</span>
               <ng-template #elseBlock>{{userSummary.status}}</ng-template>
             </div>
@@ -43,7 +43,7 @@
 <div class="row justify-content-center user-summary-row" *ngIf="userStats || (userStats_response==false && userSummary)">
     <nav class="col-sm-5">
       <a [ngClass]="{'selected-tab': currentTab==0, 'not-selected-tab': currentTab!=0}" (click)="showTab(0)">General</a>
-      <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Top Games</a>
+      <a [ngClass]="{'selected-tab': currentTab==1, 'not-selected-tab': currentTab!=1}" (click)="showTab(1)">Games</a>
       <a [ngClass]="{'selected-tab': currentTab==2, 'not-selected-tab': currentTab!=2}" (click)="showTab(2)">Friends</a>
     </nav>
 </div>
@@ -54,17 +54,37 @@
       <div class="tab-title">
         General Information
       </div>
-      <div *ngIf="privateUserSummary" class="userStat-item">
-        Account created in {{convertUnixTime(privateUserSummary.time_created)}}
+      <div class="row general-row">
+        <div *ngIf="privateUserSummary" class="userStat-item col-lg-4">
+
+          <div class="general-info-text">{{convertUnixTime(privateUserSummary.time_created)}}</div>
+
+          <div>Account created</div>
+
+        </div>
+        <div class= "userStat-item col-lg-4">
+
+          <div class="general-info-text">{{userStats.playtime_hr}} hours</div>
+
+          <div>Total play time</div>
+
+        </div>
+        <div class="userStat-item col-lg-4">
+
+          <div class="general-info-text">{{userStats.playtime_2week_hr}} hours</div>
+
+          <div>Play time past 2 weeks</div>
+
+        </div>
       </div>
-      <div class= "userStat-item">
-        Total play time: {{userStats.playtime_hr}} hours and {{userStats.playtime_minute}} minutes
-      </div>
-      <div class="userStat-item">
-        Total play time past 2 weeks: {{userStats.playtime_2week_hr}} hours and {{userStats.playtime_2week_minute}} minutes
-      </div>
-      <div class="userStat-item">
-        You have {{userStats.unplayed_games}} unplayed games out of {{userStats.total_games}} games
+      <div class="row general-row">
+        <div class="userStat-item col-12">
+
+          <span class="general-info-text">{{userStats.total_games - userStats.unplayed_games}} played games</span>
+          out of
+          <span class="general-info-text">{{userStats.total_games}} owned games</span>
+
+        </div>
       </div>
     </div>
 
@@ -72,22 +92,87 @@
       <div class="tab-title">
         Your top  3 most played games
       </div>
-      <div *ngFor="let topGame of topGames; let i=index" class="userStat-item">
-        {{i+1}}.
-        <a href="http://store.steampowered.com/app/{{topGame.most_played_game_appid}}" target="_blank" class="profile_link">
-          <img class="rounded-most-played-game-icon" src="{{topGame.most_played_game_icon}}">
-          {{topGame.most_played_game_name}}
-        </a>
-        at {{topGame.most_played_game_time_hr}} hours and {{topGame.most_played_game_time_minute}} minutes
+      <div class="row game-row" *ngIf="topGames[0]">
+        <div class="col-12 text-center">
+          <div class="game-image">
+            <a [routerLink]="['/gamestats', topGames[0].most_played_game_appid]">
+              <img class="rounded-most-played-game-icon" src="{{topGames[0].most_played_game_logo}}">
+              <div class="ribbon-1"><span>#1</span></div>
+            </a>
+          </div>
+          <div class="game-name">
+            <a [routerLink]="['/gamestats', topGames[0].most_played_game_appid]" class="profile_link">
+              {{topGames[0].most_played_game_name}}
+            </a>
+          </div>
+          <div class="game-hours-1">
+            {{topGames[0].most_played_game_time_hr}} hours
+          </div>
+        </div>
+      </div>
+      <div class="row game-row" *ngIf="topGames[1]">
+        <div class="col-12 text-center">
+          <div class="game-image">
+            <a [routerLink]="['/gamestats', topGames[1].most_played_game_appid]">
+              <img class="rounded-most-played-game-icon" src="{{topGames[1].most_played_game_logo}}">
+              <div class="ribbon-2"><span>#2</span></div>
+            </a>
+          </div>
+          <div class="game-name">
+            <a [routerLink]="['/gamestats', topGames[1].most_played_game_appid]" class="profile_link">
+              {{topGames[1].most_played_game_name}}
+            </a>
+          </div>
+          <div class="game-hours-2">
+            {{topGames[1].most_played_game_time_hr}} hours
+          </div>
+        </div>
+      </div>
+      <div class="row game-row" *ngIf="topGames[2]">
+        <div class="col-12 text-center">
+          <div class="game-image">
+            <a [routerLink]="['/gamestats', topGames[2].most_played_game_appid]">
+              <img class="rounded-most-played-game-icon" src="{{topGames[2].most_played_game_logo}}">
+              <div class="ribbon-3"><span>#3</span></div>
+            </a>
+          </div>
+          <div class="game-name">
+            <a [routerLink]="['/gamestats', topGames[2].most_played_game_appid]" class="profile_link">
+              {{topGames[2].most_played_game_name}}
+            </a>
+          </div>
+          <div class="game-hours-3">
+            {{topGames[2].most_played_game_time_hr}} hours
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="tabs" *ngIf="currentTab==2 && friends_info.length!=0"  [@switchTab] = "currentTab==2 ? 'active':'inactive'">
       <div class="tab-title">
-        Your top 3 Oldest Friends that have public profile
+        Your top 3 Oldest Friends
       </div>
-      <div *ngFor="let friend of friends_info; let i=index" class="userStat-item">
-        {{i+1}}. <a class="friend-link" (click)="search(friend.steam64_id)"><img class="" src="{{friend.avatar}}">{{friend.display_name}}</a> since {{convertUnixTime(friends[i].friend_since)}}
+      <div class="row friends-row">
+        <div class="col-12">
+          <span class="friends-avatar"><a class="friend-link" (click)="search(friends_info[0].steam64_id)"><img class="friends-image" src="{{friends_info[0].avatar}}"><span class="friends-name">{{friends_info[0].display_name}}</span></a></span>
+          <div class="friends-text">
+            Friends since {{convertUnixTime(friends[0].friend_since)}}
+          </div>
+        </div>
+      </div>
+      <div class="row friends-row">
+        <div class="col-lg-6">
+          <span class="friends-avatar"><a class="friend-link" (click)="search(friends_info[1].steam64_id)"><img class="friends-image" src="{{friends_info[1].avatar}}"><span class="friends-name">{{friends_info[1].display_name}}</span></a></span>
+          <div class="friends-text">
+            Friends since {{convertUnixTime(friends[1].friend_since)}}
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <span class="friends-avatar"><a class="friend-link" (click)="search(friends_info[2].steam64_id)"><img class="friends-image" src="{{friends_info[2].avatar}}"><span class="friends-name">{{friends_info[2].display_name}}</span></a></span>
+          <div class="friends-text">
+            Friends since {{convertUnixTime(friends[2].friend_since)}}
+          </div>
+        </div>
       </div>
     </div>
     <div *ngIf="currentTab==2 && friend_error">
@@ -105,4 +190,7 @@
 <div class= "d-none d-lg-block" id="inline" *ngIf="gameStats && currentTab==1 && userStats">
   <div class="pie"><p-chart type="pie" [data]="gameStats" ></p-chart></div>
   <div class="bar"><p-chart type="bar" [data]="gameStats" ></p-chart></div>
+</div>
+<div class= "d-block d-lg-none stats-row" id="inline" *ngIf="gameStats && currentTab==1 && userStats">
+  <span class="stats-text">More Stats available on desktop</span>
 </div>

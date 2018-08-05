@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { APIService, UserSummary } from '../../Services/api.service';
 import { DisplayService } from '../../Services/display.service';
 import { DatabaseService } from '../../Services/database.service';
@@ -14,11 +14,26 @@ export class NavbarComponent implements OnInit {
   loggedIn: boolean;
   accountError: string;
   currentAccountID: string;
+  gameList:any;
+  showSearchGame:boolean;
 
-  constructor(private apiService:APIService, private displayService: DisplayService) { }
+  constructor(private apiService:APIService, private displayService: DisplayService, private databaseService: DatabaseService, private renderer:Renderer2) { }
 
   ngOnInit() {
+    this.showSearchGame = false;
     this.setAccount();
+    this.getGameList();
+  }
+
+  toggleSearchGame(){
+    this.showSearchGame = !this.showSearchGame;
+  }
+
+  getGameList(){
+    /* TODO: Implement Live search
+    this.databaseService.navbarGetGameList().subscribe(data => {
+      this.gameList = data;
+    });*/
   }
 
   searchUser(steam64id: string){

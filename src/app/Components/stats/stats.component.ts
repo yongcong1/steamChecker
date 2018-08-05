@@ -80,16 +80,14 @@ export class StatsComponent implements OnInit {
 
   convertUnixTime(unixTime){
     var d = new Date(unixTime*1000);
+    var monthInWord = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var year = d.getFullYear()+"";
-    var month = d.getMonth()+"";
+    var month = Number(d.getMonth());
     var date = d.getDate()+"";
-    if(month.length == 1){
-      month="0"+month;
-    }
     if(date.length ==1){
       date = "0" + date;
     }
-    return year + '-' + month + '-' + date;
+    return monthInWord[month-1] + ' ' + date + ', ' + year;
   }
 
   convertStatus(status){
@@ -239,6 +237,8 @@ export class StatsComponent implements OnInit {
               most_played_game_appid: time['appid'],
               most_played_game_icon: "https://steamcdn-a.opskins.media/steamcommunity/public/images/apps/" +
               time['appid']+ "/" + time['img_icon_url']+".jpg",
+              most_played_game_logo: "https://steamcdn-a.opskins.media/steamcommunity/public/images/apps/" +
+              time['appid'] + "/" + time['img_logo_url']+".jpg",
               most_played_game_name: time['name'],
               most_played_game_time_hr: Math.floor(time['playtime_forever']/60),
               most_played_game_time_minute: time['playtime_forever']%60,
@@ -311,7 +311,7 @@ export class StatsComponent implements OnInit {
         { if(data['response']['players'][0]){
             data = data['response']['players'][0];
             var friend_userSummary:UserSummary = {
-              avatar: data['avatar'],
+              avatar: data['avatarfull'],
               display_name: data['personaname'],
               profile_url: data['profileurl'],
               status: this.convertStatus(data['personastate']),

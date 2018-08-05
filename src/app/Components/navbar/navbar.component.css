@@ -1,3 +1,17 @@
+@media (max-width: 991px) {
+  .margin-left-10{
+    margin-left: 0px !important;
+  }
+  .collapse-padding-bottom{
+    padding-bottom: 8px;
+  }
+}
+
+
+.search-form{
+  min-width: 226px;
+}
+
 .gap{
   margin-left: 20px;
 }
@@ -31,4 +45,40 @@
 
 .navbar-shadow{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-link.active{
+  color: #fff;
+  text-shadow: 0 0 4px white;
+}
+
+.margin-left-10{
+  margin-left: 10px;
+}
+
+span.fa-search{
+  width: 15px;
+  margin: -30px 12px;
+  float: right;
+  color: grey;
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+span.fa-search:hover {
+  cursor:pointer;
+  font-weight: bold;
+}
+
+.search-game:hover{
+  cursor:pointer;
+}
+
+.form-group{
+  margin-bottom: 0px;
+}
+
+.sign-in{
+  padding:0px;
 }

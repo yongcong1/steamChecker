@@ -16,152 +16,246 @@ export class GameStatsDetailComponent implements OnInit {
   backgroundURL: string;
   playerStats: any;
   playerStatsOptions: any;
+  errors: string;
+  twentyFourHourPeak: number;
+  playerCount:number[] =  [];
+  playerCountTime:Date[] = [];
+  currentPlayerGraphTimeTab: number; //0 = 24 hour, 1 = 7 day, 2 = 1 month, 3 = 1 year, 4 = all time
+  earliestPlayerCountDayDiff: number;
 
   constructor( private route : ActivatedRoute, private databaseService: DatabaseService, private apiService: APIService ) { }
 
   ngOnInit() {
+    this.currentPlayerGraphTimeTab = 4;
     this.getDetails();
   }
 
   getDetails(){
     this.route.params.subscribe(params => {
       this.gameAppID = params.appid;
-      this.callDetails(this.gameAppID);
       this.steamDetails(this.gameAppID);
+      this.callDetails(this.gameAppID);
     });
-  }
-
-  callDetails(gameID){
-    this.databaseService.getGameDetail(gameID).subscribe( data => {
-      this.data = data;
-      console.log(this.data);
-      let playerCount:number[] =  [];
-      let playerCountTime: Date[] = [];
-      for(let i=0; i<this.data['player_count'].length; i++){
-        playerCount.push(this.data['player_count'][i].player_count);
-        let playerCountDate = new Date(this.data['player_count'][i].time);
-        playerCountTime.push(playerCountDate);
-      }
-      this.playerStats = {
-        labels: playerCountTime,
-        datasets: [
-          {
-            label: 'Amount of Players',
-            data: playerCount,
-            fill: false,
-            borderColor: '#ff0000'
-          }
-        ]
-      }
-
-      this.playerStatsOptions = {
-        title: {
-            display: true,
-            text: 'Players Graph'
-        },
-        elements: { point: { radius: 0 } },
-        legend: {display: false},
-        tooltips: {
-          callbacks: {
-            title: function(tooltipItem, data) {
-              let str = tooltipItem[0].xLabel;
-              let returnString = str.substring(0, str.indexOf(".")-4) + str.substring(str.indexOf(".")+3, str.length);
-              return returnString;
-            }
-          },
-          mode: 'index',
-          intersect: false
-        },
-        hover: {
-           mode: 'index',
-           intersect: false
-        },
-        scales: {
-          yAxes: [{
-              ticks: {
-                  beginAtZero: true,
-                  fontColor: 'black',
-                  callback: function(value, index, values) {
-                    let number = value;
-                    let returnString = "";
-                    let amountOfOneThousand = 0;
-                    while(number>=1000){
-                      number = number / 1000;
-                      amountOfOneThousand++;
-                    }
-                    switch(amountOfOneThousand){
-                      case 1: return "" + number + "K";
-                      case 2: return "" + number + "M";
-                      case 3: return "" + number + "B";
-                      case 4: return "" + number + "T";
-                      default: return number;
-                    }
-                }
-              },
-          }],
-        xAxes: [{
-          type: 'time',
-          time: {
-              unit: 'day',
-              displayFormats: {
-                'millisecond': 'MMM DD',
-                'second': 'MMM DD',
-                'minute': 'MMM DD',
-                'hour': 'MMM DD',
-                'day': 'MMM DD',
-                'week': 'MMM DD',
-                'month': 'MMM DD',
-                'quarter': 'MMM DD',
-                'year': 'MMM DD',
-              }
-          },
-          ticks: {
-              fontColor: 'black'
-          },
-        }]
-      }}
-    });
-  }
-
-  getBackgroundURL(){
-    return "url(" + this.backgroundURL + ")";
   }
 
   steamDetails(gameID){
     this.apiService.getSteamDetails(gameID).subscribe( data => {
       if(data[gameID]['success']==true){
         this.backgroundURL = data[gameID]['data']['background'];
+        this.getBackgroundURL();
         this.steamData = data[gameID]['data'];
-        this.steamData['about_the_game'] = this.steamData['about_the_game'].replace(/(<([^>]+)>)/ig," "); //remove html tags from steam store api
-      }
-    })
-  }
-
-  getPublishers(){
-    let returnString = "";
-    for(let i=0; i<this.steamData['publishers'].length; i++){
-      if(i>0){
-        returnString = returnString + ", " + this.steamData['publishers'][i];
       }
       else{
-        returnString = this.steamData['publishers'][i];
+        if(this.errors){
+          this.errors = this.errors + " and ";
+        }
+        this.errors = this.errors + " Cannot retrieve steam details";
       }
-    }
-    return returnString;
+    });
   }
 
-  getDevelopers(){
-    let returnString = "";
-    for(let i=0; i<this.steamData['developers'].length; i++){
-      if(i>0){
-        returnString = returnString + ", " + this.steamData['developers'][i];
+  callDetails(gameID){
+    this.databaseService.getGameDetail(gameID).subscribe( data => {
+      this.data = data;
+      for(let i=0; i<this.data['player_count'].length; i++){
+        this.playerCount.push(this.data['player_count'][i].player_count);
+        let playerCountDate = new Date(this.data['player_count'][i].time);
+        this.playerCountTime.push(playerCountDate);
+
+        if(this.isLastTwentyFourHour(playerCountDate)){
+          if(this.twentyFourHourPeak < this.data['player_count'][i].player_count){
+            this.twentyFourHourPeak = this.data['player_count'][i].player_count; //check for last 24 hour player peak count
+          }
+        }
+      }
+
+      if(!this.twentyFourHourPeak){
+        this.twentyFourHourPeak = 0; //no data in last 24 hours
+      }
+
+      this.earliestPlayerCountDayDiff = this.earliestDate();
+
+      this.createPlayerGraph(this.earliestPlayerCountDayDiff);
+    });
+  }
+
+  createPlayerGraph(pastNDays){
+    if(pastNDays > this.earliestPlayerCountDayDiff){
+      pastNDays = this.earliestPlayerCountDayDiff;
+    }
+    this.playerStats = {
+      labels: this.playerCountTime,
+      datasets: [
+        {
+          label: 'Amount of Players',
+          data: this.playerCount,
+          fill: false,
+          borderColor: '#ff0000'
+        }
+      ]
+    };
+
+    this.playerStatsOptions = {
+      title: {
+          display: true,
+          text: 'Player Count'
+      },
+
+      elements: { point: { radius: 0 } },
+
+      legend: {display: false},
+
+      tooltips: {
+        callbacks: {
+          title: function(tooltipItem, data) {
+            let str = tooltipItem[0].xLabel;
+            let playerDate = new Date(str);
+
+            let dayInWords = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            let monthInWords = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            let date = playerDate.getDate();
+            let day = playerDate.getDay();
+            let month = playerDate.getMonth();
+            let year = playerDate.getFullYear();
+            let hour = playerDate.getHours();
+            let minute = playerDate.getMinutes();
+
+            let returnString = dayInWords[day] + " " + monthInWords[month-1] + " " + date + ", " + year + " ";
+            var isAM = true;
+            if(hour == 0){
+              hour = 12;
+            }
+            else if(hour < 10){
+              returnString += "0";
+            }
+            else if(hour > 12){
+              hour = hour - 12;
+              isAM = false;
+            }
+            returnString += hour + ":";
+            if(minute<10){
+              returnString += "0";
+            }
+            returnString += "" + minute;
+            if(isAM){
+              returnString += " AM";
+            }
+            else{
+              returnString += " PM";
+            }
+
+            return returnString;
+          },
+          label:function(tooltipItem, data){
+            let str = tooltipItem.yLabel;
+            let returnString = str.toLocaleString(undefined);
+            return "Amount of Players: " + returnString;
+          }
+        },
+        mode: 'index',
+        intersect: false
+      },
+
+      hover: {
+         mode: 'index',
+         intersect: false
+      },
+
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            fontColor: 'black',
+              callback: function(value, index, values) {
+                let number = value;
+                let returnString = "";
+                let amountOfOneThousand = 0;
+                while(number>=1000){
+                  number = number / 1000;
+                  amountOfOneThousand++;
+                }
+                switch(amountOfOneThousand){
+                  case 1: return "" + number + "K";
+                  case 2: return "" + number + "M";
+                  case 3: return "" + number + "B";
+                  case 4: return "" + number + "T";
+                  default: return number;
+                }
+              }
+            },
+        }],
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: this.playerGraphDateUnit(pastNDays),
+            displayFormats: {
+              'day': 'MMM DD',
+              'month': 'MMM YYYY',
+              'hour': 'h:mm a'
+            },
+            tooltipFormat: "YYYY-MM-DDTHH:mm:ss.sssZ",
+            min: this.lastNDayDate(pastNDays)
+          },
+          ticks: {
+              fontColor: 'black'
+          },
+        }]
+      }
+    };
+  }
+
+  earliestDate(){
+    var today = new Date();
+    var timeDiff = today.getTime() - this.playerCountTime[0].getTime();
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  }
+
+  playerGraphDateUnit(n){
+    if(n>=120){
+      return 'month';
+    }
+    else if(n<=1){
+      return 'hour';
+    }
+    else{
+      return 'day';
+    }
+  }
+
+  lastNDayDate(n){
+    var today = new Date();
+    var lastNday = new Date(today.getTime() - n * 24 * 60 * 60 * 1000);
+    return lastNday.toISOString();
+  }
+
+  isLastTwentyFourHour(date){
+    var ONE_DAY = 24*60*60*1000; // hour * minute * seconds * millisecond
+    return ((Date.now() - date) < ONE_DAY);
+  }
+
+  getBackgroundURL(){
+    var gameStatDetailComponent = this;
+    this.verifyBackgroundURL(function(data){
+      if(data){
+        gameStatDetailComponent.backgroundURL = "url(" + gameStatDetailComponent.backgroundURL + ")";
       }
       else{
-        returnString = this.steamData['developers'][i];
+        gameStatDetailComponent.backgroundURL = "url(/assets/background.jpg)";
       }
-    }
-    return returnString;
+    });
+  }
 
+  verifyBackgroundURL(callback){
+    var bgImg = new Image();
+    bgImg.onload = function(){
+      callback(true);
+    }
+    bgImg.onerror = function(){
+      callback(false);
+    }
+    bgImg.src = this.backgroundURL;
   }
 
 }
