@@ -57,6 +57,7 @@ export class StatsComponent implements OnInit {
   friends:Friends[]=[];
   friends_info: UserSummary[] = [];
   friend_error: string;
+  searching:boolean;
 
   constructor(private apiService: APIService, private displayService:DisplayService, private databaseService:DatabaseService) {
     displayService.showStats$.subscribe(
@@ -116,6 +117,7 @@ export class StatsComponent implements OnInit {
     this.friends_info=[];
     this.friend_error=null;
     this.searchCustom_response = null;
+    this.searching = true;
   }
 
   //the api returns the steamid that belongs to the custom name/url
@@ -124,6 +126,7 @@ export class StatsComponent implements OnInit {
 
     if(customUrl.length==0){
       this.empty_search = true;
+      this.searching = false;
       return;
     }
     if(customUrl.includes("https://steamcommunity.com/id/"))
@@ -322,6 +325,7 @@ export class StatsComponent implements OnInit {
         });
       }
     }
+    this.searching = false;
   }},
   error=>{
     console.log("there is an error: " + error);

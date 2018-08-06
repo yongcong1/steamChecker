@@ -4,8 +4,7 @@
   </div>
 </div>
 <div class="background" *ngIf="(!steamData || !data) && !errors">
-  <div class="row justify-content-center">
-    currently loading, please wait a moment
+  <div class="loader">
   </div>
 </div>
 <div class="container-fluid background" *ngIf="steamData && data" [ngStyle]="{'background-image' : backgroundURL}">

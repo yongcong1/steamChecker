@@ -46,10 +46,7 @@ export class GameStatsDetailComponent implements OnInit {
         this.steamData = data[gameID]['data'];
       }
       else{
-        if(this.errors){
-          this.errors = this.errors + " and ";
-        }
-        this.errors = this.errors + " Cannot retrieve steam details";
+        this.errors = " Cannot retrieve Steam details";
       }
     });
   }
@@ -230,7 +227,6 @@ export class GameStatsDetailComponent implements OnInit {
     var earliestDay = new Date(this.data['player_count'][0].time);
     var timeDiff = today.getTime() - earliestDay.getTime();
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    alert(diffDays);
     return diffDays;
   }
 

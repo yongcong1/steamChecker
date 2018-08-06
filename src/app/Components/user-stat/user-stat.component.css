@@ -1,8 +1,2 @@
 .background{
-  background-image: url("/assets/background.jpg");
-  color: white;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  min-height: calc(100vh - 56px);
 }

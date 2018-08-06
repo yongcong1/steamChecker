@@ -7,9 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-site-verification" content="bF_qSfp2s2d6JQOj2EHQfXYSDxrYb-mHMokvJJpKIgQ" />
     <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.26/zone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <style type="text/css">
+    .background{
+      color: white;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      min-height: calc(100vh - 56px);
+      background-color:black;
+      background-image: url('/assets/background.jpg');
+    }
+    .initial-navbar{width:100%; height: 50px; background-color: #343a40}
+    .loader-container{overflow:hidden}.loader{color:#fff;font-size:50px;text-indent:-9999em;overflow:hidden;width:1em;height:1em;border-radius:50%;margin:72px auto;position:relative;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);-webkit-animation:load6 1.7s infinite ease,round 1.7s infinite ease;animation:load6 1.7s infinite ease,round 1.7s infinite ease}@-webkit-keyframes load6{0%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}5%,95%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}10%,59%{box-shadow:0 -.83em 0 -0.4em,-.087em -.825em 0 -0.42em,-.173em -.812em 0 -0.44em,-.256em -.789em 0 -0.46em,-.297em -.775em 0 -.477em}20%{box-shadow:0 -.83em 0 -0.4em,-.338em -.758em 0 -0.42em,-.555em -.617em 0 -0.44em,-.671em -.488em 0 -0.46em,-.749em -.34em 0 -.477em}38%{box-shadow:0 -.83em 0 -0.4em,-.377em -.74em 0 -0.42em,-.645em -.522em 0 -0.44em,-.775em -.297em 0 -0.46em,-.82em -.09em 0 -.477em}100%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}}@keyframes load6{0%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}5%,95%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}10%,59%{box-shadow:0 -.83em 0 -0.4em,-.087em -.825em 0 -0.42em,-.173em -.812em 0 -0.44em,-.256em -.789em 0 -0.46em,-.297em -.775em 0 -.477em}20%{box-shadow:0 -.83em 0 -0.4em,-.338em -.758em 0 -0.42em,-.555em -.617em 0 -0.44em,-.671em -.488em 0 -0.46em,-.749em -.34em 0 -.477em}38%{box-shadow:0 -.83em 0 -0.4em,-.377em -.74em 0 -0.42em,-.645em -.522em 0 -0.44em,-.775em -.297em 0 -0.46em,-.82em -.09em 0 -.477em}100%{box-shadow:0 -.83em 0 -0.4em,0 -.83em 0 -0.42em,0 -.83em 0 -0.44em,0 -.83em 0 -0.46em,0 -.83em 0 -.477em}}@-webkit-keyframes round{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes round{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+    </style>
   </head>
-  <body>
-    <app-root></app-root>
+  <body class="background">
+    <app-root>
+      <div class="initial-navbar">
+      </div>
+      <div class="loader-container">
+        <div class="loader">
+        </div>
+      </div>
+    </app-root>
   </body>
   <footer>
   </footer>

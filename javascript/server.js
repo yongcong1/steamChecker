@@ -10,8 +10,6 @@ const url = "mongodb://localhost:27017/";
 
 var databaseServiceObj;
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session(
@@ -154,7 +152,7 @@ if(apiCallURL==""){
 }
 
 
-MongoClient.connect(url, function(err, database){
+MongoClient.connect(url, { useNewUrlParser: true }, function(err, database){
 	var db = database.db("steamCheck");
 	app.listen(process.env.PORT || 4200, function(){
 		console.log("server is listening");
