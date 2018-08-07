@@ -1,24 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule} from '@angular/forms';
-import {ChartModule} from 'primeng/chart';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
-import { SearchComponent} from '../search/search.component';
-import { StatsComponent} from '../stats/stats.component';
+import { SearchModule} from '../search/search.module';
+import { StatsModule} from '../stats/stats.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MainRoutingModule,
-    FormsModule,
-    ChartModule
+    StatsModule,
+    SearchModule
   ],
   declarations: [
-    MainComponent,
-    SearchComponent,
-    StatsComponent
+    MainComponent
   ]
 })
 export class MainModule { }

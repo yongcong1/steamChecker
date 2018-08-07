@@ -23,6 +23,7 @@
     "bootstrap": "^4.1.1",
     "chart.js": "^2.7.2",
     "express-session": "^1.15.6",
+    "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "mongodb": "^3.0.10",
     "npm": "^6.1.0",

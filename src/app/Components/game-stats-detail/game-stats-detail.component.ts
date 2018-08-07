@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { DatabaseService } from '../../Services/database.service';
 import { APIService } from '../../Services/api.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game-stats-detail',
@@ -23,9 +24,10 @@ export class GameStatsDetailComponent implements OnInit {
   currentPlayerGraphTimeTab: number; //0 = 24 hour, 1 = 7 day, 2 = 1 month, 3 = 1 year, 4 = all time
   earliestPlayerCountDayDiff: number;
 
-  constructor( private route : ActivatedRoute, private databaseService: DatabaseService, private apiService: APIService ) { }
+  constructor( private route : ActivatedRoute, private databaseService: DatabaseService, private apiService: APIService, private titleService:Title ) { }
 
   ngOnInit() {
+    this.twentyFourHourPeak = 0;
     this.currentPlayerGraphTimeTab = 4;
     this.getDetails();
   }
@@ -33,9 +35,13 @@ export class GameStatsDetailComponent implements OnInit {
   getDetails(){
     this.route.params.subscribe(params => {
       this.gameAppID = params.appid;
-      this.steamDetails(this.gameAppID);
       this.callDetails(this.gameAppID);
+      this.steamDetails(this.gameAppID);
     });
+  }
+
+  setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
   }
 
   steamDetails(gameID){
@@ -54,6 +60,7 @@ export class GameStatsDetailComponent implements OnInit {
   callDetails(gameID){
     this.databaseService.getGameDetail(gameID).subscribe( data => {
       this.data = data;
+      this.setTitle("Steam Check - " + this.data['name']);
       for(let i=0; i<this.data['player_count'].length; i++){
         this.playerCount.push(this.data['player_count'][i].player_count);
         let playerCountDate = new Date(this.data['player_count'][i].time);
@@ -64,10 +71,6 @@ export class GameStatsDetailComponent implements OnInit {
             this.twentyFourHourPeak = this.data['player_count'][i].player_count; //check for last 24 hour player peak count
           }
         }
-      }
-
-      if(!this.twentyFourHourPeak){
-        this.twentyFourHourPeak = 0; //no data in last 24 hours
       }
 
       this.earliestPlayerCountDayDiff = this.earliestDate();
@@ -81,7 +84,7 @@ export class GameStatsDetailComponent implements OnInit {
     this.playerCountTime=[];
     for(let i=0; i<this.data['player_count'].length; i++){
       let playerCountDate = new Date(this.data['player_count'][i].time);
-      if(this.dayDiff(playerCountDate)-pastNDays<0){
+      if(this.isWithinNdays(playerCountDate, pastNDays)){
         this.playerCount.push(this.data['player_count'][i].player_count);
         this.playerCountTime.push(playerCountDate);
       }
@@ -215,11 +218,9 @@ export class GameStatsDetailComponent implements OnInit {
     };
   }
 
-  dayDiff(date){
-    var today = new Date();
-    var timeDiff = today.getTime() - date.getTime();
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return diffDays;
+  isWithinNdays(date, pastNDays){
+    var ONE_DAY = 24*60*60*1000; // hour * minute * seconds * millisecond
+    return ((Date.now() - date) < pastNDays * ONE_DAY);
   }
 
   earliestDate(){

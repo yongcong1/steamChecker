@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../Services/api.service';
 import { DatabaseService } from '../../Services/database.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game-stats',
@@ -24,7 +25,7 @@ export class GameStatsComponent implements OnInit {
   playerCountSortOrder: number;
   maxPlayerCountSortOrder: number;
 
-  constructor(private apiService: APIService, private databaseService: DatabaseService) { }
+  constructor(private apiService: APIService, private databaseService: DatabaseService, private titleService:Title) { }
 
   ngOnInit() {
     this.currentPage = 1;
@@ -34,6 +35,11 @@ export class GameStatsComponent implements OnInit {
     this.playerCountSortOrder = -1;
     this.maxPlayerCountSortOrder = -1;
     this.showGameList();
+    this.setTitle("Steam Check - Explore Steam Game Statistics");
+  }
+
+  setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
   }
 
   showGameList(){

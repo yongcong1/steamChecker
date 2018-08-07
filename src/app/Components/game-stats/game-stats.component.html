@@ -3,102 +3,109 @@
     <strong class="table-title">
       List of Steam Games
     </strong>
+    <div class="content-wrap">
 
-    <div *ngIf="!data" class="center-text" class="loader-container">
-      <div class="loader">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="dropdown col-sm-6 search-align-left mt-auto" *ngIf="data">
-        Display
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{pageSize}}
-        </button>
-        Games
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item dropdown-cursor" (click)="newPageSize(10)">10</a>
-          <a class="dropdown-item dropdown-cursor" (click)="newPageSize(25)">25</a>
-          <a class="dropdown-item dropdown-cursor" (click)="newPageSize(50)">50</a>
-          <a class="dropdown-item dropdown-cursor" (click)="newPageSize(100)">100</a>
+      <div *ngIf="!data" class="center-text" class="loader-container">
+        <div class="loader">
         </div>
       </div>
 
-      <div class="col-sm-6 mt-auto" *ngIf="data">
-        <div class="row">
-          <div class="col-12 search-align-right">
-            Search Game
-            <input type="text" class="custom-input" (input)="searchGameList($event.target.value)">
+      <div class="row">
+        <div class="dropdown col-sm-6 search-align-left" *ngIf="data">
+          Display
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{pageSize}}
+          </button>
+          Games
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item dropdown-cursor" (click)="newPageSize(10)">10</a>
+            <a class="dropdown-item dropdown-cursor" (click)="newPageSize(25)">25</a>
+            <a class="dropdown-item dropdown-cursor" (click)="newPageSize(50)">50</a>
+            <a class="dropdown-item dropdown-cursor" (click)="newPageSize(100)">100</a>
+          </div>
+        </div>
+
+        <div class="col-sm-6 mt-auto" *ngIf="data">
+          <div class="row">
+            <div class="col-12 search-align-right">
+              Search Game
+              <input type="text" class="custom-input" (input)="searchGameList($event.target.value)">
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="table-responsive table-position">
-      <table class="table table-width table-dark table-hover" *ngIf="data">
-        <thead>
-          <tr>
-            <th class="center-text">#</th>
-            <th  class="center-text w-40"><a class="table-header" (click)="sortName(nameSortOrder)">Name
-              <i class="fa fa-sort"></i>
-            </a></th>
-            <th class="center-text w-25"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
-              <i class="fa fa-sort"></i>
-            </a></th>
-            <th class="center-text w-15"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
-              <i class="fa fa-sort"></i>
-            </a></th>
-            <th  class="w-25"></th>
-          </tr>
-        </thead>
+      <div class="table-responsive table-position">
+        <table class="table table-width table-dark table-hover" *ngIf="data">
+          <thead>
+            <tr>
+              <th class="center-text">#</th>
+              <th  class="center-text w-40"><a class="table-header" (click)="sortName(nameSortOrder)">Name
+                <i class="fa fa-sort"></i>
+              </a></th>
+              <th class="center-text w-25"><a class="table-header" (click)="sortPlayerCount(playerCountSortOrder)">Current Players
+                <i class="fa fa-sort"></i>
+              </a></th>
+              <th class="center-text w-15"><a class="table-header" (click)="sortMaxPlayerCount(maxPlayerCountSortOrder)">Peak
+                <i class="fa fa-sort"></i>
+              </a></th>
+              <th  class="w-25"></th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr *ngFor="let game of displayGameList; let i=index">
-            <th class="center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
-            <td class="center-text">
-              <a href="https://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
-                {{game.name}}
-              </a>
-            </td>
-            <td class="center-text">
-              <span *ngIf="game.current_player">
-                {{game.current_player | number}}
-              </span>
-              <span *ngIf="!game.current_player">
-                none
-              </span>
-            </td>
-            <td class="center-text">
-              <span *ngIf="game.max_player_count">
-                {{game.max_player_count | number}}
-              </span>
-              <span *ngIf="!game.max_player_count">
-                none
-              </span>
-            </td>
-            <td class="center-text">
-              <a [routerLink]="['/gamestats', game.appid]" class="app-name">
-                <i class="fa fa-info"></i> More Info
-              </a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="row" *ngIf="data">
-      <div class="col-sm-7">
-        <div class="row">
-          <div class = "col-12 text-center text-sm-left">
-              <a class="page" (click)="setPage(1)">first</a>
-              <a class="page" (click)="previousPage()">previous</a>
-              <form class="form-display-inline" (ngSubmit)="setPage(page.value); page.value='';">
-                <input type="text" class="page-number page-left custom-input" id="page" #page placeholder="{{currentPage}}"><span class="d-none d-md-inline page-right">of {{lastPage}}</span>
-              </form>
-              <a class="page" (click)="nextPage()">next</a>
-              <a class="page" (click)="setPage(lastPage)">last</a>
+          <tbody>
+            <tr *ngFor="let game of displayGameList; let i=index">
+              <th class="center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
+              <th class="center-text">
+                <a href="https://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
+                  {{game.name}}
+                </a>
+              </th>
+              <th class="center-text">
+                <span *ngIf="game.current_player">
+                  {{game.current_player | number}}
+                </span>
+                <span *ngIf="!game.current_player">
+                  None
+                </span>
+              </th>
+              <th class="center-text">
+                <span *ngIf="game.max_player_count">
+                  {{game.max_player_count | number}}
+                </span>
+                <span *ngIf="!game.max_player_count">
+                  None
+                </span>
+              </th>
+              <th class="center-text">
+                <a [routerLink]="['/gamestats', game.appid]">
+                  <button type="button" class="btn btn-secondary">More Info</button>
+                </a>
+              </th>
+            </tr>
+            <tr *ngIf="displayGameList.length==0">
+              <th></th>
+              <th style="color:red"> No Matching </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row" *ngIf="data">
+        <div class="col-sm-7">
+          <div class="row">
+            <div class = "col-12 text-center text-sm-left">
+                <a class="page" (click)="setPage(1)">first</a>
+                <a class="page" (click)="previousPage()">previous</a>
+                <form class="form-display-inline" (ngSubmit)="setPage(page.value); page.value='';">
+                  <input type="text" class="page-number page-left custom-input" id="page" #page placeholder="{{currentPage}}"><span class="d-none d-md-inline page-right">of {{lastPage}}</span>
+                </form>
+                <a class="page" (click)="nextPage()">next</a>
+                <a class="page" (click)="setPage(lastPage)">last</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-5 text-center">
-        <span class="page-seperate float-sm-right">showing {{beginResult}} - {{endResult}} of {{totalGames}} entries</span>
+        <div class="col-sm-5 text-center">
+          <span class="page-seperate float-sm-right">showing {{beginResult}} - {{endResult}} of {{totalGames}} entries</span>
+        </div>
       </div>
     </div>
   </div>
