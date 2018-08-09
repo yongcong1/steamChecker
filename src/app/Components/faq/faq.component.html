@@ -1,23 +1,16 @@
-<div class="FAQ-container background">
-  <strong class="FAQ-title">
-    Frequently asked questions
-  </strong>
-  <div class="FAQ-question">
-  1. Why can't I see my stats?
+<div class="FAQ-container container-fluid">
+  <div class="FAQ-title">
+    Frequently Asked Questions
   </div>
-  <div>
-  A: Make sure your steam profile is public and game details is also public in <a href="https://steamcommunity.com/my/edit/settings" target="_blank">Steam Settings</a>
-  </div>
-  <div class="FAQ-question">
-  2. Why are some games not showing in game stats?
-  </div>
-  <div>
-  A: Game stats will only show games that has current player stats, in other words steam has no player statistics for that particular game.
-  </div>
-  <div class="FAQ-question">
-  3. Where are all these stats coming from?
-  </div>
-  <div>
-  A: All stats are retrieved using steam API with the exception of Player statistics which is retrieved using steamKit2 .NET library.
+
+  <div *ngFor="let question of listOfQuestions" class="row justify-content-center">
+    <div class="col-sm-5 text-left">
+      <div class="FAQ-question" (click) = "question.showDiv = !question.showDiv">
+        <span class="question-icon" *ngIf="!question.showDiv"><i class="fa fa-angle-right question-icon-width"></i></span>
+        <span class="question-icon" *ngIf="question.showDiv"><i class="fa fa-angle-down question-icon-width"></i></span>
+        {{question.question}}
+      </div>
+      <div class="answer-container" *ngIf="question.showDiv" [innerHTML] = "question.answer"></div>
+    </div>
   </div>
 </div>

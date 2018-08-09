@@ -1,4 +1,4 @@
-<div class="container-fluid background">
+<div class="container-fluid">
   <div class="page-layout">
     <strong class="table-title">
       List of Steam Games
@@ -38,7 +38,7 @@
         <table class="table table-width table-dark table-hover" *ngIf="data">
           <thead>
             <tr>
-              <th class="center-text">#</th>
+              <th class="center-text">Rank</th>
               <th  class="center-text w-40"><a class="table-header" (click)="sortName(nameSortOrder)">Name
                 <i class="fa fa-sort"></i>
               </a></th>
@@ -54,37 +54,37 @@
 
           <tbody>
             <tr *ngFor="let game of displayGameList; let i=index">
-              <th class="center-text">{{(currentPage-1)*pageSize+i+1 | number}}</th>
-              <th class="center-text">
+              <td class="center-text">{{(currentPage-1)*pageSize+i+1 | number}}</td>
+              <td class="center-text">
                 <a href="https://store.steampowered.com/app/{{game.appid}}" target="_blank" class="app-name">
                   {{game.name}}
                 </a>
-              </th>
-              <th class="center-text">
+              </td>
+              <td class="center-text">
                 <span *ngIf="game.current_player">
                   {{game.current_player | number}}
                 </span>
                 <span *ngIf="!game.current_player">
                   None
                 </span>
-              </th>
-              <th class="center-text">
+              </td>
+              <td class="center-text">
                 <span *ngIf="game.max_player_count">
                   {{game.max_player_count | number}}
                 </span>
                 <span *ngIf="!game.max_player_count">
                   None
                 </span>
-              </th>
-              <th class="center-text">
+              </td>
+              <td class="center-text">
                 <a [routerLink]="['/gamestats', game.appid]">
                   <button type="button" class="btn btn-secondary">More Info</button>
                 </a>
-              </th>
+              </td>
             </tr>
             <tr *ngIf="displayGameList.length==0">
-              <th></th>
-              <th style="color:red"> No Matching </th>
+              <td></td>
+              <td style="color:red"> No Matching </td>
             </tr>
           </tbody>
         </table>
