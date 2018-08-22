@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <app-search></app-search>
+    </div>
+    <div class="col-12">
+      <app-recent-search *ngIf="searching==false" [@fadeIn]="'in'"></app-recent-search>
+      <app-stats></app-stats>
+    </div>
+  </div>
+</div>

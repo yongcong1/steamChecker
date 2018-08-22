@@ -76,6 +76,25 @@ class DatabaseService{
     }
     console.log("update game finished");
   }
+
+  getRecentUserDetail(callback){
+    let users = db.collection('users');
+    users.find({}, {fields: { _id: 0 }}).sort({'last_modified':-1}).limit(4).toArray(function(err, cursor){
+      if(err){
+      }
+      callback(cursor);
+    });
+  }
+
+  updateUserDetail(userDetail){
+    let users = db.collection('users');
+    users.updateOne({"steam64_id": userDetail.steam64_id}, {$set: userDetail}, {upsert:true});
+  }
+
+  updateLastUserDetail(userDetail){
+    let users = db.collection('recentUsers');
+    users.updateOne({"steam64_id": userDetail.steam64_id}, {$set: userDetail}, {upsert:true});
+  }
 }
 
 module.exports = DatabaseService;

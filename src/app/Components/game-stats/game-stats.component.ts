@@ -145,7 +145,7 @@ export class GameStatsComponent implements OnInit {
 
   refreshPageList(){
     this.pages = [];
-    for(let i=0; i<=Math.floor(this.searchData.length/this.pageSize); i++){
+    for(let i=0; i<Math.ceil(this.searchData.length/this.pageSize); i++){
       this.pages.push(i+1);
     }
     this.lastPage = this.pages.length;
@@ -174,5 +174,10 @@ export class GameStatsComponent implements OnInit {
   newPageSize(pageSize){
     this.pageSize = pageSize;
     this.setPage(1);
+  }
+
+  submitPage(pageNumber, event:Event){
+    event.preventDefault();
+    this.setPage(pageNumber);
   }
 }

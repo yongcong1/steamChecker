@@ -1,0 +1,13 @@
+<div class="recent-title">
+  ... or check out some recent searches made by others
+</div>
+
+<div class="row justify-content-center">
+  <div class="hovereffect" *ngFor="let user of recentSearch">
+      <img class="img-responsive" src="{{user.avatar}}" alt="">
+      <div class="overlay">
+         <h2>{{user.display_name}}</h2>
+         <a class="info" (click)="searchUser(user.steam64_id)">Check it out!</a>
+      </div>
+  </div>
+</div>

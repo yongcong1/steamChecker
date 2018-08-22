@@ -70,8 +70,13 @@ app.use(apiCallURL + '/Verify', function(req, res) {
       });
 });
 
+app.get(apiCallURL + '/test', function(req, res){
+	req.session.steamID = "76561198021742536";
+	res.redirect("/");
+});
+
 app.get(apiCallURL+'/account', function(req, res){
-	return res.json({"steamID": req.session.steamID , "sessionID": req.sessionID});
+	return res.send({"steamID": req.session.steamID});
 });
 
 app.get(apiCallURL+'/signout', function(req, res){
@@ -106,12 +111,6 @@ app.get(apiCallURL+'/db/gameDetail/:appid', function(req, res){
 	});
 });
 
-app.get(apiCallURL+'/db/navbarGameList', function(req, res){
-	databaseServiceObj.navbarFindGame(function(data){
-		res.send(data);
-	});
-});
-
 app.get(apiCallURL+'/api/customURL/:param', function(req, res) {
 	let param = req.params.param;
 	var url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?'+ 'key=' + apiKey  + param;
@@ -140,6 +139,20 @@ app.get(apiCallURL+'/api/steamGameDetail/:param', function(req, res){
 	let param = req.params.param;
 	var url = 'https://store.steampowered.com/api/appdetails?' + param;
 	request(url).pipe(res);
+});
+
+app.get('/db/recentUserDetail', function(req, res){
+	databaseServiceObj.getRecentUserDetail(function(data){
+			res.send(JSON.stringify(data));
+	});
+});
+
+app.post('/db/userDetail', function(req, res){
+	var userDetail = req.body;
+	delete userDetail['status'];
+	userDetail['last_modified'] = new Date();
+	databaseServiceObj.updateUserDetail(req.body);
+	return res.send("Success");
 });
 
 

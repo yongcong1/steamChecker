@@ -24,4 +24,12 @@ export class DatabaseService {
     return this.http.get(this.dbURL + 'navbarGameList');
   }
 
+  postUserDetail(userDetail){
+    return this.http.post(this.dbURL + 'userDetail', userDetail);
+  }
+
+  getRecentUserDetail(){
+    return this.http.get(this.dbURL + 'recentUserDetail');
+  }
+
 }

@@ -54,7 +54,7 @@
 
 <div class="row justify-content-center" *ngIf="userStats">
   <div class="col-sm-5 user-stats userStat-container" *ngIf="userStats">
-    <div class="tabs" *ngIf="currentTab==0" [@switchTab] = "currentTab==0 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==0" [@generalTab] = "currentTab==0 ? 'active':'inactive'">
       <div class="tab-title">
         General Information
       </div>
@@ -68,14 +68,14 @@
         </div>
         <div class= "userStat-item col-lg-4">
 
-          <div class="general-info-text">{{userStats.playtime_hr}} hours</div>
+          <div class="general-info-text">{{userStats.playtime_hr | number}} hours</div>
 
           <div>Total play time</div>
 
         </div>
         <div class="userStat-item col-lg-4">
 
-          <div class="general-info-text">{{userStats.playtime_2week_hr}} hours</div>
+          <div class="general-info-text">{{userStats.playtime_2week_hr | number}} hours</div>
 
           <div>Play time past 2 weeks</div>
 
@@ -84,17 +84,17 @@
       <div class="row general-row">
         <div class="userStat-item col-12">
 
-          <span class="general-info-text">{{userStats.total_games - userStats.unplayed_games}} played games</span>
+          <span class="general-info-text">{{userStats.total_games - userStats.unplayed_games | number}} played games</span>
           out of
-          <span class="general-info-text">{{userStats.total_games}} owned games</span>
+          <span class="general-info-text">{{userStats.total_games | number}} owned games</span>
 
         </div>
       </div>
     </div>
 
-    <div class="tabs" *ngIf="currentTab==1" [@switchTab] = "currentTab==1 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==1" [@gameTab] = "currentTab==1 ? 'active':'inactive'">
       <div class="tab-title">
-        Your top  3 most played games
+        Most Played Games
       </div>
       <div class="row game-row" *ngIf="topGames[0]">
         <div class="col-12 text-center">
@@ -110,7 +110,7 @@
             </a>
           </div>
           <div class="game-hours-1">
-            {{topGames[0].most_played_game_time_hr}} hours
+            {{topGames[0].most_played_game_time_hr | number }} hours
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@
             </a>
           </div>
           <div class="game-hours-2">
-            {{topGames[1].most_played_game_time_hr}} hours
+            {{topGames[1].most_played_game_time_hr | number}} hours
           </div>
         </div>
       </div>
@@ -146,15 +146,15 @@
             </a>
           </div>
           <div class="game-hours-3">
-            {{topGames[2].most_played_game_time_hr}} hours
+            {{topGames[2].most_played_game_time_hr | number}} hours
           </div>
         </div>
       </div>
     </div>
 
-    <div class="tabs" *ngIf="currentTab==2 && friends_info.length!=0"  [@switchTab] = "currentTab==2 ? 'active':'inactive'">
+    <div class="tabs" *ngIf="currentTab==2 && friends_info.length!=0"  [@friendTab] = "currentTab==2 ? 'active':'inactive'">
       <div class="tab-title">
-        Your top 3 Oldest Friends
+        Oldest Friends
       </div>
       <div class="row friends-row" *ngIf="friends[0] && friends_info[0]">
         <div class="col-12">

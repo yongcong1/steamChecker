@@ -95,7 +95,7 @@
             <div class = "col-12 text-center text-sm-left">
                 <a class="page" (click)="setPage(1)">first</a>
                 <a class="page" (click)="previousPage()">previous</a>
-                <form class="form-display-inline" (ngSubmit)="setPage(page.value); page.value='';">
+                <form class="form-display-inline" (ngSubmit)="setPage(page.value); page.value=''">
                   <input type="text" class="page-number page-left custom-input" id="page" #page placeholder="{{currentPage}}"><span class="d-none d-md-inline page-right">of {{lastPage}}</span>
                 </form>
                 <a class="page" (click)="nextPage()">next</a>

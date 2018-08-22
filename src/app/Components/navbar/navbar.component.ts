@@ -22,18 +22,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.showSearchGame = false;
     this.setAccount();
-    this.getGameList();
-  }
-
-  toggleSearchGame(){
-    this.showSearchGame = !this.showSearchGame;
-  }
-
-  getGameList(){
-    /* TODO: Implement Live search
-    this.databaseService.navbarGetGameList().subscribe(data => {
-      this.gameList = data;
-    });*/
   }
 
   searchUser(steam64id: string){
@@ -52,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   showStats(){
-    this.displayService.showStats(this.currentAccountID);
+    this.displayService.steamID(this.currentAccountID);
   }
 
   setAccount(){

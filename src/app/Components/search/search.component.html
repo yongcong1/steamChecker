@@ -1,22 +1,21 @@
-<div class="center-text d-none d-sm-block">
-  <div class= "contents">
-    <div [@title]="'in'" class="inner">
-      <strong>{{ title }}</strong>
-    </div>
-  </div>
-</div>
-
-<div class="center-text d-block d-sm-none">
-  <div class= "">
-    <div class="inner">
-      <strong>{{ title }}</strong>
-    </div>
-  </div>
+<div class="center-text">
+  <span class="inner" [@dropdown0]="'in'">
+    <strong>{{title_array[0]}}&nbsp;</strong>
+  </span>
+  <span class="inner" [@dropdown1]="'in'">
+    <strong>{{title_array[1]}}&nbsp;</strong>
+  </span>
+  <span class="inner" [@dropdown2]="'in'">
+    <strong>{{title_array[2]}}&nbsp;</strong>
+  </span>
+  <span class="inner" [@dropdown3]="'in'">
+    <strong>{{title_array[3]}}&nbsp;</strong>
+  </span>
 </div>
 
 <div class="row justify-content-center">
   <div class="col-xs-12 text-center">
-    <form class="form-group search-form" (submit)="searchCustom()">
+    <form class="form-group search-form" (ngSubmit)="searchCustom()">
       <input [@flyFromLeft]="'in'" type="text" class="form-control" name="userSearchText" [(ngModel)]="userSearchText" placeholder="Steam Profile Link or Steam64ID" id="search-text">
       <span [@flyFromRight]="'in'" (click)="searchCustom()"><i class="fa fa-search"></i></span>
     </form>
